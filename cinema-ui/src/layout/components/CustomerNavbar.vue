@@ -1,21 +1,19 @@
 <template>
   <div class="navbar">
-    <!-- <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" /> -->
-    <!-- <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" /> -->
-    <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" />
+    <!-- <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" /> -->
     <div class="left-menu flex align-center">
       <img :src="logo" class="navbar-logo" />
-      <div class="navbar-contact">
-        <svg-icon icon-class="phone" />
-        <span>(84-28) 8342 9999</span>
-      </div>
-      <div class="navbar-contact">
-        <svg-icon icon-class="mail" />
-        <span>info@star-cinema.com</span>
-      </div>
+      <el-menu :default-active="activeIndex" class="nav-header" mode="horizontal" @select="handleNavigate">
+        <el-menu-item index="showtime">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
+        <el-menu-item index="showtime">{{ $t('homepage.topNav.showtimes') }}</el-menu-item>
+        <el-menu-item index="film">{{ $t('homepage.topNav.film') }}</el-menu-item>
+        <el-menu-item index="document">{{ $t('homepage.topNav.cinema') }}</el-menu-item>
+        <el-menu-item index="promotion">{{ $t('homepage.topNav.promotions') }}</el-menu-item>
+        <!-- <el-menu-item index="carriers">{{ $t('homepage.topNav.carriers') }}</el-menu-item> -->
+        <el-menu-item index="contact">{{ $t('homepage.topNav.contact') }}</el-menu-item>
+      </el-menu>
     </div>
     <div class="right-menu flex align-center">
-      <!-- Response with mobile: v-if="appStore.device !== 'mobile'" -->
       <el-select
         v-model="companyName"
         clearable
@@ -30,27 +28,6 @@
         <template #prefix><svg-icon icon-class="company" class="el-input__icon input-icon" /></template>
       </el-select>
 
-      <!-- <header-search id="header-search" class="right-menu-item" /> -->
-
-      <!-- <el-tooltip content="Github" effect="dark" placement="bottom">
-        <cinema-git id="cinema-git" class="right-menu-item hover-effect" />
-      </el-tooltip>
-
-      <el-tooltip :content="$t('navbar.document')" effect="dark" placement="bottom">
-        <cinema-doc id="cinema-doc" class="right-menu-item hover-effect" />
-      </el-tooltip>
-
-      <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-      </el-tooltip> -->
-
-      <!-- <el-tooltip :content="$t('navbar.language')" effect="dark" placement="bottom">
-        <lang-select id="lang-select" class="right-menu-item hover-effect" />
-      </el-tooltip> -->
-
-      <!-- <el-tooltip :content="$t('navbar.layoutSize')" effect="dark" placement="bottom">
-        <size-select id="size-select" class="right-menu-item hover-effect" />
-      </el-tooltip> -->
       <div class="avatar-container" v-if="userStore.avatar">
         <el-dropdown @command="handleCommand" trigger="click">
           <div class="avatar-wrapper">
@@ -63,9 +40,6 @@
               <router-link to="/user/profile" v-if="!dynamic">
                 <el-dropdown-item>{{ $t('navbar.personalCenter') }}</el-dropdown-item>
               </router-link>
-              <!-- <el-dropdown-item command="setLayout">
-                <span>{{ $t('navbar.layoutSetting') }}</span>
-              </el-dropdown-item> -->
               <el-dropdown-item command="logout">
                 <span>{{ $t('navbar.logout') }}</span>
               </el-dropdown-item>
@@ -73,19 +47,13 @@
           </template>
         </el-dropdown>
       </div>
-      <div class="header-carrier mn-newsoffer">
-        <p><a href="https://www.cgv.vn/default/newsoffer">Tin mới & Ưu đãi</a></p>
+      <div class="header-top-account">
+        <div class="account-header-wrapper mn-login">
+          <a @click.stop="goToLogin()" class="topskip-link skip-account">
+            <span class="">Đăng nhập/ Đăng ký</span>
+          </a>
+        </div>
       </div>
-      <div class="header-carrier mn-myticket">
-        <p><a href="https://www.cgv.vn/default/sales/order/history/">Vé của tôi</a></p>
-      </div>
-      <div class="header-top-account">			
-				<div class="account-header-wrapper mn-login">
-								<a @click.stop="goToLogin()" class="topskip-link skip-account">
-						<span class="label">Đăng nhập/ Đăng ký</span>
-					</a>   
-							</div>
-			</div>
       <div class="lang-container">
         <lang-select />
       </div>
@@ -104,6 +72,9 @@ import { ComponentInternalInstance } from "vue";
 import { TenantVO } from "@/api/types";
 import i18n from '@/lang';
 const router = useRouter();
+
+const activeIndex = ref('login');
+const activeLogin = ref('');
 
 // const appStore = useAppStore()
 const userStore = useUserStore()
@@ -185,6 +156,10 @@ const handleCommand = (command: string) => {
         commandMap[command]();
     }
 }
+
+const handleNavigate = (key: string) => {
+  document.getElementById(key)?.scrollIntoView({behavior: 'smooth' });
+}
 </script>
 
 <style lang="scss" scoped>
@@ -203,34 +178,50 @@ const handleCommand = (command: string) => {
 
 .navbar {
   height: $base-header-height;
-  // overflow: hidden;
+  overflow: none;
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid #3b76ff;
   padding: 10px 60px;
-  overflow-x: auto;
+  overflow-x: none;
   overflow-y: hidden;
-  // background: #fff;
-  // box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  background: #fff;
+}
 
-  // .hamburger-container {
-  //   line-height: 46px;
-  //   height: 100%;
-  //   float: left;
-  //   cursor: pointer;
-  //   transition: background 0.3s;
-  //   -webkit-tap-highlight-color: transparent;
+.nav-header {
+  height: 60px;
+  background-color: #fff;
+  border-bottom: 1px solid #3b76ff;
+  width: 100%;
 
-  //   &:hover {
-  //     background: rgba(0, 0, 0, 0.025);
-  //   }
-  // }
+  .el-menu-item {
+    display: flex;
+    height: 60px;
+    padding: 0 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: $gray-700 !important;
+    font-size: 16px;
+    border-bottom: none !important;
+    height: 59px;
 
-  // .breadcrumb-container {
-  //   float: left;
-  // }
+    &:hover {
+      background: $gray-200;
+      color: #000 !important;
+      border-top: 4px solid $blue-500;
+    }
+
+    &.is-active {
+      border-top: 4px solid $blue-500;
+      color: #000 !important;
+      background: #fafafa;
+      font-size: 16px;
+    }
+  }
+}
 
   .topmenu-container {
     position: absolute;
@@ -247,28 +238,18 @@ const handleCommand = (command: string) => {
     line-height: 100%;
     display: flex;
     gap: 24px;
+    width: 70%;
 
     .navbar-logo {
       height: 100%;
       object-fit: contain;
       margin-right: 40px;
     }
-
-    .navbar-contact {
-      min-width: 100px;
-      svg {
-        width: 16px;
-        height: 16px;
-        margin-right: 8px;
-        filter: brightness(0) saturate(100%) invert(49%) sepia(30%) saturate(5341%) hue-rotate(193deg) brightness(101%) contrast(96%);
-      }
-
       span {
         color: $gray-700;
         font-size: 14px;
       }
     }
-  }
 
   .right-menu {
     text-transform: uppercase;
@@ -286,24 +267,6 @@ const handleCommand = (command: string) => {
     &:focus {
       outline: none;
     }
-
-    // .right-menu-item {
-    //   display: inline-block;
-    //   padding: 0 8px;
-    //   height: 100%;
-    //   font-size: 18px;
-    //   color: #5a5e66;
-    //   vertical-align: text-bottom;
-
-    //   &.hover-effect {
-    //     cursor: pointer;
-    //     transition: background 0.3s;
-
-    //     &:hover {
-    //       background: rgba(0, 0, 0, 0.025);
-    //     }
-    //   }
-    // }
 
     .avatar-container {
       // margin-right: 40px;
@@ -347,11 +310,15 @@ const handleCommand = (command: string) => {
       }
     }
   }
-}
 
 .mn-newsoffer {
   position: relative;
   margin-left: 35px;
+  margin-top: 16px;
+}
+
+.mn-newsoffer a{
+  text-decoration: none;
 }
 .mn-newsoffer::before {
     width: 25px;
@@ -360,12 +327,15 @@ const handleCommand = (command: string) => {
     background-repeat: no-repeat;
     position: absolute;
     left: -27px;
-    top: 13px;
     height: 25px;
 }
 .mn-myticket {
   position: relative;
+  margin-top: 16px;
   margin-left: 35px;
+}
+.mn-myticket a{
+  text-decoration: none;
 }
 .mn-myticket::before {
     width: 25px;
@@ -374,13 +344,15 @@ const handleCommand = (command: string) => {
     background-repeat: no-repeat;
     position: absolute;
     left: -27px;
-    top: 13px;
     height: 25px;
 }
 
 .mn-login {
   position: relative;
   margin-left: 35px;
+}
+.mn-login a{
+  text-decoration: none;
 }
 
 .mn-login::before {
@@ -390,7 +362,7 @@ const handleCommand = (command: string) => {
     background-repeat: no-repeat;
     position: absolute;
     left: -25px;
-    top: -4px;
+    // top: -4px;
     height: 25px;
 }
 </style>

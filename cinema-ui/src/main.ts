@@ -4,6 +4,10 @@ import 'uno.css';
 import '@/assets/styles/index.scss';
 import 'element-plus/theme-chalk/dark/css-vars.css';
 
+//Bootstrap Css
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 // App、router、store
 import App from './App.vue';
 import store from './store';

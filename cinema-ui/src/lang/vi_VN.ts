@@ -106,7 +106,7 @@ export default {
       showtimes: 'Lịch chiếu',
       film: 'Phim',
       promotions: 'Khuyến mãi',
-      cinema: 'Điện ảnh',
+      cinema: 'Góc điện ảnh',
       contact: 'Liên hệ',
       carriers: 'Tuyển dụng',
       filmLabel: 'Nội Dung Phim'

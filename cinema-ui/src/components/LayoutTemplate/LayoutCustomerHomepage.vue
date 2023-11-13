@@ -3,105 +3,92 @@
     <div class="fixed-main-header">
       <customerNavbar ref="customerNavbarRef" />
     </div>
-    <div :class="{ hasTagsView: true, sidebarHide: true }" class="main-container">
-      <div :class="{ 'fixed-header': true }">
-        <el-menu :default-active="activeIndex" class="nav-header" mode="horizontal" @select="handleNavigate">
-          <el-menu-item index="login">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
-          <el-menu-item index="search">{{ $t('homepage.topNav.showtimes') }}</el-menu-item>
-          <el-menu-item index="present">{{ $t('homepage.topNav.film') }}</el-menu-item>
-          <el-menu-item index="guideline">{{ $t('homepage.topNav.promotions') }}</el-menu-item>
-          <el-menu-item index="document">{{ $t('homepage.topNav.cinema') }}</el-menu-item>
-          <el-menu-item index="carriers">{{ $t('homepage.topNav.carriers') }}</el-menu-item>
-          <el-menu-item index="contact">{{ $t('homepage.topNav.contact') }}</el-menu-item>
-        </el-menu>
+    <div class="login-body" id="loginBody">
+      <div class="breadcrumb">
+        <svg-icon icon-class="home" class="home-icon" />
+        <a class="home-link" href="/login">{{ $t('homepage.topNav.homepage') }}</a>
+        <svg-icon icon-class="right-arrow-2" class="arrow-icon" />
+        <div class="title">{{ getRouteTitle(route.meta.title) }}</div>
       </div>
-      <div class="login-body" id="loginBody">
-        <div class="breadcrumb">
-          <svg-icon icon-class="home" class="home-icon" />
-          <a class="home-link" href="/login">{{ $t('homepage.topNav.homepage') }}</a>
-          <svg-icon icon-class="right-arrow-2" class="arrow-icon" />
-          <div class="title">{{ getRouteTitle(route.meta.title) }}</div>
-        </div>
-        <div class="homepage-body">
-          <slot name="content" />
-        </div>
-        <div class="contact-container" id="contact">
-          <div class="contact-address">
-            <img class="contact-logo" src="@/assets/logo/logo.png" />
-            <div class="contact-address-detail">
-              <div class="main-info">
-                <div class="title-text">{{ $t('homepage.contactInfo.contactAddrLb') }}</div>
-                <div class="sub-title-text">STAR CINEMA</div>
+      <div class="homepage-body">
+        <slot name="content" />
+      </div>
+      <div class="contact-container" id="contact">
+        <div class="contact-address">
+          <img class="contact-logo" src="@/assets/logo/logo.png" />
+          <div class="contact-address-detail">
+            <div class="main-info">
+              <div class="title-text">{{ $t('homepage.contactInfo.contactAddrLb') }}</div>
+              <div class="sub-title-text">STAR CINEMA</div>
+            </div>
+            <div class="sub-info">
+              <div class="sub-info-item">
+                <svg-icon icon-class="location" />
+                <div class="content">
+                  <div class="label-text">{{ $t('homepage.contactInfo.addrLb') }}</div>
+                  <div class="normal-text">{{ $t('homepage.contactInfo.addrContent1') }}<br />{{ $t('homepage.contactInfo.addrContent2') }}</div>
+                </div>
               </div>
-              <div class="sub-info">
-                <div class="sub-info-item">
-                  <svg-icon icon-class="location" />
-                  <div class="content">
-                    <div class="label-text">{{ $t('homepage.contactInfo.addrLb') }}</div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.addrContent1') }}<br />{{ $t('homepage.contactInfo.addrContent2') }}</div>
-                  </div>
+              <div class="sub-info-item">
+                <svg-icon icon-class="phone" />
+                <div class="content">
+                  <div class="label-text">{{ $t('homepage.contactInfo.phoneLb') }}</div>
+                  <div class="normal-text">(84-28) 9999 9999</div>
                 </div>
-                <div class="sub-info-item">
-                  <svg-icon icon-class="phone" />
-                  <div class="content">
-                    <div class="label-text">{{ $t('homepage.contactInfo.phoneLb') }}</div>
-                    <div class="normal-text">(84-28) 9999 9999</div>
-                  </div>
-                </div>
-                <div class="sub-info-item">
-                  <svg-icon icon-class="mail" />
-                  <div class="content">
-                    <div class="label-text">Email</div>
-                    <div class="normal-text">info@star-cinema.com</div>
-                  </div>
+              </div>
+              <div class="sub-info-item">
+                <svg-icon icon-class="mail" />
+                <div class="content">
+                  <div class="label-text">Email</div>
+                  <div class="normal-text">info@star-cinema.com</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="contact-others">
-            <div class="policy">
-              <div class="title-text">{{ $t('homepage.contactInfo.customerPolicyTt') }}</div>
-              <div class="term">
-                <div class="term-column1">
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.serviceTermLb') }}</div>
-                  </div>
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.refundPolicyLb') }}</div>
-                  </div>
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.customerPolicyLb') }}</div>
-                  </div>
+        </div>
+        <div class="contact-others">
+          <div class="policy">
+            <div class="title-text">{{ $t('homepage.contactInfo.customerPolicyTt') }}</div>
+            <div class="term">
+              <div class="term-column1">
+                <div class="term-item">
+                  <div class="icon-background"><svg-icon icon-class="play" /></div>
+                  <div class="normal-text">{{ $t('homepage.contactInfo.serviceTermLb') }}</div>
                 </div>
-                <div class="term-column2">
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.confidentialPolicyLb') }}</div>
-                  </div>
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.paymentTermLb') }}</div>
-                  </div>
+                <div class="term-item">
+                  <div class="icon-background"><svg-icon icon-class="play" /></div>
+                  <div class="normal-text">{{ $t('homepage.contactInfo.refundPolicyLb') }}</div>
+                </div>
+                <div class="term-item">
+                  <div class="icon-background"><svg-icon icon-class="play" /></div>
+                  <div class="normal-text">{{ $t('homepage.contactInfo.customerPolicyLb') }}</div>
+                </div>
+              </div>
+              <div class="term-column2">
+                <div class="term-item">
+                  <div class="icon-background"><svg-icon icon-class="play" /></div>
+                  <div class="normal-text">{{ $t('homepage.contactInfo.confidentialPolicyLb') }}</div>
+                </div>
+                <div class="term-item">
+                  <div class="icon-background"><svg-icon icon-class="play" /></div>
+                  <div class="normal-text">{{ $t('homepage.contactInfo.paymentTermLb') }}</div>
                 </div>
               </div>
             </div>
-            <div class="support">
-              <div class="title-text">{{ $t('homepage.contactInfo.supportTt') }}</div>
-              <div class="normal-text">
-                {{ $t('homepage.contactInfo.supportContent') }}
-              </div>
-              <div class="support-info">
-                <div class="support-info-item">
-                  <div class="normal-text">Hotline</div>
-                  <div class="hotline">
-                    <div class="hotline-background-icon">
-                      <svg-icon icon-class="phone" />
-                    </div>
-                    <div class="hotline-text">(84-28) 8342 9999</div>
+          </div>
+          <div class="support">
+            <div class="title-text">{{ $t('homepage.contactInfo.supportTt') }}</div>
+            <div class="normal-text">
+              {{ $t('homepage.contactInfo.supportContent') }}
+            </div>
+            <div class="support-info">
+              <div class="support-info-item">
+                <div class="normal-text">Hotline</div>
+                <div class="hotline">
+                  <div class="hotline-background-icon">
+                    <svg-icon icon-class="phone" />
                   </div>
+                  <div class="hotline-text">(84-28) 8342 9999</div>
                 </div>
               </div>
             </div>
