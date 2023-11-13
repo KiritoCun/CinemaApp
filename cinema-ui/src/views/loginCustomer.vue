@@ -4,17 +4,6 @@
       <customerNavbar ref="customerNavbarRef" />
     </div>
     <div :class="{ hasTagsView: true, sidebarHide: true }" class="main-container">
-      <div :class="{ 'fixed-header': true }">
-        <el-menu :default-active="activeIndex" class="nav-header" mode="horizontal" @select="handleNavigate">
-          <el-menu-item index="showtime">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
-          <el-menu-item index="showtime">{{ $t('homepage.topNav.showtimes') }}</el-menu-item>
-          <el-menu-item index="film">{{ $t('homepage.topNav.film') }}</el-menu-item>
-          <el-menu-item index="promotion">{{ $t('homepage.topNav.promotions') }}</el-menu-item>
-          <el-menu-item index="document">{{ $t('homepage.topNav.cinema') }}</el-menu-item>
-          <el-menu-item index="carriers">{{ $t('homepage.topNav.carriers') }}</el-menu-item>
-          <el-menu-item index="contact">{{ $t('homepage.topNav.contact') }}</el-menu-item>
-        </el-menu>
-      </div>
       <div class="login-body" @scroll="onScroll" id="loginBody">
         <div class="login-container" id="showtime">
           <el-carousel height="447px" direction="horizontal" :autoplay="true" trigger="click">
@@ -22,13 +11,19 @@
               <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/hai.jpg" />
             </el-carousel-item>
             <el-carousel-item>
-              <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4831004558276_212eb4b5be997c49f8cb6bde9f02bab2.jpg" />
+              <img
+                class="login-background"
+                src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4831004558276_212eb4b5be997c49f8cb6bde9f02bab2.jpg"
+              />
             </el-carousel-item>
             <el-carousel-item>
               <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/nguoi%20vo%20cuoi%20cung.jpg" />
             </el-carousel-item>
             <el-carousel-item>
-              <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4779781711597_672fa1fd6d3ec4549854486393104032(1).jpg" />
+              <img
+                class="login-background"
+                src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4779781711597_672fa1fd6d3ec4549854486393104032(1).jpg"
+              />
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -42,11 +37,13 @@
                   <img class="document-image1" :src="guideline.src" />
                   <div class="play-button" @click="playYoutube(guideline.docUrl)">
                     <div class="feature_film_content">
-                      <h3>NGƯỜI VỢ CUỐI CÙNG</h3>
-                      <a title="Xem chi tiết" class="button" @click.stop="goToFilmDetail()">Xem chi tiết</a>
-                      <button type="button" title="Mua vé" class="button btn-booking" onclick="Quickbooking('23020300');">
-                        <span>Mua vé</span>
-                      </button>
+                      <h3>{{ guideline.title }}</h3>
+                      <div class="film-content-action">
+                        <a title="Xem chi tiết" class="btn btn-primary btn-sm" @click.stop="goToFilmDetail()">Xem chi tiết</a>
+                        <button type="button" title="Mua vé" class="btn btn-sm btn-booking" onclick="Quickbooking('23020300');">
+                          <span>Mua vé</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -88,7 +85,7 @@
             </Carousel>
           </div>
         </div>
-        
+
         <div class="contact-container" id="contact">
           <div class="contact-address">
             <img class="contact-logo" src="@/assets/logo/logo.png" />
@@ -216,10 +213,10 @@ const guidelineList = ref<any[]>(
   { docUrl: 'Hoa', docTitle: 'Nâng cấp dịch vụ phòng chiếu', docDescription: 'Sự kiện hot', createTime: '01/11/2023', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/u/2/u22-102023-240x201.jpg'}]);
 
 const filmList = ref<any[]>(
-  [{ docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Hoa', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_13_1_.jpg'},
-  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Hoa', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000-5demkinhhoang.jpg'},
-  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Hoa', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_19_.jpg'},
-  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Hoa', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/t/o/toh_now-showing_size-poster_1_.jpg'}]);
+  [{ docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Người Vợ Cuối Cùng', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_13_1_.jpg'},
+  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Năm Đêm Kinh Hoàng', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000-5demkinhhoang.jpg'},
+  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Đất Rừng Phương Nam', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_19_.jpg'},
+  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Âm Hồn Đô Thị', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/t/o/toh_now-showing_size-poster_1_.jpg'}]);
 
 const videoList = ref<DocumentVO[]>([]);
 const documentList = ref<DocumentVO[]>([]);
@@ -514,7 +511,7 @@ const downloadDocument = (link: string) => {
 .nav-header {
   height: 60px;
   padding: 0 191px;
-  background-color: #FFDAB9;
+  background-color: #fcfcfc;
   border-bottom: 1px solid #3b76ff;
 
   .el-menu-item {
@@ -532,13 +529,13 @@ const downloadDocument = (link: string) => {
     &:hover {
       background: $gray-0;
       color: $gray-700 !important;
-      border-top: 4px solid $blue-500;
+      border-top: 4px solid #e9edf1;
     }
 
     &.is-active {
-      border-top: 4px solid $blue-500;
+      border-top: 4px solid #e9edf1;
       color: $gray-700 !important;
-      background: #FFDAB9;
+      background: #e9edf1;
       font-size: 16px;
     }
   }
@@ -554,7 +551,7 @@ const downloadDocument = (link: string) => {
   overflow: auto;
   position: fixed;
   width: 100%;
-  background-color: #FFEC8B;
+  background-color: #fff;
 
   &::-webkit-scrollbar-track-piece {
     background: $gray-0;
@@ -580,7 +577,7 @@ const downloadDocument = (link: string) => {
   .login-container {
     margin: 0px auto;
     height: 447px;
-    width: 72%;
+    width: 84%;
   }
   .search-container {
     margin-top: 80px;
@@ -794,23 +791,28 @@ const downloadDocument = (link: string) => {
           }
           .feature_film_content {
             opacity:1;
-            color:white;
-            font-size: 18px;
+            color:#000;
+            font-size: 16px;
             text-align: center;
             position:relative;
-            background-image: url('https://www.cgv.vn/skin/frontend/cgv/default/images/bg-black-transparent.png');
-            top: 248px;
+            background-color: #e6dcdc;
+            top: 264px;
             height: 80px;
             width: 240px;
             h3 {
               font-size: 15px;
               font-weight: 600;
-              padding-top: 10px;
+              padding-top: 12px;
+            }
+
+            .film-content-action{
+              display: flex;
+              justify-content: space-around;
             }
             a.button {
-              padding: 8px 10px;
+              padding: 4px 8px;
               border-radius: 5px;
-              font-weight: bold;
+              // font-weight: bold;
               background: #e71a0f;
             }
           }
@@ -846,6 +848,7 @@ const downloadDocument = (link: string) => {
           font-style: normal;
           font-weight: 600;
           line-height: normal;
+          text-decoration: none;
           height: 77px;
           display: flex;
           text-align: left;

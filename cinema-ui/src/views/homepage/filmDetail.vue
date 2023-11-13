@@ -55,6 +55,9 @@
           </span>
         </div>
       </div>
+      <div>
+        <button type="button" class="btn btn-primary">Primary Button</button>
+      </div>
     </template>
   </LayoutCustomerHomepage>
 </template>
