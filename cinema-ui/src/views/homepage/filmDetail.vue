@@ -55,9 +55,6 @@
           </span>
         </div>
       </div>
-      <div>
-        <button type="button" class="btn btn-primary">Primary Button</button>
-      </div>
     </template>
   </LayoutCustomerHomepage>
 </template>
@@ -149,7 +146,7 @@ const handleExport = () => {
 @import "@/assets/styles/variables.module.scss";
 .main-container {
   position: relative;
-  top: -62px;
+  top: -50px;
   display: flex;
   flex-direction: column;
   .search-row {

@@ -42,7 +42,7 @@
             <groupId>vn.udn.dut.cinema</groupId>
             <artifactId>cinema-common-doc</artifactId>
         </dependency>
-        
+                
         <dependency>
             <groupId>vn.udn.dut.cinema</groupId>
             <artifactId>cinema-public</artifactId>

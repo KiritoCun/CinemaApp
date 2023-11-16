@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import vn.udn.dut.cinema.common.core.domain.R;
 import vn.udn.dut.cinema.common.web.core.BaseController;
-import vn.udn.dut.cinema.publicapi.service.HomepageSearchService;
 import vn.udn.dut.cinema.system.domain.bo.PromotionBo;
 import vn.udn.dut.cinema.system.service.IPromotionService;
 
 /**
- * Shipping line api
+ * Homepage api
  *
- * @author HieuNT
- * @date 2023-07-26
+ * @author HOALD
+ * @date 2023-11-11
  */
 @Validated
 @RequiredArgsConstructor
@@ -27,16 +26,13 @@ import vn.udn.dut.cinema.system.service.IPromotionService;
 @RequestMapping("/homepage/search")
 public class HomepageSearchController extends BaseController {
 
-    private final HomepageSearchService homepageSearchService;
-    
-    private final IPromotionService promotionService;
+	private final IPromotionService promotionService;
 
-    
-    @GetMapping("/documents")
-    public R<Map<String, Object>> getDocuments() {
-    	Map<String, Object> result = new HashMap<String, Object>();
-    	PromotionBo bo = new PromotionBo();
-    	result.put("promotions", promotionService.queryList(bo));
-    	return R.ok(result);
-    }
+	@GetMapping("/documents")
+	public R<Map<String, Object>> getDocuments() {
+		Map<String, Object> result = new HashMap<String, Object>();
+		PromotionBo bo = new PromotionBo();
+		result.put("promotions", promotionService.queryList(bo));
+		return R.ok(result);
+	}
 }

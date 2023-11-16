@@ -1,7 +1,7 @@
 import modal from '@/plugins/modal';
 import tab from '@/plugins/tab';
 import { useDict } from '@/utils/dict';
-import { addDateRange, handleTree, selectDictLabel, selectDictLabels, parseTime, openLink } from '@/utils/eportvict';
+import { addDateRange, handleTree, selectDictLabel, selectDictLabels, parseTime, openLink } from '@/utils/starcinema';
 import { getConfigKey, updateConfigByKey } from '@/api/system/config';
 import { download as download1 } from '@/utils/request';
 import download from '@/plugins/download';

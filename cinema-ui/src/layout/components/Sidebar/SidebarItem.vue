@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import { isExternal } from '@/utils/validate'
 import AppLink from './Link.vue'
-import { getNormalPath } from '@/utils/eportvict'
+import { getNormalPath } from '@/utils/starcinema'
 import { RouteOption } from "vue-router";
 import { PropType } from "vue";
 import { getRouteTitle } from "@/utils/i18n";

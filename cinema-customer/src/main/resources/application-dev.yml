@@ -144,11 +144,5 @@ sms:
   # For Tencent
   sdkAppId:
   
-eportvict:
-  tmsApiUrl: http://127.0.0.1:8094/tms-api
-  robotApiUrl: http://127.0.0.1:8093/robot-api
-  shippinglineApiUrl: http://127.0.0.1:8081/shippingline
-  logisticsApiUrl: http://127.0.0.1:8082/logistics
-  
 # log configuration
 logging.config: classpath:logback-plus-dev.xml

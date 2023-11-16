@@ -11,7 +11,7 @@ import lombok.Data;
 import vn.udn.dut.cinema.system.domain.Promotion;
 
 /**
- * Promotion view object promotion
+ * Promotion view object
  *
  * @author HoaLD
  * @date 2023-11-07
@@ -25,7 +25,7 @@ public class PromotionVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * System document id
+	 * Promotion id
 	 */
 	private Long id;
 
@@ -33,6 +33,11 @@ public class PromotionVo implements Serializable {
 	 * 
 	 */
 	private String title;
+
+	/**
+	 * 
+	 */
+	private String imageUrl;
 
 	/**
 	 * 
@@ -53,4 +58,9 @@ public class PromotionVo implements Serializable {
 	 * 
 	 */
 	private Date toDate;
+
+	/**
+	 * 
+	 */
+	private String remark;
 }

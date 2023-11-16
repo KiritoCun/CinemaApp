@@ -32,7 +32,7 @@ import './permission';
 
 import { useDict } from '@/utils/dict';
 import { getConfigKey, updateConfigByKey } from '@/api/system/config';
-import { parseTime, addDateRange, handleTree, selectDictLabel, selectDictLabels, openLink } from '@/utils/eportvict';
+import { parseTime, addDateRange, handleTree, selectDictLabel, selectDictLabels, openLink } from '@/utils/starcinema';
 
 // globalization
 import i18n from '@/lang/index';

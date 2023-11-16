@@ -43,36 +43,6 @@ export const constantRoutes: RouteOption[] = [
     hidden: true
   },
   {
-    path: '/homepage/search-container',
-    component: () => import('@/views/homepage/searchContainer.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Tra cứu thông tin container","en_US":"Search container information"}', icon: '' }
-  },
-  {
-    path: '/homepage/document',
-    component: () => import('@/views/homepage/document.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Tải biểu mẫu","en_US":"Download document"}', icon: '' }
-  },
-  {
-    path: '/homepage/guide',
-    component: () => import('@/views/homepage/guide.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Hướng dẫn","en_US":"Guide"}', icon: '' }
-  },
-  {
-    path: '/homepage/search-vessel-schedule',
-    component: () => import('@/views/homepage/searchVesselSchedule.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Tra cứu lịch tàu","en_US":"Search vessel schedule"}', icon: '' }
-  },
-  {
-    path: '/homepage/search-edo',
-    component: () => import('@/views/homepage/searchEdo.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Tra cứu eDO","en_US":"Search eDO"}', icon: '' }
-  },
-  {
     path: '/homepage/film-detail',
     component: () => import('@/views/homepage/filmDetail.vue'),
     hidden: true,
@@ -83,29 +53,6 @@ export const constantRoutes: RouteOption[] = [
     component: () => import('@/views/homepage/customerLogin.vue'),
     hidden: true,
     meta: { title: '{"vi_VN":"Đăng nhập","en_US":"Login"}', icon: '' }
-  },
-  {
-    path: '/homepage/present-shippingline',
-    component: () => import('@/views/homepage/presentShippingline.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Hãng tàu","en_US":"Shipping line"}', icon: '' }
-  },
-  {
-    path: '/homepage/present-logistics',
-    component: () => import('@/views/homepage/presentLogistics.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Nhà vận chuyển Logistics","en_US":"Logistics"}', icon: '' }
-  },
-  {
-    path: '/homepage/present-driver',
-    component: () => import('@/views/homepage/presentDriver.vue'),
-    hidden: true,
-    meta: { title: '{"vi_VN":"Tài xế","en_US":"Driver"}', icon: '' }
-  },
-  {
-    path: '/register',
-    component: () => import('@/views/register.vue'),
-    hidden: true
   },
   {
     path: '/:pathMatch(.*)*',
@@ -201,76 +148,6 @@ export const dynamicRoutes: RouteOption[] = [
         component: () => import('@/views/system/oss/config.vue'),
         name: 'OssConfig',
         meta: { title: '{"vi_VN":"Cấu hình file","en_US":"File config"}', activeMenu: '/system/oss', icon: '' }
-      }
-    ]
-  },
-  {
-    path: '/tool/gen-edit',
-    component: Layout,
-    hidden: true,
-    permissions: ['tool:gen:edit'],
-    children: [
-      {
-        path: 'index/:tableId(\\d+)',
-        component: () => import('@/views/tool/gen/editTable.vue'),
-        name: 'GenEdit',
-        meta: { title: '{"vi_VN":"Chỉnh sửa cấu hình build","en_US":"Edit build configuration"}', activeMenu: '/tool/gen', icon: '' }
-      }
-    ]
-  },
-  {
-    path: '/monitor/robot-job',
-    component: Layout,
-    hidden: true,
-    permissions: ['robot:robot:list'],
-    children: [
-      {
-        path: 'index/:projectName',
-        component: () => import('@/views/robot/robot/job.vue'),
-        name: 'RobotJob',
-        meta: { title: '{"vi_VN":"Thông tin job","en_US":"Robot job data"}', activeMenu: '/monitor/robot', icon: '' }
-      }
-    ]
-  },
-  {
-    path: '/shpEdo/edo-release',
-    component: Layout,
-    hidden: true,
-    permissions: ['shpEdo:edo:list'],
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/shpEdo/edo/release.vue'),
-        name: 'EdoRelease',
-        meta: { title: '{"vi_VN":"Phát hành eDO","en_US":"Release eDO"}', activeMenu: '/shpEdo/edo', icon: '' }
-      }
-    ]
-  },
-  {
-    path: '/portShip/shippingline-role-auth',
-    component: Layout,
-    hidden: true,
-    permissions: ['portShip:shippinglineRole:edit'],
-    children: [
-      {
-        path: 'user/:roleId(\\d+)',
-        component: () => import('@/views/portShip/shippinglineRole/authUser.vue'),
-        name: 'ShippinglineAuthUser',
-        meta: { title: '{"vi_VN":"Chỉ định tài khoản","en_US":"Assign users"}', activeMenu: '/portShip/shippinglineRole', icon: '' }
-      }
-    ]
-  },
-  {
-    path: '/portShip/shippingline-user-auth',
-    component: Layout,
-    hidden: true,
-    permissions: ['portShip:shippinglineUser:edit'],
-    children: [
-      {
-        path: 'role/:userId(\\d+)',
-        component: () => import('@/views/portShip/shippinglineUser/authRole.vue'),
-        name: 'ShippinglineAuthRole',
-        meta: { title: '{"vi_VN":"Chỉ định vai trò","en_US":"Assign roles"}', activeMenu: '/portShip/shippinglineUser', icon: '' }
       }
     ]
   }

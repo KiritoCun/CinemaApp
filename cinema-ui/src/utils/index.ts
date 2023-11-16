@@ -1,4 +1,4 @@
-import { parseTime } from '@/utils/eportvict';
+import { parseTime } from '@/utils/starcinema';
 
 /**
  * table time formatting

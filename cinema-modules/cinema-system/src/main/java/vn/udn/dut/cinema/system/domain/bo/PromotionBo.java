@@ -6,8 +6,10 @@ import io.github.linpeilie.annotations.AutoMapper;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import vn.udn.dut.cinema.common.core.validate.AddGroup;
 import vn.udn.dut.cinema.common.core.validate.EditGroup;
+import vn.udn.dut.cinema.common.tenant.core.TenantEntity;
 import vn.udn.dut.cinema.system.domain.Promotion;
 
 /**
@@ -17,8 +19,11 @@ import vn.udn.dut.cinema.system.domain.Promotion;
  * @date 2023-11-07
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AutoMapper(target = Promotion.class, reverseConvertGenerate = false)
-public class PromotionBo {
+public class PromotionBo extends TenantEntity {
+
+	private static final long serialVersionUID = -2323039814896662171L;
 
 	/**
 	 * Promotion id
@@ -46,6 +51,11 @@ public class PromotionBo {
 	/**
 	 * 
 	 */
+	private String imageUrl;
+
+	/**
+	 * 
+	 */
 	@NotNull(message = "From date can be null", groups = { EditGroup.class })
 	private Date fromDate;
 
@@ -54,5 +64,10 @@ public class PromotionBo {
 	 */
 	@NotNull(message = "To date can be null", groups = { EditGroup.class })
 	private Date toDate;
+
+	/**
+	 * 
+	 */
+	private String remark;
 
 }

@@ -254,7 +254,7 @@ xss:
   # Exclude links (multiple comma-separated)
   excludes: /system/notice
   # match link
-  urlPatterns: /system/*,/monitor/*,/tool/*,/logistics/*
+  urlPatterns: /system/*,/monitor/*,/tool/*,/customer/*
 
 # Global thread pool related configuration
 thread-pool:

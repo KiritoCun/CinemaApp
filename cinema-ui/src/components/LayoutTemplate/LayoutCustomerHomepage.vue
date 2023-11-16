@@ -192,8 +192,8 @@ const handleNavigate = (key: string) => {
 }
 .login-body {
   /* 84 = navbar + tags-view = 50 + 34 */
-  max-height: calc(100vh - 60px - $base-header-height);
-  top: calc(60px + $base-header-height);
+  max-height: calc(100vh - $base-header-height);
+  top: calc($base-header-height);
   overflow: auto;
   position: fixed;
   width: 100%;

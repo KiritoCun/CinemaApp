@@ -1,6 +1,6 @@
 /**
  * v-copyText
- * Copyright (c) 2022 HieuNT
+ * Copyright (c) 2022 HOALD
  */
 
 export default {

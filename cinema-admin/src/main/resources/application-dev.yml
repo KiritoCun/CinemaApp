@@ -150,9 +150,5 @@ sms:
   # For Tencent
   sdkAppId:
   
-cinema:
-  tmsApiUrl: http://127.0.0.1:8094/tms-api
-  robotApiUrl: http://127.0.0.1:8093/robot-api
-  
 # log configuration
 logging.config: classpath:logback-plus-dev.xml

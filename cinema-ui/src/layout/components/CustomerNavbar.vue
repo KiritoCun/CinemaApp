@@ -92,8 +92,6 @@ const tenantEnabled = ref(true);
 
 const goToLogin = () => {
   router.push({path: '/homepage/customer-login', query: {
-    containerNo: 'edoSearchForm.value.containerNo',
-    blNo:' edoSearchForm.value.blNo'
   }});
 }
 

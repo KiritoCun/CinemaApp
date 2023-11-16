@@ -11,7 +11,7 @@
       </div>
       <div class="navbar-contact">
         <svg-icon icon-class="mail" />
-        <span>info@vict-vn.com</span>
+        <span>star-cinema@gmail.com</span>
       </div>
     </div>
     <div class="right-menu flex align-center">

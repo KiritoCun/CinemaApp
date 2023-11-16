@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import Fuse from 'fuse.js'
-import { getNormalPath } from '@/utils/eportvict.js'
+import { getNormalPath } from '@/utils/starcinema.js'
 import { isHttp } from '@/utils/validate'
 import usePermissionStore from '@/store/modules/permission'
 import { RouteOption } from 'vue-router'
