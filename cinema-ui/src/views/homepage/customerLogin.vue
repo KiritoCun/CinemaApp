@@ -334,4 +334,3 @@ const handleExport = () => {
   background-color: #FFDAB9;
 }
 </style>
-

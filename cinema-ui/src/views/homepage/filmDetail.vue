@@ -7,7 +7,7 @@
         </div>
         <div class="film-content">
           <div class="thumbnail">
-            <img src="https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/7/0/700x1000_13_1_.jpg">
+            <img src="https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/7/0/700x1000_13_1_.jpg" />
           </div>
           <div class="product-shop">
             <div class="product-name">
@@ -51,94 +51,996 @@
         </div>
         <div class="brief">
           <span>
-            Lấy cảm hứng từ tiểu thuyết Hồ Oán Hận, của nhà văn Hồng Thái, Người Vợ Cuối Cùng là một bộ phim tâm lý cổ trang, lấy bối cảnh Việt Nam vào triều Nguyễn. LINH - Người vợ bất đắc dĩ của một viên quan tri huyện, xuất thân là con của một gia đình nông dân nghèo khó, vì không thể hoàn thành nghĩa vụ sinh con nối dõi nên đã chịu sự chèn ép của những người vợ lớn trong gia đình. Sự gặp gỡ tình cờ của cô và người yêu thời thanh mai trúc mã của mình - NH N đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi.
+            Lấy cảm hứng từ tiểu thuyết Hồ Oán Hận, của nhà văn Hồng Thái, Người Vợ Cuối Cùng là một bộ phim tâm lý cổ trang, lấy bối cảnh Việt Nam
+            vào triều Nguyễn. LINH - Người vợ bất đắc dĩ của một viên quan tri huyện, xuất thân là con của một gia đình nông dân nghèo khó, vì không
+            thể hoàn thành nghĩa vụ sinh con nối dõi nên đã chịu sự chèn ép của những người vợ lớn trong gia đình. Sự gặp gỡ tình cờ của cô và người
+            yêu thời thanh mai trúc mã của mình - NH N đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi.
           </span>
+        </div>
+
+        <div class="mt-4">
+          <h4 class="divider px-2">Lịch Chiếu</h4>
+          <el-divider style="width:840px"></el-divider>
+          <div class="input-group d-flex align-items-center mt-3 mb-1 w-80 row text-capitalize">
+            <div class="col-sm-6 justify-content-center d-flex" style="width: 500px">
+              <el-radio-group v-for="tab in tabs" :key="tab.id" v-model="activeName" size="small">
+                <el-radio-button class="btn-showtime mx-4" :label="tab.id">
+                  <div style="white-space: pre-line;width: 80px;height: 34px; font-size: 16px; font-weight: 400;line-height: 20px;">
+                    {{ tab.label }}
+                  </div>
+                </el-radio-button>
+              </el-radio-group>
+            </div>
+
+            <div class="col-sm-4 d-flex" style="width: 360px;">
+              <select class="form-select  rounded flex-start fs-sm" id="inputGroupSelect01">
+                <option selected>Toàn quốc</option>
+                <option v-for="(province) in provinces" :key="province.id" :value="province.label">{{province.label}}</option>
+              </select>
+              <select class="form-select  rounded d-flex flex-end ms-2 fs-sm text-center" id="inputGroupSelect01">
+                <option selected>Tất cả rạp</option>
+                <option v-for="(cinema) in cinemas" :key="cinema.id" :value="cinema.label">{{cinema.label}}</option>
+              </select>
+            </div>
+          </div>
+          <el-divider style="width:840px;height: 4px;background-color: #034ea2;"></el-divider>
+          <ul v-for="cinema in cinemas" :key="cinema.id" class="list-group container d-flex flex-start m-3" style="width: 720px; margin-left: 0;">
+            <li class="list-group-item row d-flex my-2">
+              <div class="col col-sm-3">
+                <h6>{{ cinema.label }}</h6>
+                <span>2D Phụ Đề</span>
+              </div>
+              <div class="col col-sm-9 row">
+                <el-card v-for="item in itemData" :key="item.id" class="col-2 mx-2 my-1 btn btn-primary ">{{ item.title }}</el-card>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </template>
   </LayoutCustomerHomepage>
 </template>
 
-<script setup name="SearchEdo" lang="ts">
-import { FormRules } from 'element-plus';
-import {searchEdo} from '@/api/homepage'
-import {EdoSearchParam, Edo} from '@/api/homepage/type'
+<script setup name="MovieDetails" lang="ts">
 import { ComponentInternalInstance } from "vue";
+
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 const route = useRoute()
 
-const columns = ref([
-{ prop: "blNo", name: 'Bill No', sortable: false, size: 150, show: true, readonly: true, align: 'left' },
-{ prop: "containerNo", name: 'Container No', sortable: false, size: 150, show: true, readonly: true, align: 'left' },
-{ prop: "oprCode", name: 'OPR', sortable: false, size: 50, show: true, readonly: true, align: 'left' },
-{ prop: "gateInDate", name: 'In Date', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "gateOutDate", name: 'Out Date', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "expiredDem", name: 'Expired Day', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "detFreeTime", name: 'Detention Day', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "emptyContainerDepot", name: 'Empty Return Place', sortable: false, show: true, size: 250, readonly: true, align: 'left' },
-{ prop: "status", name: 'Status', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "location", name: 'Location', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "remark", name: 'Remark', sortable: false, show: true, size: 250, readonly: true, align: 'left' },
-]);
-const edoList = ref<Edo[]>([]);
-const rowKey = ref('etb');
-const total = ref(0);
+const provinces = [
+  {
+    id:1,
+    label: "TP.Hồ Chí Minh"
+  },
+  { id:2 ,
+    label: "Đà Nẵng" },
+  { id: 3,
+    label: "Hải Phòng" },
+  {
+    id:4,
+    label: "Hà Nội"
+  },
+  {
 
-const edoSearchForm = ref<EdoSearchParam>({
-  containerNo: '',
-  blNo: '',
-  pageNum: 1,
-  pageSize: 50,
-});
-const validateAtLeastOneField = (_rule: any, _value: any, callback: any) => {
-  if (!edoSearchForm.value.containerNo && !edoSearchForm.value.blNo) {
-    console.log("Please");
-    callback(new Error('Vui lòng nhập ít nhất một trong hai trường'));
-  } else {
-    callback();
+    id: 5,
+    label: "Vinh",
   }
-};
 
-const rules = {
-  containerNo: [
-    { required: false, trigger: 'change', message: 'Vui lòng nhập số container' },
-    { validator: validateAtLeastOneField, trigger: 'change' }
-  ],
-  blNo: [
-    { required: false, trigger: 'change', message: 'Vui lòng nhập số bill' },
-    { validator: validateAtLeastOneField, trigger: 'change' }
-  ],
-};
-const edoSearchRef = ref(ElForm);
-const loading = ref(false);
+];
+
+const cinemas = [
+  {
+    id:1,
+    label: "Galaxy Trần Phú "
+  },
+  { id:2 ,
+    label: "Galaxy Đà Nẵng" },
+  { id: 3,
+    label: "Galaxy Hà Đông" },
+  {
+    id:4,
+    label: "Galaxy Hà Nội"
+  }
+];
+
+const itemData = [
+  {
+    id: "1",
+    title: "20:15",
+  },
+  {
+    id: "2",
+    title: "20:15",
+  },
+  {
+    id: "3",
+    title: "20:15",
+  },
+  {
+    id: "4",
+    title: "20:15",
+  },
+  {
+    id: "5",
+    title: "20:15",
+  },
+  {
+    id: "6",
+    title: "20:15",
+  },
+  {
+    id: "7",
+    title: "20:15",
+  },
+  {
+    id: "1",
+    title: "20:15",
+  },
+  {
+    id: "2",
+    title: "20:15",
+  },
+  {
+    id: "3",
+    title: "20:15",
+  },
+  {
+    id: "4",
+    title: "20:15",
+  },
+  {
+    id: "5",
+    title: "20:15",
+  },
+  {
+    id: "6",
+    title: "20:15",
+  },
+  {
+    id: "7",
+    title: "20:15",
+  },
+];
+
 
 onMounted(() => {
-  const containerNo = route.query.containerNo as string;
-  const blNo = route.query.blNo as string;
-  edoSearchForm.value.containerNo = containerNo ?? '';
-  edoSearchForm.value.blNo = blNo ?? '';
-  if (containerNo || blNo) handleSearch();
+
 });
 
-const handleSearch = () => {
-  edoSearchRef.value.validate(async (valid:boolean) => {
-    if (!valid) return;
-    loading.value = true;
-    const res = await searchEdo(edoSearchForm.value);
-    loading.value = false;
-    res.total == 0 && ElMessage({ message: 'Không có kết quả. Vui lòng chọn số container hoặc số bill khác!', type: 'warning', duration: 3000});
-    edoList.value = res.rows;
-    total.value = res.total;
-  })
-}
+const activeName = ref("1")
 
-/** Export button action */
-const handleExport = () => {
-  proxy?.download('homepage/search/edo/export', {
-    ...edoSearchForm.value
-  }, `edo_${new Date().getTime()}.xlsx`);
+const handleClick = (tab: any,e : Event) => {
+  console.log(tab, e);
 }
+const
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tabs = [
+  { id:1,label: 'Hôm nay 05/11' },
+  { id:2,label: 'Thứ Hai 06/11' },
+  { id:3,label: 'Thứ Ba 07/11' },
+  { id:4,label: 'Thứ Tư 08/11' },
+];
 </script>
 
 <style lang="scss" scoped>
@@ -340,5 +1242,27 @@ const handleExport = () => {
   margin-top: 10px;
   width: 900px;
 }
+.divider{
+  display: flex ;
+  align-items: center;
+  height: 24px;
+  margin: 10px 0;
+  border-left: 5px solid #034ea2;
+}
+.btn-showtime{
+  width: 70px;
+  height: 56px;
+  white-space: pre-line;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn{
+  height: 38px;
+  width: 76px;
+  align-items: center;
+  display: flex;
+  font-size:15px;
+  justify-content: center;
+}
 </style>
-
