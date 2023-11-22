@@ -52,6 +52,8 @@ public class MovieVo implements Serializable {
 	private Long rating;
 
 	private String posterUrl;
+	
+	private String trailerUrl;
 
 	private String remark;
 }
