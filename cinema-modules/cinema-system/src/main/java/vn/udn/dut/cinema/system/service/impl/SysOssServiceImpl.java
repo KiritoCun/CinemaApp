@@ -29,6 +29,7 @@ import vn.udn.dut.cinema.system.domain.vo.SysOssVo;
 import vn.udn.dut.cinema.system.mapper.SysOssMapper;
 import vn.udn.dut.cinema.system.service.ISysOssService;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -157,7 +158,9 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
         oss.setOriginalName(originalfileName);
         oss.setService(storage.getConfigKey());
         baseMapper.insert(oss);
-        SysOssVo sysOssVo = MapstructUtils.convert(oss, SysOssVo.class);
+        SysOssVo sysOssVo = new SysOssVo();
+        BeanUtils.copyProperties(oss, sysOssVo);
+        //MapstructUtils.convert(oss, SysOssVo.class);
         return this.matchingUrl(sysOssVo);
     }
     

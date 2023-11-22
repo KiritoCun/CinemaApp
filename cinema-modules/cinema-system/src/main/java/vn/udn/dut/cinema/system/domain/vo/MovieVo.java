@@ -40,8 +40,14 @@ public class MovieVo implements Serializable {
 	private Long duration;
 
 	private String genre;
+	
+	private String language;
+	
+	private String rated;
 
 	private String director;
+	
+	private String actor;
 
 	private Long rating;
 

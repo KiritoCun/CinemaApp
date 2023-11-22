@@ -50,7 +50,10 @@
       <div class="header-top-account">
         <div class="account-header-wrapper mn-login">
           <a @click.stop="goToLogin()" class="topskip-link skip-account">
-            <span class="">Đăng nhập/ Đăng ký</span>
+            <span class="">Đăng nhập/</span>
+          </a>
+          <a @click.stop="goToRegister()" class="topskip-link skip-account">
+            <span class="">Đăng ký</span>
           </a>
         </div>
       </div>
@@ -92,6 +95,11 @@ const tenantEnabled = ref(true);
 
 const goToLogin = () => {
   router.push({path: '/homepage/customer-login', query: {
+  }});
+}
+
+const goToRegister = () => {
+  router.push({path: '/homepage/customer-register', query: {
   }});
 }
 

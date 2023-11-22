@@ -2,37 +2,46 @@
   <LayoutCustomerHomepage>
     <template v-slot:content>
       <div class="login-form-container">
-        <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form-customer">
-          <el-form-item prop="username" :label="$t('homepage.login.usernameLb')">
-            <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" :placeholder="$t('homepage.login.usernamePh')">
+        <el-form ref="loginRef" :model="registerForm" :rules="registerRules" class="login-form-customer">
+          <el-form-item prop="username" :label="$t('homepage.register.usernameLb')">
+            <el-input v-model="registerForm.username" type="text" size="large" auto-complete="off" :placeholder="$t('homepage.login.usernamePh')">
             </el-input>
           </el-form-item>
-          <el-form-item prop="password" :label="$t('homepage.login.passwordLb')">
+          <el-form-item prop="password" :label="$t('homepage.register.passwordLb')">
             <el-input
-              v-model="loginForm.password"
+              v-model="registerForm.password"
               type="password"
               size="large"
               auto-complete="off"
-              :placeholder="$t('homepage.login.passwordPh')"
-              @keyup.enter="handleLogin"
+              :placeholder="$t('homepage.register.passwordPh')"
+              @keyup.enter=""
               show-password
               clearable
             >
             </el-input>
           </el-form-item>
-          <el-checkbox v-model="loginForm.rememberMe">
-            <span class="remember-pass-text">{{ $t('homepage.login.rememberPassLb') }}</span>
-          </el-checkbox>
+          <el-form-item prop="confirmPassword" :label="$t('homepage.register.rePasswordLb')">
+            <el-input
+              v-model="registerForm.password"
+              type="password"
+              size="large"
+              auto-complete="off"
+              :placeholder="$t('homepage.register.rePasswordPh')"
+              @keyup.enter=""
+              show-password
+              clearable
+            >
+            </el-input>
+          </el-form-item>
           <el-form-item style="width:100%;">
             <IrButton
               colorStyle="blue"
               type="primary"
               buttonSize="large"
-              :title="$t('homepage.login.loginBtnTt')"
-              :loadingFlag="loading"
+              :title="$t('homepage.register.registerBtnTt')"
               widthPercent="100%"
-              @onClick="handleLogin"
-              style="width:100%; margin-top: 40px;"
+              @onClick=""
+              style="width:100%;"
             />
             <div style="float: right;" v-if="register">
               <router-link class="link-type" :to="'/register'">Sign up now</router-link>
@@ -52,7 +61,7 @@ import { ComponentInternalInstance } from "vue";
 import Cookies from 'js-cookie';
 import { encrypt, decrypt } from '@/utils/jsencrypt';
 import { useUserStore } from '@/store/modules/user';
-import { LoginData, TenantVO } from '@/api/types';
+import { RegisterData, TenantVO } from '@/api/types';
 import { getCodeImg, getTenantList } from '@/api/login';
 import { to } from 'await-to-js';
 import i18n from '@/lang';
@@ -69,74 +78,21 @@ const captchaEnabled = ref(true);
 // registration switch
 const register = ref(false);
 
-const loginForm = ref<LoginData>({
+const registerForm = ref<RegisterData>({
   tenantId: "000000",
   username: '',
   password: '',
-  rememberMe: false,
+  confirmPassword: '',
   code: '',
   uuid: 'nb'
 });
 
-const loginRules: FormRules = {
+const registerRules: FormRules = {
   tenantId: [{ required: true, trigger: "blur", message: "Please enter your tenant number" }],
   username: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.usernameRqMsg') }],
   password: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.passwordRqMsg') }],
+  confirmPassword: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.passwordRqMsg') }],
   code: [{ required: true, trigger: 'change', message: 'Please enter verification code' }]
-};
-
-const columns = ref([
-{ prop: "blNo", name: 'Bill No', sortable: false, size: 150, show: true, readonly: true, align: 'left' },
-{ prop: "containerNo", name: 'Container No', sortable: false, size: 150, show: true, readonly: true, align: 'left' },
-{ prop: "oprCode", name: 'OPR', sortable: false, size: 50, show: true, readonly: true, align: 'left' },
-{ prop: "gateInDate", name: 'In Date', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "gateOutDate", name: 'Out Date', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "expiredDem", name: 'Expired Day', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "detFreeTime", name: 'Detention Day', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "emptyContainerDepot", name: 'Empty Return Place', sortable: false, show: true, size: 250, readonly: true, align: 'left' },
-{ prop: "status", name: 'Status', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "location", name: 'Location', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "remark", name: 'Remark', sortable: false, show: true, size: 250, readonly: true, align: 'left' },
-]);
-const edoList = ref<Edo[]>([]);
-const rowKey = ref('etb');
-const total = ref(0);
-const loginRef = ref(ElForm);
-const redirect = ref(undefined);
-
-const handleLogin = () => {
-  loginRef.value.validate(async (valid:boolean, fields: any) => {
-    if (valid) {
-      loading.value = true;
-      // Checked the need to remember the password setting to set the remember username and password in the cookie
-      if (loginForm.value.rememberMe) {
-        Cookies.set("tenantId", loginForm.value.tenantId, { expires: 30 });
-        Cookies.set('username', loginForm.value.username, { expires: 30 });
-        Cookies.set('password', String(encrypt(loginForm.value.password)), { expires: 30 });
-        Cookies.set('rememberMe', String(loginForm.value.rememberMe), { expires: 30 });
-      } else {
-        // otherwise remove
-        Cookies.remove("tenantId");
-        Cookies.remove('username');
-        Cookies.remove('password');
-        Cookies.remove('rememberMe');
-      }
-      // Call the login method of action
-      // prittier-ignore
-      const [err] = await to(userStore.login(loginForm.value));
-      if (!err) {
-        await router.push({ path: redirect.value || '/' });
-      } else {
-        loading.value = false;
-        // Get verification code again
-        if (captchaEnabled.value) {
-            await getCode();
-        }
-      }
-    } else {
-      console.log('error submit!', fields);
-    }
-  });
 };
 
 /**
@@ -148,69 +104,11 @@ const handleLogin = () => {
   captchaEnabled.value = data.captchaEnabled === undefined ? true : data.captchaEnabled;
   if (captchaEnabled.value) {
     codeUrl.value = 'data:image/gif;base64,' + data.img;
-    loginForm.value.uuid = data.uuid;
+    registerForm.value.uuid = data.uuid;
   }
 };
-
-const getCookie = () => {
-  const tenantId = Cookies.get("tenantId");
-  const username = Cookies.get('username');
-  const password = Cookies.get('password');
-  const rememberMe = Cookies.get('rememberMe');
-  loginForm.value = {
-    tenantId: tenantId === undefined ? loginForm.value.tenantId : tenantId,
-    username: username === undefined ? loginForm.value.username : username,
-    password: password === undefined ? loginForm.value.password : (decrypt(password) as string),
-    rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
-  };
-}
-
-const handleNavigateLogin = (key: string) => {
-  localStorage.setItem('system-type', key);
-  activeLogin.value = key;
-}
-
-const edoSearchForm = ref<EdoSearchParam>({
-  containerNo: '',
-  blNo: '',
-  pageNum: 1,
-  pageSize: 50,
-});
-const validateAtLeastOneField = (_rule: any, _value: any, callback: any) => {
-  if (!edoSearchForm.value.containerNo && !edoSearchForm.value.blNo) {
-    console.log("Please");
-    callback(new Error('Vui lòng nhập ít nhất một trong hai trường'));
-  } else {
-    callback();
-  }
-};
-
-const rules = {
-  containerNo: [
-    { required: false, trigger: 'change', message: 'Vui lòng nhập số container' },
-    { validator: validateAtLeastOneField, trigger: 'change' }
-  ],
-  blNo: [
-    { required: false, trigger: 'change', message: 'Vui lòng nhập số bill' },
-    { validator: validateAtLeastOneField, trigger: 'change' }
-  ],
-};
-const edoSearchRef = ref(ElForm);
-const loading = ref(false);
-
 onMounted(() => {
-  const containerNo = route.query.containerNo as string;
-  const blNo = route.query.blNo as string;
-  edoSearchForm.value.containerNo = containerNo ?? '';
-  edoSearchForm.value.blNo = blNo ?? '';
 });
-
-/** Export button action */
-const handleExport = () => {
-  proxy?.download('homepage/search/edo/export', {
-    ...edoSearchForm.value
-  }, `edo_${new Date().getTime()}.xlsx`);
-}
 </script>
 
 <style lang="scss" scoped>
@@ -326,7 +224,7 @@ const handleExport = () => {
 }
 
 .login-form-customer {
-  height: 420px;
+  height: 470px;
   width: 526px;
   margin: 30px auto 30px auto;
   padding: 40px 60px 0px 60px;
@@ -382,3 +280,4 @@ const handleExport = () => {
   vertical-align: -2px;
 }
 </style>
+

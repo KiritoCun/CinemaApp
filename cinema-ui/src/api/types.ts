@@ -24,6 +24,18 @@ export interface LoginData {
 }
 
 /**
+ * register request
+ */
+export interface RegisterData {
+  tenantId: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  code?: string;
+  uuid?: string;
+}
+
+/**
  * login response
  */
 export interface LoginResult {

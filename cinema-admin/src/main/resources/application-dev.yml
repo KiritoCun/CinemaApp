@@ -88,11 +88,11 @@ spring:
 spring.data:
   redis:
     # address
-    host: redis-10566.c54.ap-northeast-1-2.ec2.cloud.redislabs.com
+    host: redis-19803.c1.asia-northeast1-1.gce.cloud.redislabs.com
     # Port, the default is 6379
-    port: 10566
+    port: 19803
     # Password (please comment out if there is no password)
-    password: WVvp5kcw4RkQWgI41JL03RA10Epd1NYt
+    password: Wcc0qAm7f9vKRuK80JiwlyduOAf6TZlU
 
 redisson:
   # redis key prefix
