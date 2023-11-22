@@ -9,7 +9,6 @@
         <el-menu-item index="film">{{ $t('homepage.topNav.film') }}</el-menu-item>
         <el-menu-item index="document">{{ $t('homepage.topNav.cinema') }}</el-menu-item>
         <el-menu-item index="promotion">{{ $t('homepage.topNav.promotions') }}</el-menu-item>
-        <!-- <el-menu-item index="carriers">{{ $t('homepage.topNav.carriers') }}</el-menu-item> -->
         <el-menu-item index="contact">{{ $t('homepage.topNav.contact') }}</el-menu-item>
       </el-menu>
     </div>
@@ -50,7 +49,7 @@
       <div class="header-top-account">
         <div class="account-header-wrapper mn-login">
           <a @click.stop="goToLogin()" class="topskip-link skip-account">
-            <span class="">Đăng nhập/ Đăng ký</span>
+            <span class="">{{ $t('homepage.topNav.login_out') }}</span>
           </a>
         </div>
       </div>

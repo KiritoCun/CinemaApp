@@ -44,7 +44,7 @@ export const constantRoutes: RouteOption[] = [
   },
   {
     path: '/homepage/film-detail',
-    component: () => import('@/views/homepage/filmDetail.vue'),
+    component: () => import('@/views/homepage/movieCategory.vue'),
     hidden: true,
     meta: { title: '{"vi_VN":"Chi tiết phim","en_US":"Film Detail"}', icon: '' }
   },
@@ -54,6 +54,12 @@ export const constantRoutes: RouteOption[] = [
     hidden: true,
     meta: { title: '{"vi_VN":"Đăng nhập","en_US":"Login"}', icon: '' }
   },
+  // {
+  //   path: '/homepage/film-category',
+  //   component: () => import('@/views/homepage/movieCategory.vue'),
+  //   hidden: true,
+  //   meta: { title: '{"vi_VN":"Phim","en_US":"Movie"}', icon: '' }
+  // },
   {
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/error/404.vue'),

@@ -108,8 +108,8 @@ export default {
       promotions: 'Khuyến mãi',
       cinema: 'Góc điện ảnh',
       contact: 'Liên hệ',
-      carriers: 'Tuyển dụng',
-      filmLabel: 'Nội Dung Phim'
+      filmLabel: 'Nội Dung Phim',
+      login_out: 'Đăng Nhập/Đăng Ký'
     },
     login: {
       tt: 'Đăng nhập hệ thống',
@@ -130,13 +130,15 @@ export default {
       guideTt: 'Chọn phim',
       documentTt: 'Tải biểu mẫu',
       documentDownloadBtn: 'Tải về',
-      showAllBtn: 'Xem tất cả'
+      showAllBtn: 'Xem tất cả',
+      comingSoon: 'Sắp Chiếu',
+      showTime: 'Đang Chiếu '
     },
     document: {
       guideTt: 'Khuyến mãi',
       documentTt: 'Tải biểu mẫu',
       documentDownloadBtn: 'Tải về',
-      showAllBtn: 'Xem tất cả'
+      showAllBtn: 'Xem tất cả',
     },
     contactInfo: {
       contactAddrLb: 'Địa chỉ liên hệ',

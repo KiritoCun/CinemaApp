@@ -1,7 +1,5 @@
 <template>
   <div class="navbar">
-    <!-- <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" /> -->
-    <!-- <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" /> -->
     <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" />
     <div class="left-menu flex align-center">
       <img :src="logo" class="navbar-logo" />
@@ -29,28 +27,6 @@
         <el-option v-for="item in tenantList" :key="item.tenantId" :label="item.companyName" :value="item.tenantId"> </el-option>
         <template #prefix><svg-icon icon-class="company" class="el-input__icon input-icon" /></template>
       </el-select>
-
-      <!-- <header-search id="header-search" class="right-menu-item" /> -->
-
-      <!-- <el-tooltip content="Github" effect="dark" placement="bottom">
-        <cinema-git id="cinema-git" class="right-menu-item hover-effect" />
-      </el-tooltip>
-
-      <el-tooltip :content="$t('navbar.document')" effect="dark" placement="bottom">
-        <cinema-doc id="cinema-doc" class="right-menu-item hover-effect" />
-      </el-tooltip>
-
-      <el-tooltip :content="$t('navbar.full')" effect="dark" placement="bottom">
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-      </el-tooltip> -->
-
-      <!-- <el-tooltip :content="$t('navbar.language')" effect="dark" placement="bottom">
-        <lang-select id="lang-select" class="right-menu-item hover-effect" />
-      </el-tooltip> -->
-
-      <!-- <el-tooltip :content="$t('navbar.layoutSize')" effect="dark" placement="bottom">
-        <size-select id="size-select" class="right-menu-item hover-effect" />
-      </el-tooltip> -->
       <div class="avatar-container" v-if="userStore.avatar">
         <el-dropdown @command="handleCommand" trigger="click">
           <div class="avatar-wrapper">

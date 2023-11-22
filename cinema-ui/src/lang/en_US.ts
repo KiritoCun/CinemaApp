@@ -109,7 +109,8 @@ export default {
       cinema: 'Cinema',
       contact: 'Contact',
       carriers: 'Carriers',
-      filmLabel: 'Film Content'
+      filmLabel: 'Film Content',
+      login_out: 'LOGIN/ LOGOUT'
     },
     login: {
       tt: 'System login',
@@ -130,7 +131,9 @@ export default {
       guideTt: 'Movie Selection',
       documentTt: 'Download document',
       documentDownloadBtn: 'Download',
-      showAllBtn: 'Show all'
+      showAllBtn: 'Show all',
+      comingSoon: 'ComingSoon',
+      showTime: 'ShowTime'
     },
     document: {
       guideTt: 'Promotions',
