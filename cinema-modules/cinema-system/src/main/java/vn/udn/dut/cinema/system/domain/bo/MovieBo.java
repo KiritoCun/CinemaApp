@@ -47,13 +47,22 @@ public class MovieBo extends TenantEntity {
 	private Long duration;
 
 	private String genre;
+	
+	private String language;
+	
+	private String rated;
 
 	private String director;
+	
+	private String actor;
 
 	private Long rating;
 
 	@NotBlank(message = "Poster url cannot be empty", groups = { AddGroup.class, EditGroup.class })
 	private String posterUrl;
+	
+	@NotBlank(message = "Trailer url cannot be empty", groups = { AddGroup.class, EditGroup.class })
+	private String trailerUrl;
 
 	private String remark;
 }

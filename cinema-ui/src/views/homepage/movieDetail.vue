@@ -7,39 +7,39 @@
         </div>
         <div class="film-content">
           <div class="thumbnail">
-            <img src="https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/7/0/700x1000_13_1_.jpg" />
+            <img :src="route.query.posterUrl">
           </div>
           <div class="product-shop">
             <div class="product-name">
-              <span class="h1">NGƯỜI VỢ CUỐI CÙNG</span>
+              <span class="h1">{{ route.query.title }}</span>
             </div>
             <div class="movie-info">
               <label>Đạo diễn: </label>
-              <div>&nbsp;Victor Vũ</div>
+              <div>&nbsp;{{ route.query.director }}</div>
             </div>
             <div class="movie-info">
               <label>Diễn viên: </label>
-              <div>&nbsp;Kaity Nguyễn - Thuận Nguyễn - NSƯT Quang Thắng - NSƯT Kim Oanh - Đinh Ngọc Diệp - Anh Dũng - Quốc Huy - Bé Lưu Ly</div>
+              <div>&nbsp;{{ route.query.actor }}</div>
             </div>
             <div class="movie-info">
               <label>Thể loại: </label>
-              <div>&nbsp;Tâm Lý, Tình cảm</div>
+              <div>&nbsp;{{ route.query.genre }}</div>
             </div>
             <div class="movie-info">
               <label>Khởi chiếu: </label>
-              <div>&nbsp;03/11/2023</div>
+              <div>&nbsp;{{ formattedDate }}</div>
             </div>
             <div class="movie-info">
               <label>Thời lượng: </label>
-              <div>&nbsp;132 phút</div>
+              <div>&nbsp;{{ route.query.duration }}&nbsp;phút</div>
             </div>
             <div class="movie-info">
               <label>Ngôn ngữ: </label>
-              <div>&nbsp;Tiếng Việt - Phụ đề Tiếng Anh</div>
+              <div>&nbsp;{{ route.query.language }}</div>
             </div>
             <div class="movie-info">
               <label>Rated: </label>
-              <div>&nbsp;T18 - PHIM ĐƯỢC PHỔ BIẾN ĐẾN NGƯỜI XEM TỪ ĐỦ 18 TUỔI TRỞ LÊN (18+)</div>
+              <div>&nbsp;{{ route.query.rated }}</div>
             </div>
             <div class="movie-technology-icons">
               <span class="movie-rating-detail t18">Rated : T18</span>
@@ -51,10 +51,7 @@
         </div>
         <div class="brief">
           <span>
-            Lấy cảm hứng từ tiểu thuyết Hồ Oán Hận, của nhà văn Hồng Thái, Người Vợ Cuối Cùng là một bộ phim tâm lý cổ trang, lấy bối cảnh Việt Nam
-            vào triều Nguyễn. LINH - Người vợ bất đắc dĩ của một viên quan tri huyện, xuất thân là con của một gia đình nông dân nghèo khó, vì không
-            thể hoàn thành nghĩa vụ sinh con nối dõi nên đã chịu sự chèn ép của những người vợ lớn trong gia đình. Sự gặp gỡ tình cờ của cô và người
-            yêu thời thanh mai trúc mã của mình - NH N đã dẫn đến nhiều câu chuyện bất ngờ xảy ra khiến cuộc sống cô hoàn toàn thay đổi.
+            {{ route.query.movieDescription }}
           </span>
         </div>
 
@@ -101,12 +98,9 @@
   </LayoutCustomerHomepage>
 </template>
 
-<script setup name="MovieDetails" lang="ts">
-import { ComponentInternalInstance } from "vue";
-
-
-const { proxy } = getCurrentInstance() as ComponentInternalInstance;
-const route = useRoute()
+<script setup name="MovieDetail" lang="ts">
+import { useRoute } from "vue-router";
+const route = useRoute();
 
 const provinces = [
   {
@@ -219,6 +213,19 @@ const tabs = [
   { id:3,label: 'Thứ Ba 07/11' },
   { id:4,label: 'Thứ Tư 08/11' },
 ];
+
+const formattedDate = formatDate(route.query.releaseDate);
+
+function formatDate(dateTime:any) {
+  const year = dateTime.substring(0, 4);
+  const month = dateTime.substring(5, 7);
+  const day = dateTime.substring(9, 11);
+
+  return `${day}/${month}/${year}`;
+}
+
+onMounted(() => {
+});
 </script>
 
 <style lang="scss" scoped>
