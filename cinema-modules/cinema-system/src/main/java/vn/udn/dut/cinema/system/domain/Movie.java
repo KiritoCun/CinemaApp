@@ -39,14 +39,22 @@ public class Movie extends TenantEntity {
 	private Date endDate;
 
 	private Long duration;
+	
+	private String language;
+	
+	private String rated;
 
 	private String genre;
 
 	private String director;
+	
+	private String actor;
 
 	private Long rating;
 
 	private String posterUrl;
+	
+	private String trailerUrl;
 
 	private String remark;
 }

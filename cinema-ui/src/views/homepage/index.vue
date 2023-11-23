@@ -1,174 +1,90 @@
 <template>
-  <div class="app-wrapper">
-    <div class="fixed-main-header">
-      <customerNavbar ref="customerNavbarRef" />
-    </div>
-    <div :class="{ hasTagsView: true, sidebarHide: true }" class="main-container">
-      <div class="login-body" @scroll="onScroll" id="loginBody">
-        <div class="login-container" id="showtime">
-          <el-carousel height="447px" direction="horizontal" :autoplay="true" trigger="click">
-            <el-carousel-item>
-              <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/hai.jpg" />
-            </el-carousel-item>
-            <el-carousel-item>
-              <img
-                class="login-background"
-                src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4831004558276_212eb4b5be997c49f8cb6bde9f02bab2.jpg"
-              />
-            </el-carousel-item>
-            <el-carousel-item>
-              <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/nguoi%20vo%20cuoi%20cung.jpg" />
-            </el-carousel-item>
-            <el-carousel-item>
-              <img
-                class="login-background"
-                src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4779781711597_672fa1fd6d3ec4549854486393104032(1).jpg"
-              />
-            </el-carousel-item>
-          </el-carousel>
-        </div>
+  <LayoutCustomerHomepage>
+    <template v-slot:content>
+      <div :class="{ hasTagsView: true, sidebarHide: true }" class="main-container">
+        <div @scroll="onScroll" id="loginBody">
+          <div class="login-container" id="showtime">
+            <el-carousel height="447px" direction="horizontal" :autoplay="true" trigger="click">
+              <el-carousel-item>
+                <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/hai.jpg" />
+              </el-carousel-item>
+              <el-carousel-item>
+                <img
+                  class="login-background"
+                  src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4831004558276_212eb4b5be997c49f8cb6bde9f02bab2.jpg"
+                />
+              </el-carousel-item>
+              <el-carousel-item>
+                <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/nguoi%20vo%20cuoi%20cung.jpg" />
+              </el-carousel-item>
+              <el-carousel-item>
+                <img
+                  class="login-background"
+                  src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4779781711597_672fa1fd6d3ec4549854486393104032(1).jpg"
+                />
+              </el-carousel-item>
+            </el-carousel>
+          </div>
 
-        <div class="document-container" id="film">
-          <div class="document-title">{{ $t('homepage.film.guideTt') }}</div>
-          <div class="document-items">
-            <Carousel v-bind="{itemsToShow: 4, snapAlign: 'center'}">
-              <Slide v-for="guideline in filmList" :key="guideline.id">
-                <div class="document-item">
-                  <img class="document-image1" :src="guideline.src" />
-                  <div class="play-button" @click="playYoutube(guideline.docUrl)">
-                    <div class="feature_film_content">
-                      <h3>{{ guideline.title }}</h3>
-                      <div class="film-content-action">
-                        <a title="Xem chi tiết" class="btn btn-primary btn-sm" @click.stop="goToFilmDetail()">Xem chi tiết</a>
-                        <button type="button" title="Mua vé" class="btn btn-sm btn-booking" onclick="Quickbooking('23020300');">
-                          <span>Mua vé</span>
-                        </button>
+          <div class="document-container" id="film">
+            <div class="document-title">{{ $t('homepage.film.guideTt') }}</div>
+            <div class="document-items">
+              <Carousel v-bind="{itemsToShow: 4, snapAlign: 'center'}">
+                <Slide v-for="movie in movieList" :key="movie.id">
+                  <div class="document-item">
+                    <img class="document-image1" :src="movie.posterUrl" />
+                    <div class="play-button" @click="playYoutube(movie.trailerUrl)">
+                      <div class="feature_film_content">
+                        <h3>{{ movie.title }}</h3>
+                        <div class="film-content-action">
+                          <a title="Xem chi tiết" class="btn btn-primary btn-sm" @click.stop="goToMovieDetail(movie)">Xem chi tiết</a>
+                          <button type="button" title="Mua vé" class="btn btn-sm btn-booking" onclick="Quickbooking('23020300');">
+                            <span>Mua vé</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </Slide>
-              <template #addons>
-                <Navigation />
-              </template>
-            </Carousel>
-          </div>
-        </div>
-        <IrDialog :dialog="dialog">
-          <template v-slot:body>
-            <YouTube :src="youtubeSrc" ref="youtube" width="100%" height="100%" style="height: calc(90vh - 111px)" @ready="onReady" />
-          </template>
-        </IrDialog>
-        <div class="document-container" id="promotion">
-          <div class="document-title">{{ $t('homepage.document.guideTt') }}</div>
-          <div class="document-items">
-            <Carousel v-bind="{itemsToShow: 4, snapAlign: 'center'}">
-              <Slide v-for="promotion in promotionList" :key="promotion.id">
-                <div class="document-item">
-                  <img class="document-image2" :src="promotion.imageUrl" />
-                  <a class="document-text" :href="promotion.title" target="_blank">
-                    {{ promotion.title }}
-                    <br />
-                    {{ promotion.promotionDescription }}
-                  </a>
-                  <div class="document-date">
-                    <svg-icon icon-class="calendar" />
-                    <span>{{ parseTime(promotion.fromDate, '{d}/{m}/{y}') }}</span>
-                  </div>
-                </div>
-              </Slide>
-              <template #addons>
-                <Navigation />
-              </template>
-            </Carousel>
-          </div>
-        </div>
-
-        <div class="contact-container" id="contact">
-          <div class="contact-address">
-            <img class="contact-logo" src="@/assets/logo/logo.png" />
-            <div class="contact-address-detail">
-              <div class="main-info">
-                <div class="title-text">{{ $t('homepage.contactInfo.contactAddrLb') }}</div>
-                <div class="sub-title-text">STAR CINEMA</div>
-              </div>
-              <div class="sub-info">
-                <div class="sub-info-item">
-                  <svg-icon icon-class="location" />
-                  <div class="content">
-                    <div class="label-text">{{ $t('homepage.contactInfo.addrLb') }}</div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.addrContent1') }}<br />{{ $t('homepage.contactInfo.addrContent2') }}</div>
-                  </div>
-                </div>
-                <div class="sub-info-item">
-                  <svg-icon icon-class="phone" />
-                  <div class="content">
-                    <div class="label-text">{{ $t('homepage.contactInfo.phoneLb') }}</div>
-                    <div class="normal-text">(84-28) 9999 9999</div>
-                  </div>
-                </div>
-                <div class="sub-info-item">
-                  <svg-icon icon-class="mail" />
-                  <div class="content">
-                    <div class="label-text">Email</div>
-                    <div class="normal-text">info@star-cinema.com</div>
-                  </div>
-                </div>
-              </div>
+                </Slide>
+                <template #addons>
+                  <Navigation />
+                </template>
+              </Carousel>
             </div>
           </div>
-          <div class="contact-others">
-            <div class="policy">
-              <div class="title-text">{{ $t('homepage.contactInfo.customerPolicyTt') }}</div>
-              <div class="term">
-                <div class="term-column1">
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.serviceTermLb') }}</div>
-                  </div>
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.refundPolicyLb') }}</div>
-                  </div>
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.customerPolicyLb') }}</div>
-                  </div>
-                </div>
-                <div class="term-column2">
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.confidentialPolicyLb') }}</div>
-                  </div>
-                  <div class="term-item">
-                    <div class="icon-background"><svg-icon icon-class="play" /></div>
-                    <div class="normal-text">{{ $t('homepage.contactInfo.paymentTermLb') }}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="support">
-              <div class="title-text">{{ $t('homepage.contactInfo.supportTt') }}</div>
-              <div class="normal-text">
-                {{ $t('homepage.contactInfo.supportContent') }}
-              </div>
-              <div class="support-info">
-                <div class="support-info-item">
-                  <div class="normal-text">Hotline</div>
-                  <div class="hotline">
-                    <div class="hotline-background-icon">
-                      <svg-icon icon-class="phone" />
+          <IrDialog :dialog="dialog">
+            <template v-slot:body>
+              <YouTube :src="youtubeSrc" ref="youtube" width="100%" height="100%" style="height: calc(90vh - 111px)" @ready="onReady" />
+            </template>
+          </IrDialog>
+          <div class="document-container" id="promotion">
+            <div class="document-title">{{ $t('homepage.document.guideTt') }}</div>
+            <div class="document-items">
+              <Carousel v-bind="{itemsToShow: 4, snapAlign: 'center'}">
+                <Slide v-for="promotion in promotionList" :key="promotion.id">
+                  <div class="document-item">
+                    <img class="document-image2" :src="promotion.imageUrl" />
+                    <a class="document-text" :href="promotion.title" target="_blank">
+                      {{ promotion.title }}
+                      <br />
+                      {{ promotion.promotionDescription }}
+                    </a>
+                    <div class="document-date">
+                      <svg-icon icon-class="calendar" />
+                      <span>{{ parseTime(promotion.fromDate, '{d}/{m}/{y}') }}</span>
                     </div>
-                    <div class="hotline-text">(84-28) 9999 9999</div>
                   </div>
-                </div>
-              </div>
+                </Slide>
+                <template #addons>
+                  <Navigation />
+                </template>
+              </Carousel>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </LayoutCustomerHomepage>
 </template>
 
 <script setup lang="ts">
@@ -210,11 +126,11 @@ const promotionList = ref<any[]>(
   { title: 'Sinh nhật Star Cinema', promotionDescription: 'Diễn ra hàng năm vào ngày 09/11', fromDate: '01/11/2023', imageUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/b/i/birthday_popcorn_box_240x201.png'},
   { title: 'Nâng cấp dịch vụ phòng chiếu', promotionDescription: 'Sự kiện hot', fromDate: '01/11/2023', imageUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/u/2/u22-102023-240x201.jpg'}]);
 
-const filmList = ref<any[]>(
-  [{ docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Người Vợ Cuối Cùng', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_13_1_.jpg'},
-  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Năm Đêm Kinh Hoàng', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000-5demkinhhoang.jpg'},
-  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Đất Rừng Phương Nam', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_19_.jpg'},
-  { docUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Âm Hồn Đô Thị', description: 'Hoa', src: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/t/o/toh_now-showing_size-poster_1_.jpg'}]);
+const movieList = ref<any[]>(
+  [{ trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Người Vợ Cuối Cùng', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_13_1_.jpg'},
+  { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Năm Đêm Kinh Hoàng', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000-5demkinhhoang.jpg'},
+  { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Đất Rừng Phương Nam', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_19_.jpg'},
+  { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Âm Hồn Đô Thị', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/t/o/toh_now-showing_size-poster_1_.jpg'}]);
 
 const videoList = ref<DocumentVO[]>([]);
 const documentList = ref<DocumentVO[]>([]);
@@ -347,6 +263,7 @@ const handleNavigateLogin = (key: string) => {
 const getDocumentList = async () => {
   const res = await getDocuments();
   promotionList.value = res.data.promotions;
+  movieList.value = res.data.movies;
   videoList.value = res.data.videos;
   documentList.value = res.data.documents;
 }
@@ -412,10 +329,18 @@ const onReady = () => {
   youtube.value.playVideo();
 }
 /** */
-const goToFilmDetail = () => {
-  router.push({path: '/homepage/film-detail', query: {
-    containerNo: edoSearchForm.value.containerNo,
-    blNo: edoSearchForm.value.blNo
+const goToMovieDetail = (movie: any) => {
+  router.push({path: '/homepage/movie-detail', query: {
+    title: movie.title,
+    movieDescription: movie.movieDescription,
+    director: movie.director,
+    actor: movie.actor,
+    rated: movie.rated,
+    language: movie.language,
+    duration: movie.duration,
+    genre: movie.genre,
+    releaseDate: movie.releaseDate,
+    posterUrl: movie.posterUrl,
   }});
 }
 </script>
@@ -529,7 +454,7 @@ const goToFilmDetail = () => {
   }
 
   .login-container {
-    margin: 60px auto;
+    margin: -35px auto 60px auto;
     height: 447px;
     width: 84%;
   }
@@ -888,195 +813,7 @@ const goToFilmDetail = () => {
       }
     }
   }
-  .contact-container {
-    min-height: 446px;
-    width: 100%;
-    background: url('https://starlight.vn/Content/img/bgs2.jpg');
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 35px 60px;
-    gap: 149px;
-    .contact-logo {
-      width: 144px;
-      height: 64px;
-    }
-    .contact-address {
-      display: flex;
-      flex-direction: row;
-      gap: 140px
-    }
-    .contact-address-detail {
-      display: flex;
-      flex-direction: column;
-      gap: 32px
-    }
-    .contact-others {
-      display: flex;
-      flex-direction: column;
-      width: 459px;
-      height: 353px;
-      gap: 81px;
-      .policy {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        .term {
-          display: flex;
-          flex-direction: row;
-          gap: 90px;
-
-          .term-column1, .term-column2 {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-          }
-
-          .term-item {
-            display: flex;
-            flex-direction: row;
-            gap: 16px;
-            .icon-background {
-              background: $blue-500;
-              width: 14px;
-              height: 14px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              border-radius: 50px;
-            }
-            svg {
-              filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7497%) hue-rotate(218deg) brightness(108%) contrast(101%);
-              width: 14px;
-              height: 14px;
-            }
-          }
-        }
-      }
-      .support {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        .support-info {
-          display: flex;
-          flex-direction: row;
-          gap: 45px;
-          .support-info-item {
-            display: flex;
-            flex-direction: row;
-            gap: 16px;
-          }
-          .hotline {
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            .hotline-background-icon {
-              width: 20px;
-              height: 20px;
-              border-radius: 50px;
-              display: flex;
-              flex-direction: row;
-              justify-content: center;
-              align-items: center;
-              background: $red-500;
-              svg {
-                width: 12px;
-                height: 12px;
-                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7497%) hue-rotate(218deg) brightness(108%) contrast(101%);
-              }
-            }
-          }
-        }
-      }
-    }
-    .title-text {
-      color: $blue-25;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 24px;
-    }
-    .sub-title-text {
-      color: $blue-50;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 24px;
-    }
-    .label-text {
-      color: $blue-50;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-    }
-    .normal-text {
-      color: $blue-50;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .email-text {
-      color: $blue-500;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 600;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .hotline-text {
-      color: $red-500;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .main-info {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      border-bottom: 1px solid $blue-50;
-      padding-bottom: 24px;
-    }
-    .sub-info {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      .sub-info-item {
-        display: flex;
-        flex-direction: row;
-        gap: 24px;
-        width: 382px;
-        height: 57px;
-        svg {
-          width: 18px;
-          height: 18px;
-          filter: brightness(0) saturate(100%) invert(57%) sepia(33%) saturate(7495%) hue-rotate(192deg) brightness(100%) contrast(96%);
-        }
-        .content {
-          display: flex;
-          flex-direction: column;
-          gap: 7px;
-        }
-      }
-    }
-  }
   @media (max-width:1300px) {
-    .contact-container {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
   }
 }
 
@@ -1138,20 +875,8 @@ const goToFilmDetail = () => {
   position: absolute;
   right: 0;
   top: 0;
-  // opacity: 0.8500000238418579;
   background: rgba(17, 25, 39, .8);
   padding: 52px 60px 56px 60px;
-  // .el-input {
-  //   height: 40px;
-  //   input {
-  //     height: 40px;
-  //   }
-  // }
-  // .input-icon {
-  //   height: 39px;
-  //   width: 14px;
-  //   margin-left: 0px;
-  // }
 }
 .login-tip {
   font-size: 13px;

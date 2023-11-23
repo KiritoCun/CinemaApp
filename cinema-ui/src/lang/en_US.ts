@@ -13,6 +13,15 @@ export default {
     copyright: '',
     logoutCf: 'Are you sure you want to logout and exit the system?'
   },
+  register: {
+    username: 'Username',
+    password: 'Password',
+    rePassword: 'Confirm password',
+    register: 'Register',
+    code: 'Verification Code',
+    copyright: '',
+    logoutCf: 'Are you sure you want to logout and exit the system?'
+  },
   // Navigation bar internationalization
   navbar: {
     full: 'Full Screen',
@@ -109,12 +118,11 @@ export default {
       cinema: 'Cinema',
       contact: 'Contact',
       carriers: 'Carriers',
-      filmLabel: 'Film Content'
+      filmLabel: 'Film Content',
+      login_out: 'LOGIN/ LOGOUT'
     },
     login: {
       tt: 'System login',
-      logisticsTab: 'Logistics',
-      shippinglineTab: 'Shipping line',
       usernameLb: 'Username',
       usernamePh: 'Input',
       passwordLb: 'Password',
@@ -126,11 +134,29 @@ export default {
         passwordRqMsg: 'Please enter your password'
       }
     },
+    register: {
+      tt: 'System register',
+      usernameLb: 'Username',
+      usernamePh: 'Input',
+      passwordLb: 'Password',
+      passwordPh: 'Input',
+      rePasswordLb: 'Confirm Password',
+      rePasswordPh: 'Input',
+      rememberPassLb: 'Remember password',
+      registerBtnTt: 'Register',
+      rules: {
+        usernameRqMsg: 'Please enter your username',
+        passwordRqMsg: 'Please enter your password',
+        rePasswordRqMsg: 'Please re-enter your password'
+      }
+    },
     film: {
       guideTt: 'Movie Selection',
       documentTt: 'Download document',
       documentDownloadBtn: 'Download',
-      showAllBtn: 'Show all'
+      showAllBtn: 'Show all',
+      comingSoon: 'ComingSoon',
+      showTime: 'ShowTime'
     },
     document: {
       guideTt: 'Promotions',

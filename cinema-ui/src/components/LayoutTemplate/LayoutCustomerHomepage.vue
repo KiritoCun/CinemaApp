@@ -6,7 +6,7 @@
     <div class="login-body" id="loginBody">
       <div class="breadcrumb">
         <svg-icon icon-class="home" class="home-icon" />
-        <a class="home-link" href="/login">{{ $t('homepage.topNav.homepage') }}</a>
+        <a class="home-link" @click.stop="goToHomepage()">{{ $t('homepage.topNav.homepage') }}</a>
         <svg-icon icon-class="right-arrow-2" class="arrow-icon" />
         <div class="title">{{ getRouteTitle(route.meta.title) }}</div>
       </div>
@@ -107,6 +107,11 @@ const route = useRoute();
 const activeIndex = ref('');
 const customerNavbarRef = ref(CustomerNavbar);
 const router = useRouter();
+
+const goToHomepage = () => {
+  router.push({path: '/', query: {
+  }});
+}
 
 const handleNavigate = (key: string) => {
   router.push('/login?active=' + key);

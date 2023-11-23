@@ -13,8 +13,9 @@ NProgress.configure({ showSpinner: false });
 const whiteList = [
   '/login',
   '/register',
-  '/homepage/film-detail',
-  '/homepage/customer-login'
+  '/homepage/movie-detail',
+  '/homepage/customer-login',
+  '/homepage/customer-register'
 ];
 
 router.beforeEach(async (to, from, next) => {

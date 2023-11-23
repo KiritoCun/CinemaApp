@@ -13,6 +13,15 @@ export default {
     copyright: '',
     logoutCf: 'Xác nhận đăng xuất khỏi hệ thống?'
   },
+  register: {
+    username: 'Tài khoản',
+    password: 'Mật khẩu',
+    rePassword: 'Xác thực mật khẩu',
+    register: 'Đăng ký',
+    code: 'Mã xác nhận',
+    copyright: '',
+    logoutCf: 'Xác nhận đăng xuất khỏi hệ thống?'
+  },
   // Navigation bar internationalization
   navbar: {
     full: 'Toàn màn hình',
@@ -108,13 +117,11 @@ export default {
       promotions: 'Khuyến mãi',
       cinema: 'Góc điện ảnh',
       contact: 'Liên hệ',
-      carriers: 'Tuyển dụng',
-      filmLabel: 'Nội Dung Phim'
+      filmLabel: 'Nội Dung Phim',
+      login_out: 'Đăng Nhập/Đăng Ký'
     },
     login: {
       tt: 'Đăng nhập hệ thống',
-      logisticsTab: 'Nhà vận chuyển Logistics',
-      shippinglineTab: 'Hãng tàu',
       usernameLb: 'Tên đăng nhập',
       usernamePh: 'Nhập',
       passwordLb: 'Mật khẩu',
@@ -126,17 +133,35 @@ export default {
         passwordRqMsg: 'Vui lòng nhập mật khẩu'
       }
     },
+    register: {
+      tt: 'Đăng ký hệ thống',
+      usernameLb: 'Tên đăng nhập',
+      usernamePh: 'Nhập',
+      passwordLb: 'Mật khẩu',
+      passwordPh: 'Nhập',
+      rePasswordLb: 'Xác nhận mật khẩu',
+      rePasswordPh: 'Nhập',
+      rememberPassLb: 'Ghi nhớ mật khẩu',
+      registerBtnTt: 'Đăng ký',
+      rules: {
+        usernameRqMsg: 'Vui lòng nhập tên tài khoản',
+        passwordRqMsg: 'Vui lòng nhập mật khẩu',
+        rePasswordRqMsg: 'Vui lòng nhập lại mật khẩu'
+      }
+    },
     film: {
       guideTt: 'Chọn phim',
       documentTt: 'Tải biểu mẫu',
       documentDownloadBtn: 'Tải về',
-      showAllBtn: 'Xem tất cả'
+      showAllBtn: 'Xem tất cả',
+      comingSoon: 'Sắp Chiếu',
+      showTime: 'Đang Chiếu '
     },
     document: {
       guideTt: 'Khuyến mãi',
       documentTt: 'Tải biểu mẫu',
       documentDownloadBtn: 'Tải về',
-      showAllBtn: 'Xem tất cả'
+      showAllBtn: 'Xem tất cả',
     },
     contactInfo: {
       contactAddrLb: 'Địa chỉ liên hệ',

@@ -30,6 +30,7 @@
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
     "bootstrap-vue-3": "^0.5.1",
+    "bootstrap-vue": "^2.21.2",
     "echarts": "5.4.0",
     "element-plus": "2.2.27",
     "file-saver": "2.0.5",
