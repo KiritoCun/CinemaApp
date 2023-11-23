@@ -4,9 +4,14 @@ import 'uno.css';
 import '@/assets/styles/index.scss';
 import 'element-plus/theme-chalk/dark/css-vars.css';
 
-//Bootstrap Css
+// Import Bootstrap and BootstrapVue css files:
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import BootstrapVue3 from 'bootstrap-vue-3';
+
+//Element-plus
+import ElementPlus from 'element-plus'
 
 // App、router、store
 import App from './App.vue';
@@ -60,6 +65,8 @@ app.use(ElementIcons);
 app.use(router);
 app.use(store);
 app.use(i18n);
+app.use(BootstrapVue3);
+app.use(ElementPlus);
 app.use(plugins);
 // custom directive
 directive(app);

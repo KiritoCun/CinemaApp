@@ -44,7 +44,7 @@ export const constantRoutes: RouteOption[] = [
   },
   {
     path: '/homepage/film-detail',
-    component: () => import('@/views/homepage/filmDetail.vue'),
+    component: () => import('@/views/homepage/profile.vue'),
     hidden: true,
     meta: { title: '{"vi_VN":"Chi tiết phim","en_US":"Film Detail"}', icon: '' }
   },
@@ -65,6 +65,11 @@ export const constantRoutes: RouteOption[] = [
     hidden: true
   },
   {
+    path: '/homepage/profile',
+    component: () => import('@/views/homepage/profile.vue'),
+    hidden: true
+  },
+  {
     path: '',
     component: Layout,
     redirect: '/index',
@@ -77,19 +82,24 @@ export const constantRoutes: RouteOption[] = [
       }
     ]
   },
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   hidden: true,
+  //   redirect: 'noredirect',
+  //   children: [
+  //     {
+  //       path: 'profile',
+  //       component: () => import('@/views/system/user/profile/index.vue'),
+  //       name: 'Profile',
+  //       meta: { title: '{"vi_VN":"Thông tin cá nhân","en_US":"Profile"}', icon: 'user' }
+  //     }
+  //   ]
+  // }
   {
-    path: '/user',
-    component: Layout,
-    hidden: true,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'profile',
-        component: () => import('@/views/system/user/profile/index.vue'),
-        name: 'Profile',
-        meta: { title: '{"vi_VN":"Thông tin cá nhân","en_US":"Profile"}', icon: 'user' }
-      }
-    ]
+    path: '/homepage/profile',
+    component: () => import('@/views/homepage/profile.vue'),
+    hidden: true
   }
 ];
 
