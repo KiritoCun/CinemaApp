@@ -9,7 +9,6 @@
         <el-menu-item index="film">{{ $t('homepage.topNav.film') }}</el-menu-item>
         <el-menu-item index="document">{{ $t('homepage.topNav.cinema') }}</el-menu-item>
         <el-menu-item index="promotion">{{ $t('homepage.topNav.promotions') }}</el-menu-item>
-        <!-- <el-menu-item index="carriers">{{ $t('homepage.topNav.carriers') }}</el-menu-item> -->
         <el-menu-item index="contact">{{ $t('homepage.topNav.contact') }}</el-menu-item>
       </el-menu>
     </div>
