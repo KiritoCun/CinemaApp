@@ -5,23 +5,8 @@
         <div @scroll="onScroll" id="loginBody">
           <div class="login-container" id="showtime">
             <el-carousel height="447px" direction="horizontal" :autoplay="true" trigger="click">
-              <el-carousel-item>
-                <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/hai.jpg" />
-              </el-carousel-item>
-              <el-carousel-item>
-                <img
-                  class="login-background"
-                  src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4831004558276_212eb4b5be997c49f8cb6bde9f02bab2.jpg"
-                />
-              </el-carousel-item>
-              <el-carousel-item>
-                <img class="login-background" src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/nguoi%20vo%20cuoi%20cung.jpg" />
-              </el-carousel-item>
-              <el-carousel-item>
-                <img
-                  class="login-background"
-                  src="https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4779781711597_672fa1fd6d3ec4549854486393104032(1).jpg"
-                />
+              <el-carousel-item v-for="slide in slideList" :key="slide.id">
+                <img class="login-background" :src="slide.slideUrl" alt="Slide Image" />
               </el-carousel-item>
             </el-carousel>
           </div>
@@ -131,7 +116,7 @@ const movieList = ref<any[]>(
   { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Năm Đêm Kinh Hoàng', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000-5demkinhhoang.jpg'},
   { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Đất Rừng Phương Nam', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_19_.jpg'},
   { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Âm Hồn Đô Thị', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/t/o/toh_now-showing_size-poster_1_.jpg'}]);
-
+const slideList = ref<any[]>()
 const videoList = ref<DocumentVO[]>([]);
 const documentList = ref<DocumentVO[]>([]);
 
@@ -264,6 +249,7 @@ const getDocumentList = async () => {
   const res = await getDocuments();
   promotionList.value = res.data.promotions;
   movieList.value = res.data.movies;
+  slideList.value = res.data.slides;
   videoList.value = res.data.videos;
   documentList.value = res.data.documents;
 }

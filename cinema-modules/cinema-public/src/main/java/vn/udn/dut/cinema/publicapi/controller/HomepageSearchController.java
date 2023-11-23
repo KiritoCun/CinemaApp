@@ -13,8 +13,10 @@ import vn.udn.dut.cinema.common.core.domain.R;
 import vn.udn.dut.cinema.common.web.core.BaseController;
 import vn.udn.dut.cinema.system.domain.bo.MovieBo;
 import vn.udn.dut.cinema.system.domain.bo.PromotionBo;
+import vn.udn.dut.cinema.system.domain.bo.SlideBo;
 import vn.udn.dut.cinema.system.service.IMovieService;
 import vn.udn.dut.cinema.system.service.IPromotionService;
+import vn.udn.dut.cinema.system.service.ISlideService;
 
 /**
  * Homepage api
@@ -30,6 +32,7 @@ public class HomepageSearchController extends BaseController {
 
 	private final IPromotionService promotionService;
 	private final IMovieService movieService;
+	private final ISlideService slideService;
 
 	@GetMapping("/documents")
 	public R<Map<String, Object>> getDocuments() {
@@ -38,6 +41,8 @@ public class HomepageSearchController extends BaseController {
 		result.put("promotions", promotionService.queryList(bo1));
 		MovieBo bo2 = new MovieBo();
 		result.put("movies", movieService.queryList(bo2));
+		SlideBo bo3 = new SlideBo();
+		result.put("slides", slideService.queryList(bo3));
 		return R.ok(result);
 	}
 }
