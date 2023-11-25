@@ -1,30 +1,33 @@
 <template>
   <div class="mt-4">
-    <div v-for="data in props.billHistoryData" :key="data.id">
-      <hr class="hr" />
-      <b-card :img-src="decodeURIComponent(data.img)" img-alt="Card image" img-left style="height:120px;">
-        <div class="flex align-items-center">
-          <div class="absolute-left" style="left:110px; top:30px">
-            <b-card-text class="bold-font">{{ data.title }}</b-card-text>
-            <b-card-text>{{ data.genre }}</b-card-text>
-          </div>
-          <div class="absolute-right" style="right:-50px; top:30px">
-            <b-card-text class="d-inline-block">Star Cinema -</b-card-text><b-card-text class="d-inline-block bold-font">{{ data.hall_name }}</b-card-text>
-            <b-card-text v-html="formatDate(data.start_time)"></b-card-text>
-          </div>
-          <div class="absolute-left" style="left: 50rem; top: 50px;">
-            <button class="accordion-button bold-font text-color" @click.prevent="showDetail=true">Chi tiết</button>
-            <BillHistoryDetail v-if="showDetail" @close="showDetail = false" />
+    <div class="container my-1" v-for="data in props.billHistoryData" :key="data.id">
+      <div class="card">
+        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.img" alt="Image" />
+        <div class="card-body col col-md-6">
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div class="absolute-left" style="left:110px; top:30px;width: 30%;">
+              <b-card-text class="bold-font">{{ data.title }}</b-card-text>
+              <b-card-text>{{ data.genre }}</b-card-text>
+            </div>
+            <div class="absolute-right p-3" style="right:-50px; top:30px">
+              <b-card-text class="d-inline-block">Star Cinema -</b-card-text
+              ><b-card-text class="d-inline-block bold-font">{{ data.hall_name }}</b-card-text>
+              <b-card-text v-html="formatDate(data.start_time)"></b-card-text>
+            </div>
+            <div class="absolute-left" style="left: 50rem; top: 50px;">
+              <button class="accordion-button bold-font text-color" @click.prevent="showDetail=true">Chi tiết</button>
+              <BillHistoryDetail v-if="showDetail" @close="showDetail = false" />
+            </div>
           </div>
         </div>
-      </b-card>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
-import BillHistoryDetail from './Modal/BillHistoryDetail.vue';
+// import BillHistoryDetail from './Modal/BillHistoryDetail.vue';
 
 interface BillHistoryProps {
   billHistoryData: {
@@ -66,13 +69,13 @@ return '';
 
 <style scoped>
 .absolute-right {
-  position: absolute;
+  /* position: absolute; */
   right: 0;
   padding-right: 20rem;
 }
 
 .absolute-left {
-  position: absolute;
+  /* position: absolute; */
   left: 0;
 }
 .bold-font {
@@ -81,5 +84,14 @@ return '';
 }
 .text-color {
   color: #409EFF
+}
+.card{
+  display: flex;
+  flex-direction: row;
+}
+.card-img-top{
+  border-top-left-radius:5px ;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 5px;
 }
 </style>
