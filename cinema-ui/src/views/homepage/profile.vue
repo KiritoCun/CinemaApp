@@ -88,31 +88,44 @@ const billHistoryData = [
     id:1,
     title:'Oppenheimer',
     genre: '2D Phụ Đề',
+    province: 'Đà Nẵng',
     hall_name: 'Rạp 6',
-    start_time: new Date(2023, 4, 13, 10, 15, 0),
-    img: 'https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg'
+    seat_id: ['H8','H9'],
+    booking_id: 'WSJ7KFP',
+    promotion_id: '4',
+    img: 'https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg',
+    booking_qr: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2Fqrcode%2F2023%2F11%2F23%2Fqrcode_WSJ7KFP.png&w=256&q=75',
+    price: 140000,
+    start_time: new Date(2023, 4, 13, 10, 15, 0)
+
   },
   {
     id:2,
     title:'Chiến Binh Báo Đen: Wakanda Bất Diệt',
     genre: '2D Phụ Đề',
+    province: 'Đà Nẵng',
     hall_name: 'Rạp 6',
-    start_time: new Date(2023, 4, 11, 15, 30, 0),
-    img: 'https://upload.wikimedia.org/wikipedia/vi/3/3b/Black_Panther_Wakanda_Forever_poster.jpg'
+    seat_id: ['H10','H11','H12'],
+    booking_id: 'EWM6TTP',
+    promotion_id: '4',
+    img: 'https://upload.wikimedia.org/wikipedia/vi/3/3b/Black_Panther_Wakanda_Forever_poster.jpg',
+    booking_qr: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2Fqrcode%2F2023%2F11%2F23%2Fqrcode_WSJ7KFP.png&w=256&q=75',
+    price: 100000,
+    start_time: new Date(2023, 4, 11, 15, 30, 0)
   },
   {
     id:3,
     title:'Phù Thủy Tối Thượng Trong Đa Vũ Trụ Hỗn Loạn',
     genre: '2D Phụ Đề',
+    province: 'Đà Nẵng',
     hall_name: 'Rạp 6',
-    start_time: new Date(2023, 2, 7, 8, 0, 0),
-    img: 'https://www.cgv.vn/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/d/r/dr-strange-payoff-poster_1_.jpg'
-  },
-]
-
-const billDetail = [
-  {
-    
+    img: 'https://www.cgv.vn/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/d/r/dr-strange-payoff-poster_1_.jpg',
+    seat_id: ['E10'],
+    booking_id: 'MMO192Q',
+    promotion_id: '4',
+    booking_qr: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2Fqrcode%2F2023%2F11%2F23%2Fqrcode_WSJ7KFP.png&w=256&q=75',
+    price: 120000,
+    start_time: new Date(2023, 2, 7, 8, 0, 0)
   },
 ]
 </script>
