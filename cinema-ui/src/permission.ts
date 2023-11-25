@@ -15,7 +15,8 @@ const whiteList = [
   '/register',
   '/homepage/movie-detail',
   '/homepage/customer-login',
-  '/homepage/customer-register'
+  '/homepage/customer-register',
+  '/homepage/profile'
 ];
 
 router.beforeEach(async (to, from, next) => {

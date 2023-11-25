@@ -15,8 +15,8 @@
               <b-card-text v-html="formatDate(data.start_time)"></b-card-text>
             </div>
             <div class="absolute-left" style="left: 50rem; top: 50px;">
-              <button class="accordion-button bold-font text-color" @click.prevent="showDetail=true">Chi tiết</button>
-              <BillHistoryDetail v-if="showDetail" @close="showDetail = false" />
+              <button class="accordion-button bold-font text-color" @click.prevent="openDetail(data)">Chi tiết</button>
+              <BillHistoryDetail v-if="showDetail" @close="closeDetail" :bill="selectedBill" />
             </div>
           </div>
         </div>
@@ -27,22 +27,40 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
-// import BillHistoryDetail from './Modal/BillHistoryDetail.vue';
+import BillHistoryDetail from './Modal/BillHistoryDetail.vue';
 
-interface BillHistoryProps {
-  billHistoryData: {
+interface BillProps {
     id: number;
     title: string;
-    genre: string,
-    hall_name: string
-    start_time: Date;
+    genre: string;
+    province: string;
+    hall_name: string;
+    seat_id: string[];
+    booking_id: string;
+    promotion_id: string;
+    booking_qr: string;
     img: string;
+    price: number;
+    start_time: Date;
 }[];
+
+interface BillHistoryProps {
+  billHistoryData: BillProps[];
 }
 
 const showDetail = ref(false);
-
+const selectedBill = ref<BillProps | null>(null);
 const props = defineProps<BillHistoryProps>();
+
+const openDetail = (billData: BillProps) => {
+  selectedBill.value = billData;
+  showDetail.value = true;
+};
+
+const closeDetail = () => {
+  showDetail.value = false;
+  selectedBill.value = null; // optional: clear the selectedBill when closing
+};
 
 const formatDate = (date: Date | string) => {
   if (typeof date === 'string') {
@@ -65,6 +83,8 @@ const formatDate = (date: Date | string) => {
 }
 return '';
 };
+
+const selectedData = ref(null);
 </script>
 
 <style scoped>
