@@ -669,6 +669,34 @@ CREATE TABLE movie_rating
 )
 ON [PRIMARY]
 GO
+IF OBJECT_ID('slide', 'U') IS NOT NULL
+  DROP TABLE slide;
+GO
+CREATE TABLE slide
+(
+	id                  bigint                              NOT NULL,
+  tenant_id           nvarchar(20)  DEFAULT ('000000')    NULL,
+	slide_url	nvarchar(255)                       NULL,
+	create_dept         bigint                              NULL,
+  create_by           bigint                              NULL,
+  create_time         datetime2(7)                        NULL,
+  update_by           bigint                              NULL,
+  update_time         datetime2(7)                        NULL,
+  remark              nvarchar(500)                       NULL,
+	CONSTRAINT PK__slide__3E82A5DB0EC94801 PRIMARY KEY CLUSTERED (id)
+        WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+        ON [PRIMARY]
+)
+ON [PRIMARY]
+GO
+INSERT slide VALUES (1, N'000000', N'https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/hai.jpg', 103, 1, getdate(), NULL, NULL, 'TEST')
+GO 
+INSERT slide VALUES (2, N'000000', N'https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4831004558276_212eb4b5be997c49f8cb6bde9f02bab2.jpg', 103, 1, getdate(), NULL, NULL, 'TEST')
+GO
+INSERT slide VALUES (3, N'000000', N'https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/z4779781711597_672fa1fd6d3ec4549854486393104032(1).jpg', 103, 1, getdate(), NULL, NULL, 'TEST')
+GO
+INSERT slide VALUES (4, N'000000', N'https://starlight.vn/Areas/Admin/Content/Fileuploads/images/Slider/nguoi%20vo%20cuoi%20cung.jpg', 103, 1, getdate(), NULL, NULL, 'TEST')
+GO
 
 IF OBJECT_ID('sys_oper_log', 'U') IS NOT NULL
   DROP TABLE sys_oper_log;
