@@ -109,8 +109,8 @@ export const constantRoutes: RouteOption[] = [
   //   ]
   // }
   {
-    path: '/homepage/profile',
-    component: () => import('@/views/homepage/profile.vue'),
+    path: '/homepage/booking',
+    component: () => import('@/views/homepage/booking.vue'),
     hidden: true
   }
 ];

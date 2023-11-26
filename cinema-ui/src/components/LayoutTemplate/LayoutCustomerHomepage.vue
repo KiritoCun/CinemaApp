@@ -5,10 +5,6 @@
     </div>
     <div class="login-body" id="loginBody">
       <div class="breadcrumb">
-        <svg-icon icon-class="home" class="home-icon" />
-        <a class="home-link" @click.stop="goToHomepage()">{{ $t('homepage.topNav.homepage') }}</a>
-        <svg-icon icon-class="right-arrow-2" class="arrow-icon" />
-        <div class="title">{{ getRouteTitle(route.meta.title) }}</div>
       </div>
       <div class="homepage-body">
         <slot name="content" />
@@ -468,13 +464,9 @@ const handleNavigate = (key: string) => {
 }
 
 .breadcrumb {
-  width: 72%;
-  padding: 22px 22px;
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  height: 16px;
-  margin: auto;
+  display: block;
+  border-bottom: 6px solid #f4f4f4;
+  transform: matrix(1,0,0,-1,0,0);
 
   .home-icon {
     width: 16px;
