@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import vn.udn.dut.cinema.common.core.domain.R;
 import vn.udn.dut.cinema.common.web.core.BaseController;
-import vn.udn.dut.cinema.system.domain.bo.MovieBo;
-import vn.udn.dut.cinema.system.domain.bo.PromotionBo;
-import vn.udn.dut.cinema.system.domain.bo.SlideBo;
-import vn.udn.dut.cinema.system.service.IMovieService;
-import vn.udn.dut.cinema.system.service.IPromotionService;
-import vn.udn.dut.cinema.system.service.ISlideService;
+import vn.udn.dut.cinema.port.domain.bo.MovieBo;
+import vn.udn.dut.cinema.port.domain.bo.PromotionBo;
+import vn.udn.dut.cinema.port.domain.bo.SlideBo;
+import vn.udn.dut.cinema.port.service.IMovieService;
+import vn.udn.dut.cinema.port.service.IPromotionService;
+import vn.udn.dut.cinema.port.service.ISlideService;
 
 /**
  * Homepage api

@@ -29,7 +29,6 @@ import vn.udn.dut.cinema.system.domain.vo.SysOssVo;
 import vn.udn.dut.cinema.system.mapper.SysOssMapper;
 import vn.udn.dut.cinema.system.service.ISysOssService;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -142,6 +141,9 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
     @Override
     public SysOssVo upload(MultipartFile file) {
         String originalfileName = file.getOriginalFilename();
+        if (originalfileName == null) {
+            originalfileName = "";
+        }
         String suffix = StringUtils.substring(originalfileName, originalfileName.lastIndexOf("."), originalfileName.length());
         OssClient storage = OssFactory.instance();
         UploadResult uploadResult;
@@ -158,15 +160,16 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
         oss.setOriginalName(originalfileName);
         oss.setService(storage.getConfigKey());
         baseMapper.insert(oss);
-        SysOssVo sysOssVo = new SysOssVo();
-        BeanUtils.copyProperties(oss, sysOssVo);
-        //MapstructUtils.convert(oss, SysOssVo.class);
+        SysOssVo sysOssVo = MapstructUtils.convert(oss, SysOssVo.class);
         return this.matchingUrl(sysOssVo);
     }
     
     @Override
     public SysOssVo upload(MultipartFile file, String configKey) {
         String originalfileName = file.getOriginalFilename();
+        if (originalfileName == null) {
+            originalfileName = "";
+        }
         String suffix = StringUtils.substring(originalfileName, originalfileName.lastIndexOf("."), originalfileName.length());
         OssClient storage = OssFactory.instance(configKey);
         UploadResult uploadResult;

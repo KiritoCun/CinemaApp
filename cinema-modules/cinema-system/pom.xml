@@ -85,6 +85,15 @@
             <artifactId>cinema-common-sensitive</artifactId>
         </dependency>
         
+        <dependency>
+		    <groupId>com.google.firebase</groupId>
+		    <artifactId>firebase-admin</artifactId>
+		</dependency>
+		
+		<dependency>
+            <groupId>vn.udn.dut.cinema</groupId>
+            <artifactId>cinema-common-websocket</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

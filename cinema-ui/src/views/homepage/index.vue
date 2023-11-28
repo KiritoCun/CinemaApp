@@ -152,7 +152,7 @@ const loginRules: FormRules = {
   code: [{ required: true, trigger: 'change', message: 'Please enter verification code' }]
 };
 
-const codeUrl = ref('logistics');
+const codeUrl = ref('customer');
 const loading = ref(false);
 // Captcha switch
 const captchaEnabled = ref(true);
@@ -263,8 +263,8 @@ onMounted(() => {
   if (systemType) {
     activeLogin.value = systemType;
   } else {
-    localStorage.setItem('system-type', 'logistics');
-    activeLogin.value = 'logistics';
+    localStorage.setItem('system-type', 'customer');
+    activeLogin.value = 'customer';
   }
   const activeParams = route.query && route.query.active as string;
   if (activeParams) {

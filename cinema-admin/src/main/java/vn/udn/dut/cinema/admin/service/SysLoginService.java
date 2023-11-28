@@ -1,11 +1,20 @@
 package vn.udn.dut.cinema.admin.service;
 
+import java.time.Duration;
+import java.util.Date;
+import java.util.List;
+import java.util.function.Supplier;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import vn.udn.dut.cinema.common.core.constant.Constants;
@@ -21,7 +30,11 @@ import vn.udn.dut.cinema.common.core.enums.UserStatus;
 import vn.udn.dut.cinema.common.core.exception.user.CaptchaException;
 import vn.udn.dut.cinema.common.core.exception.user.CaptchaExpireException;
 import vn.udn.dut.cinema.common.core.exception.user.UserException;
-import vn.udn.dut.cinema.common.core.utils.*;
+import vn.udn.dut.cinema.common.core.utils.DateUtils;
+import vn.udn.dut.cinema.common.core.utils.MessageUtils;
+import vn.udn.dut.cinema.common.core.utils.ServletUtils;
+import vn.udn.dut.cinema.common.core.utils.SpringUtils;
+import vn.udn.dut.cinema.common.core.utils.StringUtils;
 import vn.udn.dut.cinema.common.log.event.LogininforEvent;
 import vn.udn.dut.cinema.common.redis.utils.RedisUtils;
 import vn.udn.dut.cinema.common.satoken.utils.LoginHelper;
@@ -35,14 +48,6 @@ import vn.udn.dut.cinema.system.domain.vo.SysUserVo;
 import vn.udn.dut.cinema.system.mapper.SysUserMapper;
 import vn.udn.dut.cinema.system.service.ISysPermissionService;
 import vn.udn.dut.cinema.system.service.ISysTenantService;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.time.Duration;
-import java.util.Date;
-import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * Login verification method
@@ -237,7 +242,7 @@ public class SysLoginService {
 
     private SysUserVo loadUserByUsername(String tenantId, String username) {
         SysUser user = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
-            .select(SysUser::getUserName, SysUser::getStatus)
+    		.select(SysUser::getUserName, SysUser::getStatus)
             .eq(TenantHelper.isEnable(), SysUser::getTenantId, tenantId)
             .eq(SysUser::getUserName, username).eq(SysUser::getSystemType, SystemConstants.SYSTEM_TYPE_SYSTEM));
         if (ObjectUtil.isNull(user)) {
@@ -291,14 +296,14 @@ public class SysLoginService {
 
     private SysUserVo loadUserByOpenid(String openid) {
         // Use openid to query the bound user. If the user is not bound, handle it according to the business. For example, create a default user
-        // todo implements userService.selectUserByOpenid(openid);
+        //implements userService.selectUserByOpenid(openid);
         SysUserVo user = new SysUserVo();
         if (ObjectUtil.isNull(user)) {
             log.info("Login user: {} does not exist.", openid);
-            // todo The user does not exist, the business logic is implemented by itself
+            //The user does not exist, the business logic is implemented by itself
         } else if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
             log.info("Login user: {} has been deactivated.", openid);
-            // todo User has been deactivated Business logic implements itself
+            //User has been deactivated Business logic implements itself
         }
         return user;
     }

@@ -36,7 +36,7 @@ public class SysNoticeBo extends BaseEntity {
      */
     @Xss(message = "Notice title cannot contain script characters")
     @NotBlank(message = "Notice title cannot be empty", groups = { AddGroup.class, EditGroup.class })
-    @Size(min = 0, max = 50, message = "Notice title cannot exceed {max} characters")
+    @Size(min = 0, max = 255, message = "Notice title cannot exceed {max} characters")
     private String noticeTitle;
 
     /**

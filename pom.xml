@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>vn.udn.dut.cinema</groupId>
@@ -7,12 +9,12 @@
     <version>${revision}</version>
 
     <name>Cinema</name>
-    <url>https://gitlab.com</url>
-    <description>Cinema platform</description>
+    <url>https://gitlab.com/student-company/dx-projects/cinema-port/cinema</url>
+    <description>Star Cinema platform</description>
 
     <properties>
         <revision>5.1.0-SNAPSHOT</revision>
-        <spring-boot.version>3.0.7</spring-boot.version>
+        <spring-boot.version>3.0.12</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
@@ -42,6 +44,7 @@
         <json.version>20230618</json.version>
         <!-- Offline IP address location library -->
         <ip2region.version>2.7.0</ip2region.version>
+        <gson.version>2.10.1</gson.version>
 
         <!-- Temporary fix for snakeyaml vulnerability -->
         <snakeyaml.version>1.33</snakeyaml.version>
@@ -332,6 +335,14 @@
                 <artifactId>mapstruct-plus-spring-boot-starter</artifactId>
                 <version>${mapstruct-plus.version}</version>
             </dependency>
+            
+            <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+			<dependency>
+			    <groupId>com.google.code.gson</groupId>
+			    <artifactId>gson</artifactId>
+			    <version>${gson.version}</version>
+			</dependency>
+
 
             <!-- Offline IP address location library ip2region -->
             <dependency>
@@ -396,16 +407,23 @@
 			    <artifactId>javase</artifactId>
 			    <version>3.5.0</version>
 			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
+			<dependency>
+			    <groupId>com.google.firebase</groupId>
+			    <artifactId>firebase-admin</artifactId>
+			    <version>9.2.0</version>
+			</dependency>
 
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>cinema-admin</module>
+        <module>cinema-customer</module>
         <module>cinema-common</module>
         <module>cinema-modules</module>
-    <module>cinema-customer</module>
-  </modules>
+    </modules>
     <packaging>pom</packaging>
 
     <build>
@@ -535,3 +553,5 @@
     </pluginRepositories>
 
 </project>
+
+

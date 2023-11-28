@@ -106,7 +106,7 @@ public class SysDocumentServiceImpl implements ISysDocumentService {
      * Data verification before saving
      */
     private void validEntityBeforeSave(SysDocument entity){
-        //TODO Do some data validation, such as unique constraints
+        //Do some data validation, such as unique constraints
     }
 
     /**
@@ -115,7 +115,7 @@ public class SysDocumentServiceImpl implements ISysDocumentService {
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         if(isValid){
-            //TODO Do some business verification to determine whether verification is required
+            //Do some business verification to determine whether verification is required
         }
         for (Long id : ids) {
         	SysDocumentVo vo = queryById(id);

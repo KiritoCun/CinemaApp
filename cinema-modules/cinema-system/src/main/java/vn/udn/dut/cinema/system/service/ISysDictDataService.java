@@ -2,7 +2,9 @@ package vn.udn.dut.cinema.system.service;
 
 import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
+import vn.udn.dut.cinema.system.domain.bo.ContainerSztpBo;
 import vn.udn.dut.cinema.system.domain.bo.SysDictDataBo;
+import vn.udn.dut.cinema.system.domain.vo.ContainerSztpVo;
 import vn.udn.dut.cinema.system.domain.vo.SysDictDataVo;
 
 import java.util.List;
@@ -64,4 +66,6 @@ public interface ISysDictDataService {
      * @return result
      */
     List<SysDictDataVo> updateDictData(SysDictDataBo bo);
+    
+    TableDataInfo<ContainerSztpVo> queryContainerSztpPageList(ContainerSztpBo bo, PageQuery pageQuery);
 }

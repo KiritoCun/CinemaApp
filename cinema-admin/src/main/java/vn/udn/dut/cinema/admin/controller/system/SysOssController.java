@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.ObjectUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
@@ -49,7 +48,7 @@ public class SysOssController extends BaseController {
     /**
      * Query the list of OSS object storage
      */
-    @SaCheckPermission("system:oss:list")
+//    @SaCheckPermission("system:oss:list")
     @GetMapping("/list")
     public TableDataInfo<SysOssVo> list(@Validated(QueryGroup.class) SysOssBo bo, PageQuery pageQuery) {
         return ossService.queryPageList(bo, pageQuery);
@@ -60,7 +59,7 @@ public class SysOssController extends BaseController {
      *
      * @param ossIds OSS object ID string
      */
-    @SaCheckPermission("system:oss:list")
+//    @SaCheckPermission("system:oss:list")
     @GetMapping("/listByIds/{ossIds}")
     public R<List<SysOssVo>> listByIds(@NotEmpty(message = "Primary key cannot be empty")
                                        @PathVariable Long[] ossIds) {
@@ -97,7 +96,7 @@ public class SysOssController extends BaseController {
 	/**
 	 * Download OSS objects
 	 *
-	 * @param ossId OSS object ID
+	 * @param ossId OSS object IDs
 	 */
 //	@SaCheckPermission("system:oss:download")
 	@GetMapping(value = { "/download/{ossId}", "/download/{ossId}/{configKey}" })
@@ -115,7 +114,7 @@ public class SysOssController extends BaseController {
      *
      * @param ossIds OSS object ID string
      */
-    @SaCheckPermission("system:oss:remove")
+//    @SaCheckPermission("system:oss:remove")
     @Log(title = "OSS object storage", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ossIds}")
     public R<Void> remove(@NotEmpty(message = "Primary key cannot be empty")

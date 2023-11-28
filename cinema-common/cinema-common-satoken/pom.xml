@@ -18,7 +18,7 @@
             <artifactId>cinema-common-core</artifactId>
         </dependency>
 
-        <!-- Eport Vict Common Redis-->
+        <!-- Cinema Common Redis-->
         <dependency>
             <groupId>vn.udn.dut.cinema</groupId>
             <artifactId>cinema-common-redis</artifactId>

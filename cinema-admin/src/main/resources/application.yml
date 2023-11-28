@@ -96,9 +96,9 @@ sa-token:
   # token name (also cookie name)
   token-name: Authorization
   # The validity period of the token is set to one day (must expire) unit: seconds
-  timeout: 86400
+  timeout: 172800
   # The temporary validity period of the token (it will expire if there is no operation at the specified time) unit: second
-  activity-timeout: 1800
+  activity-timeout: 21600
   # Whether to allow the same account to log in concurrently (when true, allow login together, when false, new login squeezes out old login)
   is-concurrent: true
   # When multiple people log in to the same account, whether to share a token (if true, all logins share a token, and if false, create a new token for each login)
@@ -130,6 +130,9 @@ security:
     # actuator monitoring configuration
     - /actuator
     - /actuator/**
+    # ipn for vnpay
+    - /payment/vnpay/result
+    - /prod/payment/vnpay/result
 
 # Multi-tenant configuration
 tenant:
@@ -215,8 +218,8 @@ swagger:
     # author information
     contact:
       name: HoaLD
-      email: hoald@irtech.com.vn
-      url: https://gitlab.com
+      email: HoaLD@student.com.vn
+      url: https://gitlab.com/student-company/dx-projects/cinema-port/cinema
   components:
     # Authentication mode configuration
     security-schemes:
@@ -234,10 +237,14 @@ springdoc:
     persistAuthorization: true
   # Two groups are defined here, more than one can be defined, or none can be defined
   group-configs:
-    - group: 1. General module
+    - group: 1. Demonstration module
+      packages-to-scan: vn.udn.dut.cinema.demo
+    - group: 2. General module
       packages-to-scan: vn.udn.dut.cinema.web
-    - group: 2. System module
+    - group: 3. System module
       packages-to-scan: vn.udn.dut.cinema.system
+    - group: 4. Code generation module
+      packages-to-scan: vn.udn.dut.cinema.generator
 
 # Prevent XSS attacks
 xss:
@@ -283,7 +290,7 @@ websocket:
   path: /websocket
   # Set access source address
   allowedOrigins: '*'
-  
+
 feign:
   client:
     config:
