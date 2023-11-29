@@ -70,7 +70,7 @@ interface ImportMetaEnv {
   VITE_APP_ENV: string;
   VITE_SYSTEM_TYPE: string;
   VITE_API_ADMIN: string;
-  VITE_API_LOGISTICS: string;
+  VITE_API_CUSTOMER: string;
   VITE_API_SHIPPINGLINE: string;
   VITE_CONSOLE_SILENT: boolean;
 }

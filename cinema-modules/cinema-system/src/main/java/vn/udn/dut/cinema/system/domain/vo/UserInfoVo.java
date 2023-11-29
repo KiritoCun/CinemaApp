@@ -16,7 +16,7 @@ public class UserInfoVo {
      * Basic user information
      */
     private SysUserVo user;
-
+   
     /**
      * menu permissions
      */
@@ -26,5 +26,7 @@ public class UserInfoVo {
      * Role Permissions
      */
     private Set<String> roles;
+    
+    public String domesticFlag;
 
 }

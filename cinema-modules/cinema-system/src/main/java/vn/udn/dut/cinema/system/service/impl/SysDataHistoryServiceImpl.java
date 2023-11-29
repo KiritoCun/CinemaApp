@@ -80,7 +80,7 @@ public class SysDataHistoryServiceImpl implements ISysDataHistoryService {
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         if(isValid){
-            //TODO Do some business verification to determine whether verification is required
+            //Do some business verification to determine whether verification is required
         }
         return baseMapper.deleteBatchIds(ids) > 0;
     }

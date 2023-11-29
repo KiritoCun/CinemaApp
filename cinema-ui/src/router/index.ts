@@ -94,23 +94,23 @@ export const constantRoutes: RouteOption[] = [
       }
     ]
   },
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   hidden: true,
-  //   redirect: 'noredirect',
-  //   children: [
-  //     {
-  //       path: 'profile',
-  //       component: () => import('@/views/system/user/profile/index.vue'),
-  //       name: 'Profile',
-  //       meta: { title: '{"vi_VN":"Thông tin cá nhân","en_US":"Profile"}', icon: 'user' }
-  //     }
-  //   ]
-  // }
   {
-    path: '/homepage/profile',
-    component: () => import('@/views/homepage/profile.vue'),
+     path: '/user',
+     component: Layout,
+     hidden: true,
+     redirect: 'noredirect',
+     children: [
+       {
+         path: 'profile',
+         component: () => import('@/views/system/user/profile/index.vue'),
+         name: 'Profile',
+         meta: { title: '{"vi_VN":"Thông tin cá nhân","en_US":"Profile"}', icon: 'user' }
+       }
+     ]
+   },
+  {
+    path: '/homepage/booking',
+    component: () => import('@/views/homepage/booking.vue'),
     hidden: true
   },
   {

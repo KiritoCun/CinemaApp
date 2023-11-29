@@ -15,10 +15,10 @@
 
     <!-- console output -->
     <appender name="file_console" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/logistics-console.log</file>
+        <file>${log.path}/customer-console.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- log file name format -->
-            <fileNamePattern>${log.path}/logistics-console.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/customer-console.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- log maximum 1 day -->
             <maxHistory>1</maxHistory>
         </rollingPolicy>
@@ -34,11 +34,11 @@
 
     <!-- syslog output -->
     <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/logistics-info.log</file>
+        <file>${log.path}/customer-info.log</file>
         <!-- Rotation Policy: Create log files based on time -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- log file name format -->
-            <fileNamePattern>${log.path}/logistics-info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/customer-info.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- Log maximum history 60 days -->
             <maxHistory>60</maxHistory>
         </rollingPolicy>
@@ -56,11 +56,11 @@
     </appender>
 
     <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/logistics-error.log</file>
+        <file>${log.path}/customer-error.log</file>
         <!-- Rotation Policy: Create log files based on time -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- log file name format -->
-            <fileNamePattern>${log.path}/logistics-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/customer-error.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- Log maximum history 60 days -->
             <maxHistory>60</maxHistory>
         </rollingPolicy>
@@ -103,7 +103,7 @@
         <param name="extractStacktrace" value="true"/>
         <encoder class="de.siegmar.logbackgelf.GelfEncoder">
         	<includeLevelName>true</includeLevelName>
-        	<staticField>app_name:eport-vict-logistics</staticField>
+        	<staticField>app_name:eport-vict-customer</staticField>
         </encoder>
     </appender>
 

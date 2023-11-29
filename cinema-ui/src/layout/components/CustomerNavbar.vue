@@ -191,7 +191,6 @@ const handleNavigate = (key: string) => {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid #3b76ff;
   padding: 10px 60px;
   overflow-x: none;
   overflow-y: hidden;

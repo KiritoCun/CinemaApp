@@ -7,15 +7,19 @@ package vn.udn.dut.cinema.system.constant;
  */
 public interface SystemConstants {
 
+	/**
+     * VNPAY DICT TYPE FOR GET INFO CONNECT
+     */
+	public static final String VNPAY_CONFIG_DICT_TYPE = "pm_config_vnpay";
+	
     /**
      * System type
      */
 	public static final String SYSTEM_TYPE_SYSTEM = "system";
-	public static final String SYSTEM_TYPE_LOGISTICS = "logistics";
-	public static final String SYSTEM_TYPE_SHIPPING_LINE = "shippingline";
+	public static final String SYSTEM_TYPE_CUSTOMER = "customer";
 	
 	/**
-	 * Default dept id for logistics and shipping line user
+	 * Default dept id for customer and shipping line user
 	 */
 	public static final Long SYSTEM_DEFAULT_DEPT_ID = 100L;
 	

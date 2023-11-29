@@ -11,6 +11,7 @@
 
     <modules>
         <module>cinema-system</module>
+        <module>cinema-port</module>
      	<module>cinema-public</module>
     </modules>
 

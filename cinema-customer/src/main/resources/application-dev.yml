@@ -18,7 +18,7 @@ xxl.job:
   access-token: xxl-job
   executor:
     # Actuator AppName: Actuator heartbeat registration group basis; if it is empty, automatic registration is turned off
-    appname: logistics-job-executor
+    appname: customer-job-executor
     # Executor port number Executor writes from 9101 onwards
     port: 9101
     # Actuator Registration: Default IP:PORT

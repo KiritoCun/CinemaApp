@@ -72,7 +72,7 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const activeLogin = ref('')
-const codeUrl = ref('logistics');
+const codeUrl = ref('customer');
 // Captcha switch
 const captchaEnabled = ref(true);
 // registration switch

@@ -84,7 +84,7 @@ public class IndexController {
 	@GetMapping("/system/menu/getRouters")
 	public R<List<RouterVo>> getRouters() {
 		List<SysMenu> menus = menuService.selectMenuTreeByUserId(LoginHelper.getUserId(),
-				SystemConstants.SYSTEM_TYPE_LOGISTICS);
+				SystemConstants.SYSTEM_TYPE_CUSTOMER);
 		return R.ok(menuService.buildMenus(menus));
 	}
 

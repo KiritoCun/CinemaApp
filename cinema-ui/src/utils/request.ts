@@ -30,7 +30,7 @@ service.interceptors.request.use(
       systemType = '/admin';
     } else {
       if (!localStorage.getItem('system-type')) {
-        localStorage.setItem('system-type', 'logistics');
+        localStorage.setItem('system-type', 'customer');
       }
       systemType = '/' + localStorage.getItem('system-type');
     }
@@ -190,7 +190,7 @@ export function getSystemType() {
     return '/admin';
   } else {
     if (!localStorage.getItem('system-type')) {
-      localStorage.setItem('system-type', 'logistics');
+      localStorage.setItem('system-type', 'customer');
     }
     return '/' + localStorage.getItem('system-type');
   }

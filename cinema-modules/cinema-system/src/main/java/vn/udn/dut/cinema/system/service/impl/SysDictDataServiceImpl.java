@@ -1,6 +1,13 @@
 package vn.udn.dut.cinema.system.service.impl;
 
+import java.util.List;
+
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -13,15 +20,12 @@ import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
 import vn.udn.dut.cinema.common.redis.utils.CacheUtils;
 import vn.udn.dut.cinema.system.domain.SysDictData;
+import vn.udn.dut.cinema.system.domain.bo.ContainerSztpBo;
 import vn.udn.dut.cinema.system.domain.bo.SysDictDataBo;
+import vn.udn.dut.cinema.system.domain.vo.ContainerSztpVo;
 import vn.udn.dut.cinema.system.domain.vo.SysDictDataVo;
 import vn.udn.dut.cinema.system.mapper.SysDictDataMapper;
 import vn.udn.dut.cinema.system.service.ISysDictDataService;
-
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Dictionary business layer processing
@@ -71,10 +75,11 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      */
     @Override
     public String selectDictLabel(String dictType, String dictValue) {
-        return baseMapper.selectOne(new LambdaQueryWrapper<SysDictData>()
-                .select(SysDictData::getDictLabel)
-                .eq(SysDictData::getDictType, dictType)
-                .eq(SysDictData::getDictValue, dictValue))
+        return baseMapper.selectList(new LambdaQueryWrapper<SysDictData>()
+				.select(SysDictData::getDictLabel)
+				.eq(SysDictData::getDictType, dictType)
+				.eq(SysDictData::getDictValue, dictValue))
+        	.get(0)
             .getDictLabel();
     }
 
@@ -137,4 +142,20 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
         throw new ServiceException("Operation failed");
     }
 
+	@Override
+	public TableDataInfo<ContainerSztpVo> queryContainerSztpPageList(ContainerSztpBo bo, PageQuery pageQuery) {
+		return TableDataInfo.build(baseMapper.selectContainerSztpsByBo(pageQuery.build(), buildQueryWrapper(bo)));
+	}
+
+	private Wrapper<ContainerSztpVo> buildQueryWrapper(ContainerSztpBo bo) {
+		QueryWrapper<ContainerSztpVo> wrapper = Wrappers.query();
+		wrapper.like(StringUtils.isNotBlank(bo.getLen()), "s1.dict_value", bo.getLen())
+			   .like(StringUtils.isNotBlank(bo.getType()), "s2.dict_value", bo.getType())
+			   .like(StringUtils.isNotBlank(bo.getSztp()), "s1.dict_label", bo.getSztp())
+			   .like(StringUtils.isNotBlank(bo.getDescription()), "s3.dict_value", bo.getDescription())
+			   .eq("s1.dict_type", "sys_cont_len_tms")
+			   .eq("s2.dict_type", "sys_cont_type_tms")
+			   .eq("s3.dict_type", "sys_cont_sztp");
+		return wrapper;
+	}
 }

@@ -11,13 +11,6 @@
         <association property="dept" column="dept_id" resultMap="deptResult"/>
         <collection property="roles" javaType="java.util.List" resultMap="RoleResult"/>
     </resultMap>
-    
-    <resultMap type="vn.udn.dut.cinema.system.domain.vo.ShippinglineUserVo" id="ShippinglineUserResult">
-        <id property="userId" column="user_id"/>
-        <result property="deptId" column="dept_id"/>
-        <association property="dept" column="dept_id" resultMap="deptResult"/>
-        <collection property="roles" javaType="java.util.List" resultMap="RoleResult"/>
-    </resultMap>
 
     <resultMap id="deptResult" type="vn.udn.dut.cinema.system.domain.vo.SysDeptVo">
         <id property="deptId" column="dept_id"/>
@@ -64,39 +57,6 @@
             left join sys_user_role sur on u.user_id = sur.user_id
             left join sys_role r on r.role_id = sur.role_id
     </sql>
-    
-    <sql id="selectShippinglineUserVo">
-        select u.user_id,
-               u.tenant_id,
-               u.dept_id,
-               u.user_name,
-               u.nick_name,
-               u.user_type,
-               u.email,
-               u.avatar,
-               u.phonenumber,
-               u.password,
-               u.sex,
-               u.status,
-               u.del_flag,
-               u.login_ip,
-               u.login_date,
-               u.create_by,
-               u.create_time,
-               u.remark,
-               r.role_id,
-               r.role_name,
-               r.role_key,
-               r.role_sort,
-               r.data_scope,
-               r.status as role_status,
-               sa.opr_list,
-               sa.shippingline_id
-        from sys_user u
-            left join shippingline_account sa on u.user_id = sa.sys_user_id
-            left join sys_user_role sur on u.user_id = sur.user_id
-            left join sys_role r on r.role_id = sur.role_id
-    </sql>
 
     <select id="selectPageUserList" resultMap="SysUserResult">
     	select a.*
@@ -105,19 +65,6 @@
 	            u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader
 	        from sys_user u
 	            left join sys_dept d on u.dept_id = d.dept_id
-	        ${ew.getCustomSqlSegment}
-    	) a
-    </select>
-    
-    <select id="selectPageShippinglineUserList" resultMap="ShippinglineUserResult">
-    	select a.*
-    	from (
-    		select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
-	            u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
-	            s.operator_code, s.operator_name
-	        from shippingline_account sa
-	        	left join sys_user u on sa.sys_user_id = u.user_id
-	            left join shippingline s on sa.shippingline_id = s.id
 	        ${ew.getCustomSqlSegment}
     	) a
     </select>
@@ -154,7 +101,17 @@
 
     <select id="selectUserByUserName" parameterType="String" resultMap="SysUserResult">
         <include refid="selectUserVo"/>
-        where u.del_flag = '0' and u.user_name = #{userName}
+        where u.del_flag = '0' and u.system_type = 'system' and u.user_name = #{userName}
+    </select>
+    
+    <select id="selectUserCustomerByUserName" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.del_flag = '0' and u.system_type = 'shippingline' and u.user_name = #{userName}
+    </select>
+    
+    <select id="selectUserCustomerByUserName" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.del_flag = '0' and u.system_type = 'customer' and u.user_name = #{userName}
     </select>
 
     <select id="selectUserByPhonenumber" parameterType="String" resultMap="SysUserResult">
@@ -186,11 +143,6 @@
         <include refid="selectUserVo"/>
         where u.del_flag = '0' and u.user_id = #{userId}
     </select>
-
-	<select id="selectShippinglineUserById" parameterType="Long" resultMap="ShippinglineUserResult">
-        <include refid="selectShippinglineUserVo"/>
-        where u.del_flag = '0' and u.user_id = #{userId}
-    </select>
     
 	<select id="selectShippingLineUserByOprAndBusinessUnit" parameterType="String" resultMap="SysUserResult">
         select su.* 
@@ -202,10 +154,5 @@
 		where su.del_flag = 0 
 			and s.operator_code = #{opr} 
 			and CHARINDEX(',' + #{businessUnit} + ',', ',' + sa.opr_list + ',') > 0;
-    </select>
-    
-    <select id="selectUserLogisticsByUserName" parameterType="String" resultMap="SysUserResult">
-	    <include refid="selectUserVo"/>
-	    where u.del_flag = '0' and u.system_type = 'logistics' and u.user_name = #{userName}
     </select>
 </mapper>

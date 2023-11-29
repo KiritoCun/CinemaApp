@@ -112,5 +112,8 @@ public class SysTenantVo implements Serializable {
     @ExcelDictFormat(readConverterExp = "0=Normal, 1=Disabled")
     private String status;
 
-
+    /**
+     * 
+     */
+    private Date createTime;
 }

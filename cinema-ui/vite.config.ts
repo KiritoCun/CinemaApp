@@ -30,10 +30,10 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
           changeOrigin: true,
           rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API + '/admin'), '')
         },
-        [env.VITE_APP_BASE_API + '/logistics']: {
-          target: env.VITE_API_LOGISTICS,
+        [env.VITE_APP_BASE_API + '/customer']: {
+          target: env.VITE_API_CUSTOMER,
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API + '/logistics'), '')
+          rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API + '/customer'), '')
         },
         [env.VITE_APP_BASE_API + '/shippingline']: {
           target: env.VITE_API_SHIPPINGLINE,

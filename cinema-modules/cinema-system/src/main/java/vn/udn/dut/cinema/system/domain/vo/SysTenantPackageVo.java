@@ -11,6 +11,7 @@ import vn.udn.dut.cinema.system.domain.SysTenantPackage;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
@@ -63,5 +64,8 @@ public class SysTenantPackageVo implements Serializable {
     @ExcelDictFormat(readConverterExp = "0=normal, 1=disabled")
     private String status;
 
-
+    /**
+     * 
+     */
+    private Date createTime;
 }

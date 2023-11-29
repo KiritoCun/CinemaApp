@@ -49,9 +49,6 @@ spring:
           driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
           # jdbc all parameter configuration reference
           # rewriteBatchedStatements=true Batch processing optimization greatly improves the performance of batch insert, update, and delete (there is a performance loss to the database, and performance issues should be considered when using batch operations)
-          #url: jdbc:postgresql://dpg-cjqs13u1208c73elnoq0-a.oregon-postgres.render.com:5432/cinema_g6cy
-          #username: cinema_g6cy_user
-          #password: aM3k0rhSeGnm9Hz4wY6z7DRb3msqsj9R
           url: jdbc:sqlserver://localhost:1433;databaseName=CINEMA;SelectMethod=cursor;encrypt=false;rewriteBatchedStatements=true
           username: sa
           password: root
@@ -60,9 +57,6 @@ spring:
           lazy: true
           type: ${spring.datasource.type}
           driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-          #url: jdbc:postgresql://dpg-cjqs13u1208c73elnoq0-a.oregon-postgres.render.com:5432/cinema_g6cy
-          #username: cinema_g6cy_user
-          #password: aM3k0rhSeGnm9Hz4wY6z7DRb3msqsj9R
           url: jdbc:sqlserver://localhost:1433;databaseName=CINEMA;SelectMethod=cursor;encrypt=false;rewriteBatchedStatements=true
           username: sa
           password: root
@@ -116,28 +110,6 @@ redisson:
     # Publish and subscribe connection pool size
     subscriptionConnectionPoolSize: 50
 
---- # email
-mail:
-  enabled: false
-  host: smtp.163.com
-  port: 465
-  # Do you need username and password authentication?
-  auth: true
-  # Sender, following the RFC-822 standard
-  from: xxx@163.com
-  # Username (note: if you use foxmail mailbox, here user is qq number)
-  user: xxx@163.com
-  # Password (note that some mailboxes need to set a separate password for the SMTP service, please refer to the relevant help for details)
-  pass: xxxxxxxxxx
-  # Secure connections using STARTTLS, an extension to the plain text communication protocol.
-  starttlsEnable: true
-  # Use SSL secure connection
-  sslEnable: true
-  # SMTP timeout, in milliseconds, the default value is no timeout
-  timeout: 0
-  # Socket connection timeout value, in milliseconds, the default value is no timeout
-  connectionTimeout: 0
-
 --- # sms text message
 sms:
   enabled: false
@@ -149,6 +121,6 @@ sms:
   signName: test
   # For Tencent
   sdkAppId:
-  
+
 # log configuration
 logging.config: classpath:logback-plus-dev.xml

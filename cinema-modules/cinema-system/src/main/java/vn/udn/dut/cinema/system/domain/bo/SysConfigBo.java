@@ -46,7 +46,6 @@ public class SysConfigBo extends BaseEntity {
      * parameter key
      */
     @NotBlank(message = "Parameter key value cannot be empty", groups = { AddGroup.class, EditGroup.class })
-    @Size(min = 0, max = 500, message = "The length of the parameter key value cannot exceed {max} characters")
     private String configValue;
 
     /**

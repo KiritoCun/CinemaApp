@@ -17,8 +17,8 @@ import vn.udn.dut.cinema.common.tenant.helper.TenantHelper;
 import vn.udn.dut.cinema.customer.domain.vo.LoginTenantVo;
 import vn.udn.dut.cinema.customer.domain.vo.LoginVo;
 import vn.udn.dut.cinema.customer.domain.vo.TenantListVo;
-import vn.udn.dut.cinema.customer.service.LogisticsLoginService;
-import vn.udn.dut.cinema.customer.service.LogisticsRegisterService;
+import vn.udn.dut.cinema.customer.service.CustomerLoginService;
+import vn.udn.dut.cinema.customer.service.CustomerRegisterService;
 import vn.udn.dut.cinema.system.domain.bo.SysTenantBo;
 import vn.udn.dut.cinema.system.domain.vo.SysTenantVo;
 import vn.udn.dut.cinema.system.service.ISysConfigService;
@@ -42,8 +42,8 @@ import java.util.List;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final LogisticsLoginService loginService;
-    private final LogisticsRegisterService registerService;
+    private final CustomerLoginService loginService;
+    private final CustomerRegisterService registerService;
     private final ISysConfigService configService;
     private final ISysTenantService tenantService;
 

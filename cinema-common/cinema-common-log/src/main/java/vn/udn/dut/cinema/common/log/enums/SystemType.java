@@ -18,7 +18,7 @@ public enum SystemType {
     SHIPPINGLINE,
     
     /**
-     * Logistics
+     * Customer
      */
-    LOGISTICS,
+    CUSTOMER,
 }
