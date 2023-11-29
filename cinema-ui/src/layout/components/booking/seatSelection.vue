@@ -1,0 +1,184 @@
+<template>
+  <div class="container my-3">
+    <div class="card " style="width: 60%;">
+      <div class="mx-2 d-flex align-items-center row">
+        <h5 class="col-3 col">Đổi suất chiếu</h5>
+        <div class="mx-1 row col col-8">
+          <el-card
+            v-for="showtime in showtimes"
+            :key="showtime.id"
+            class="my-1 mx-2 col col-2 btn btn-primary"
+            @click="selectShowtime(showtime)"
+            >{{ showtime.time }}</el-card
+          >
+        </div>
+      </div>
+    </div>
+    <div class="card my-4" style="width:60%;">
+      <div class="seat-map mb-5">
+        <div v-for="rowNumber in 12" :key="rowNumber" class="seat-row">
+          <h5 class="row-letter">{{ String.fromCharCode(64 + rowNumber) }}</h5>
+          <div
+            v-for="seatNumber in 12"
+            :key="seatNumber"
+            class="seat"
+            :class="{ selected: isSelected(rowNumber, seatNumber) }"
+            @click="toggleSeat(rowNumber, seatNumber)"
+          >
+            {{ seatNumber }}
+          </div>
+        </div>
+      </div>
+      <div style="margin-bottom: 4px;display: flex;justify-content: center;">MÀN HÌNH</div>
+      <el-divider style="margin-top: -4px ;padding: 2px; background-color: #ff5e19;"></el-divider>
+      <div class="note">
+        <div class="note-details">
+          <div class="seat-selected"></div>
+          <h6>Ghế đã bán</h6>
+        </div>
+        <div class="note-details">
+          <div class="seat-selecting"></div>
+          <h6>Ghế đang chọn</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup lang="ts">
+
+const selectedShowtime = ref('');
+
+const selectShowtime = (showtime) => {
+  selectedShowtime.value = showtime;
+};
+
+const selectedSeats = ref<number[][]>([]);
+
+const isSelected = (rowNumber: number, seatNumber: number): boolean => {
+  return selectedSeats.value.some(
+    seat => seat[0] === rowNumber && seat[1] === seatNumber
+  );
+};
+
+const toggleSeat = (rowNumber: number, seatNumber: number): void => {
+  const index = selectedSeats.value.findIndex(
+    seat => seat[0] === rowNumber && seat[1] === seatNumber
+  );
+
+  if (index === -1) {
+    selectedSeats.value.push([rowNumber, seatNumber]);
+  } else {
+    selectedSeats.value.splice(index, 1);
+  }
+};
+const hallMaps = [
+{
+  seat_code:1,
+},]
+
+const showtimes = [
+  {
+    id:1,
+    time: '20:15'
+  },
+  {
+    id:2,
+    time: '20:15'
+  },
+  {
+    id:3,
+    time: '20:15'
+  },
+  {
+    id:4,
+    time: '20:15'
+  },
+  {
+    id:5,
+    time: '20:15'
+  },
+  {
+    id:6,
+    time: '20:15'
+  },
+]
+</script>
+<style lang="scss" scoped>
+.seat-map {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0px;
+  margin-right: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 80px;
+}
+
+.seat-row {
+  margin: 4px;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr); /* 10 ghế trên mỗi hàng */
+}
+
+.seat {
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color:#fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.seat.selected,
+.seat:hover {
+  background-color: #ff5e19;
+  color: #fff;
+}
+.row-letter{
+  margin-left: -60px;
+  font-size: 20px;
+}
+.note,.note-details{
+  display: flex;
+  justify-content: center;
+  margin: 4px 12px 8px 12px;
+}
+.seat-selected{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  cursor: default;
+}
+.seat-selecting{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #ff5e19;
+  border: 1px solid #ff5e19;
+  cursor: default;
+}
+.btn{
+  height: 38px;
+  width: 76px;
+  align-items: center;
+  display: flex;
+  font-size:15px;
+  justify-content: center;
+}
+.showtime-selected {
+    background-color: #3498db;
+    color: #fff;
+  }
+</style>

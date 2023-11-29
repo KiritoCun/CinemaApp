@@ -11,7 +11,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import BootstrapVue3 from 'bootstrap-vue-3';
 
 //Element-plus
-import ElementPlus from 'element-plus'
+import ElementPlus from 'element-plus';
 
 // App、router、store
 import App from './App.vue';
