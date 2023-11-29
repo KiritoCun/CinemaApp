@@ -13,10 +13,11 @@ NProgress.configure({ showSpinner: false });
 const whiteList = [
   '/login',
   '/register',
+  '/homepage/profile',
   '/homepage/movie-detail',
   '/homepage/customer-login',
   '/homepage/customer-register',
-  '/homepage/profile',
+  '/homepage/movie-category',
   '/homepage/booking'
 ];
 

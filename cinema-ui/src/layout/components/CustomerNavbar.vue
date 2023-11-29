@@ -4,9 +4,12 @@
     <div class="left-menu flex align-center">
       <img :src="logo" class="navbar-logo" />
       <el-menu :default-active="activeIndex" class="nav-header" mode="horizontal" @select="handleNavigate">
-        <el-menu-item index="showtime">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
-        <el-menu-item index="showtime">{{ $t('homepage.topNav.showtimes') }}</el-menu-item>
-        <el-menu-item index="film">{{ $t('homepage.topNav.film') }}</el-menu-item>
+        <router-link to="/">
+          <el-menu-item index="showtime">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
+        </router-link>
+        <router-link to="/homepage/movie-category">
+          <el-menu-item index="film">{{ $t('homepage.topNav.film') }}</el-menu-item>
+        </router-link>
         <el-menu-item index="document">{{ $t('homepage.topNav.cinema') }}</el-menu-item>
         <el-menu-item index="promotion">{{ $t('homepage.topNav.promotions') }}</el-menu-item>
         <el-menu-item index="contact">{{ $t('homepage.topNav.contact') }}</el-menu-item>
