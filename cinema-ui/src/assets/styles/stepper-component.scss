@@ -61,7 +61,7 @@ body {
     width: 68px;
     display: grid;
     place-items: center;
-    background-color: #fff;
+    background-color: #D5D0D0;
     border-radius: 100%;
     border: 2px solid $default;
     position: relative;
@@ -124,9 +124,12 @@ body {
 }
 
 .stepper-pane {
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin: 65px 0;
-  max-width: 65rem;
+  margin: 0px 0px 50px -160px;
+  max-width: 100rem;
+
 }
 
 .controls {

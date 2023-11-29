@@ -3,7 +3,7 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-            <span type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></span>
+          <span type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></span>
           <div class="flex-column modal-header">
             <img :src="bill?.img" style="height:120px" />
             <div class="modal-title">{{ bill?.title }}</div>
@@ -17,15 +17,14 @@
                 <p v-html="formatTime(bill?.start_time)"></p>
               </div>
               <div class="text-center">
-                <img
-                  :src="bill?.booking_qr"
-                  style="height:116px; width:116px"
-                />
+                <img :src="bill?.booking_qr" style="height:116px; width:116px" />
               </div>
             </div>
             <div class="custom-dotted-line"></div>
             <div class="seat_info">
-              <p>Ghế - <strong>{{ bill?.seat_id.join(', ') }}</strong></p>
+              <p>
+                Ghế - <strong>{{ bill?.seat_id.join(', ') }}</strong>
+              </p>
             </div>
             <div class="custom-dotted-line"></div>
             <div class="cost-info">
@@ -46,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, PropType } from 'vue';
+import { defineProps, PropType } from 'vue';
 
 interface BillProps {
     id: number;
