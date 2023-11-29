@@ -3,20 +3,18 @@
   "version": "5.0.0",
   "description": "Cinema system",
   "author": "HoaLD",
-  "license": "MIT",
   "scripts": {
-    "devadmin": "vite serve --mode development_admin",
-    "devcustomer": "vite serve --mode development_customer",
+    "serve": "vite preview",
+    "build": "vite build",
+    "lint": "eslint src/**/*.{ts,js,vue} --fix",
     "build:devadmin": "vite build --mode development_admin &&vue-tsc --noEmit",
     "build:devcustomer": "vite build --mode development_customer &&vue-tsc --noEmit",
-    "preview": "vite preview",
-    "lint": "eslint src/**/*.{ts,js,vue} --fix",
+    "dev": "vite",
+    "devadmin": "vite serve --mode development_admin",
+    "devcustomer": "vite serve --mode development_customer",
     "prepare": "cd .. && husky install cinema-ui/.husky",
-    "prettier": "prettier --write ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://gitlab.com"
+    "prettier": "prettier --write .",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.1.0",
@@ -29,8 +27,8 @@
     "axios": "^1.3.4",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
-    "bootstrap-vue-3": "^0.5.1",
     "bootstrap-vue": "^2.21.2",
+    "bootstrap-vue-3": "^0.5.1",
     "echarts": "5.4.0",
     "element-plus": "2.2.27",
     "file-saver": "2.0.5",
@@ -41,6 +39,7 @@
     "path-browserify": "1.0.1",
     "path-to-regexp": "6.2.0",
     "pinia": "2.0.22",
+    "roboto-fontface": "*",
     "screenfull": "6.0.0",
     "vue": "3.2.45",
     "vue-class-component": "^8.0.0-rc.1",
@@ -51,7 +50,9 @@
     "vue-router": "4.1.4",
     "vue3-carousel": "0.3.1",
     "vue3-youtube": "^0.1.9",
-    "vueify": "^9.4.1"
+    "vueify": "^9.4.1",
+    "vuetify": "^3.0.0-beta.0",
+    "webfontloader": "^1.0.0"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.40",
@@ -62,6 +63,7 @@
     "@types/node": "18.14.2",
     "@types/nprogress": "0.2.0",
     "@types/path-browserify": "^1.0.0",
+    "@types/webfontloader": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "5.56.0",
     "@typescript-eslint/parser": "5.56.0",
     "@unocss/preset-attributify": "^0.50.6",
@@ -88,8 +90,15 @@
     "vite-plugin-compression": "0.5.1",
     "vite-plugin-svg-icons": "2.0.1",
     "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vite-plugin-vuetify": "^1.0.0-alpha.12",
     "vitest": "^0.29.7",
+    "vue-cli-plugin-vuetify": "~2.5.8",
     "vue-eslint-parser": "9.1.0",
     "vue-tsc": "0.35.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com"
   }
 }

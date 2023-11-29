@@ -2,6 +2,9 @@ import { UserConfig, ConfigEnv, loadEnv, defineConfig } from 'vite';
 
 import createPlugins from './vite/plugins';
 
+// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
+import vuetify from 'vite-plugin-vuetify'
+
 import path from 'path';
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
@@ -19,7 +22,10 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
     // https://vitejs.dev/config/#resolve-extensions
-    plugins: createPlugins(env, command === 'build'),
+    plugins:
+    [createPlugins(env, command === 'build'),
+  vuetify(),],
+
     server: {
       host: '0.0.0.0',
       port: Number(env.VITE_APP_PORT),
@@ -121,6 +127,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         'element-plus/es/components/tabs/style/css',
         'element-plus/es/components/image/style/css',
         'element-plus/es/components/tab-pane/style/css'
+
       ]
     }
   };

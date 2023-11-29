@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
-import BillHistoryDetail from './Modal/BillHistoryDetail.vue';
+import BillHistoryDetail from '../Modal/BillHistoryDetail.vue';
 
 interface BillProps {
     id: number;

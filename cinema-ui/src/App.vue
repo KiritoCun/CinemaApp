@@ -1,10 +1,15 @@
 <template>
-  <el-config-provider :locale="appStore.locale" :size="size">
-    <router-view />
-  </el-config-provider>
+  <v-app>
+    <el-config-provider :locale="appStore.locale" :size="size">
+      <v-main>
+        <router-view />
+      </v-main>
+    </el-config-provider>
+  </v-app>
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, nextTick } from 'vue';
 import useSettingsStore from '@/store/modules/settings'
 import { handleThemeStyle } from '@/utils/theme'
 import useAppStore from '@/store/modules/app';
@@ -21,7 +26,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-  a {
-    text-decoration: none;
-  }
+a {
+  text-decoration: none;
+}
 </style>

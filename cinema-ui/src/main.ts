@@ -13,6 +13,11 @@ import BootstrapVue3 from 'bootstrap-vue-3';
 //Element-plus
 import ElementPlus from 'element-plus';
 
+import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
+
+loadFonts();
+
 // App、router、store
 import App from './App.vue';
 import store from './store';
@@ -67,6 +72,7 @@ app.use(store);
 app.use(i18n);
 app.use(BootstrapVue3);
 app.use(ElementPlus);
+app.use(vuetify);
 app.use(plugins);
 // custom directive
 directive(app);

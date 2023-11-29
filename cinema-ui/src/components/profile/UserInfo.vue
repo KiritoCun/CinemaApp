@@ -66,7 +66,7 @@
           </div>
         </div>
         <div class="text-end">
-          <button type="submit" class="btn btn-primary">Update</button>
+          <button type="submit" class="btn btn-primary text-white">Update</button>
         </div>
       </form>
     </div>
@@ -74,8 +74,8 @@
 </template>
 
 <script setup lang="ts">
-import UpdatePasswordModal from './Modal/UpdatePassword.vue';
-import UpdateEmailModal from './Modal/UpdateEmail.vue';
+import UpdatePasswordModal from '../Modal/UpdatePassword.vue';
+import UpdateEmailModal from '../Modal/UpdateEmail.vue';
 
 import { ref, defineProps } from 'vue';
 

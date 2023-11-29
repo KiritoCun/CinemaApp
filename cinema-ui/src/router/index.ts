@@ -113,11 +113,6 @@ export const constantRoutes: RouteOption[] = [
     component: () => import('@/views/homepage/booking.vue'),
     hidden: true
   },
-  {
-    path: '/homepage/booking/pay',
-    component: () => import('@/views/homepage/booking.vue'),
-    hidden: true
-  }
 ];
 
 // Dynamic routing, dynamically loaded based on user permissions
