@@ -3,7 +3,7 @@
     <div class="row">
       <div v-for="movie in movies" :key="movie.id" class="col-md-3 mb-4">
         <div class="card">
-          <img class="card-img-top" :src="movie.img" alt="Image" />
+          <img class="card-img-top" :src="movie.posterUrl" alt="Image" />
           <div class="votes">
             <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px;" fill="#fde047" height="1em" viewBox="0 0 576 512">
               <path
@@ -23,7 +23,7 @@
                 /></svg
               >Mua Vé
             </button>
-            <button class="overlay-button btn btn-trailer" @click="playYoutube(movie.docUrl)">
+            <button class="overlay-button btn btn-trailer" @click="playYoutube(movie.trailerUrl)">
               <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" style="margin-right: 4px;" fill="#000">
                 <path
                   d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c7.6-4.2 16.8-4.1 24.3 .5l144 88c7.1 4.4 11.5 12.1 11.5 20.5s-4.4 16.1-11.5 20.5l-144 88c-7.4 4.5-16.7 4.7-24.3 .5s-12.3-12.2-12.3-20.9V168c0-8.7 4.7-16.7 12.3-20.9z"
@@ -69,65 +69,65 @@ const movies = ref<any[]>(
     [
     {
         id: '1', title: 'Biệt Đội Marvels',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F10%2Fthe-marvels-3_1699586058577.jpg&w=384&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F10%2Fthe-marvels-3_1699586058577.jpg&w=384&q=75',
         vote: '7.8',
         age_limit: 'T13',
-        docUrl: '8pW1P8ddqOo&t=14s'
+        trailerUrl: '8pW1P8ddqOo&t=14s'
     },
     {
         id: '2', title: 'Nguời Vợ Cuối Cùng',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F3%2F500x750-nvcc_1698985267862.jpg&w=384&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F3%2F500x750-nvcc_1698985267862.jpg&w=384&q=75',
         vote: '8.4',
         age_limit: 'T18',
-        docUrl: 'iTJ-N32o2cI&t=6s'
+        trailerUrl: 'iTJ-N32o2cI&t=6s'
     },
     {
         id: '3', title: 'Yêu Lại Vợ Ngầu',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F6%2Flr-500_1699256438199.jpg&w=384&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F6%2Flr-500_1699256438199.jpg&w=384&q=75',
         vote: '9.4',
         age_limit: 'T16',
-        docUrl: 'P9qbkVSA8jo&t=17s'
+        trailerUrl: 'P9qbkVSA8jo&t=17s'
     },
     {
         id: '4', title: 'Quỷ Lùn Tinh Nghịch: Đồng Tâm Hiệp Nhạc',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F3%2Ftrolls-500_1699000954176.jpg&w=384&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F3%2Ftrolls-500_1699000954176.jpg&w=384&q=75',
         vote: '7.8',
         age_limit: 'K',
-        docUrl: 'dvGFh-XdDgQ&t=3s'
+        trailerUrl: 'dvGFh-XdDgQ&t=3s'
     },
     {
         id: '5', title: 'Chiếm Đoạt',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F13%2Fcd-500_1699867731720.jpg&w=384&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F13%2Fcd-500_1699867731720.jpg&w=384&q=75',
         vote: '7.4',
         age_limit: 'T18'
     },
     {
         id: '6', title: 'Đấu Trường Sinh Tử: Khúc Hát Của Chim Ca Và Rắn Độc',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F1%2Fthg-500_1698821052668.jpg&w=640&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F1%2Fthg-500_1698821052668.jpg&w=640&q=75',
         vote: '7.8',
         age_limit: 'T16'
     },
     {
         id: '7', title: 'Đường Cùng',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F27%2Fduong-cung-500_1698390217836.jpg&w=640&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F27%2Fduong-cung-500_1698390217836.jpg&w=640&q=75',
         vote: '7.8',
         age_limit: 'T18'
     },
     {
         id: '8', title: 'Đêm Hẹn Hò Đẫm Máu',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F15%2Fchabak-500_1700043810696.jpg&w=640&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F15%2Fchabak-500_1700043810696.jpg&w=640&q=75',
         vote: '7.9',
         age_limit: 'T18'
     },
     {
         id: '9', title: 'Những Kỷ Nguyên Của Taylor Swift',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F27%2Ftaylor-500_1698380431175.jpg&w=640&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F27%2Ftaylor-500_1698380431175.jpg&w=640&q=75',
         vote: '9.5',
         age_limit: 'T13'
     },
     {
         id: '10', title: 'Đất Rừng Phương Nam',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F16%2Fdatrungpn-3_1697433762119.jpg&w=640&q=75',
+        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F16%2Fdatrungpn-3_1697433762119.jpg&w=640&q=75',
         vote: '8.3',
         age_limit: 'K'
     },

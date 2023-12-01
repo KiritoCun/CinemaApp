@@ -1,51 +1,63 @@
 <template>
-  <div class="container my-3">
-    <div class="card " style="width: 60%;">
-      <div class="mx-2 d-flex align-items-center row">
-        <h5 class="col-3 col">Đổi suất chiếu</h5>
-        <div class="mx-1 row col col-8">
-          <el-card
-            v-for="showtime in showtimes"
-            :key="showtime.id"
-            class="my-1 mx-2 col col-2 btn btn-primary"
-            @click="selectShowtime(showtime)"
-            >{{ showtime.time }}</el-card
-          >
-        </div>
-      </div>
-    </div>
-    <div class="card my-4" style="width:60%;">
-      <div class="seat-map mb-5">
-        <div v-for="rowNumber in 12" :key="rowNumber" class="seat-row">
-          <h5 class="row-letter">{{ String.fromCharCode(64 + rowNumber) }}</h5>
-          <div
-            v-for="seatNumber in 12"
-            :key="seatNumber"
-            class="seat"
-            :class="{ selected: isSelected(rowNumber, seatNumber) }"
-            @click="toggleSeat(rowNumber, seatNumber)"
-          >
-            {{ seatNumber }}
+  <div class="main-container">
+    <div class="expansion-panels">
+      <v-expansion-panels v-model="panel" multiple>
+        <v-expansion-panel>
+          <div class="px-4 py-2" style="width: 100%;">
+            <div class="mx-2 d-flex align-items-center row">
+              <h5 class="col-3 col">Đổi suất chiếu</h5>
+              <div class="mx-1 row col col-8">
+                <el-card
+                  v-for="showtime in showtimes"
+                  :key="showtime.id"
+                  class="my-1 mx-2 col col-2 btn btn-primary"
+                  @click="selectShowtime(showtime)"
+                  >{{ showtime.time }}</el-card
+                >
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div style="margin-bottom: 4px;display: flex;justify-content: center;">MÀN HÌNH</div>
-      <el-divider style="margin-top: -4px ;padding: 2px; background-color: #ff5e19;"></el-divider>
-      <div class="note">
-        <div class="note-details">
-          <div class="seat-selected"></div>
-          <h6>Ghế đã bán</h6>
-        </div>
-        <div class="note-details">
-          <div class="seat-selecting"></div>
-          <h6>Ghế đang chọn</h6>
-        </div>
-      </div>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <div class="my-4" style="width:100%;">
+            <div class="seat-map mb-5">
+              <div v-for="rowNumber in 12" :key="rowNumber" class="seat-row">
+                <h5 class="row-letter">{{ String.fromCharCode(77 - rowNumber) }}</h5>
+                <div
+                  v-for="seatNumber in 12"
+                  :key="seatNumber"
+                  class="seat"
+                  :class="{ selected: isSelected(rowNumber, seatNumber) }"
+                  @click="toggleSeat(rowNumber, seatNumber)"
+                >
+                  {{ seatNumber }}
+                </div>
+              </div>
+            </div>
+            <div style="margin-bottom: 4px;display: flex;justify-content: center;">MÀN HÌNH</div>
+            <el-divider style="margin-top: -4px ;padding: 2px; background-color: #ff5e19;"></el-divider>
+            <div class="note">
+              <div class="note-details">
+                <div class="seat-selected"></div>
+                <h6>Ghế đã bán</h6>
+              </div>
+              <div class="note-details">
+                <div class="seat-selecting"></div>
+                <h6>Ghế đang chọn</h6>
+              </div>
+            </div>
+          </div>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+    <div class="card-container">
+      <CardDetails></CardDetails>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-
+import { ref } from 'vue';
+const panel = ref([1])
 const selectedShowtime = ref('');
 
 const selectShowtime = (showtime) => {
@@ -141,7 +153,7 @@ const showtimes = [
   color: #fff;
 }
 .row-letter{
-  margin-left: -60px;
+  margin-left: -120px;
   font-size: 20px;
 }
 .note,.note-details{
@@ -181,4 +193,44 @@ const showtimes = [
     background-color: #3498db;
     color: #fff;
   }
+  .main-container {
+  position: relative;
+  display:flex;
+}
+.expansion-panels {
+  flex:1;
+}
+.v-expansion-panel {
+  margin-bottom:20px;
+}
+.v-expansion-panel-title {
+  font-size: 19px;
+  font-weight: 700;
+  min-height: 53px;
+}
+.text-wrapper {
+    display: flex;
+    gap: 0.5rem;
+}
+.position-btn:hover {
+  background-color: #5073af;
+  color: #fff;
+}
+.vertical-divider {
+ width: 1px;
+ background-color: #181818;
+ margin: 0 10px;
+}
+.bold-font {
+ font-weight:700 ;
+ font-size: 1rem;
+}
+.card-container {
+  flex: 1;
+  max-width: 400px;
+  padding-left:1rem;
+  display:flex-column;
+  justify-content: start;
+  font-family: sans-serif
+}
 </style>
