@@ -1178,4 +1178,49 @@ export default {
       deleteCf: 'Xác nhận xoá lịch sử%{id}?'
     }
   },
+  // Cinema menu internationalization
+  cinemaManagement: {
+    searchInput: {
+      cinemaNameLb: 'Tên rạp chiếu',
+      cinemaNamePh: 'Nhập',
+      cinemaAddressLb: 'Địa chỉ',
+      cinemaAddressPh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm rạp chiếu',
+      editTt: 'Sửa thông tin rạp chiếu',
+      cinemaNameTt: 'Tên rạp chiếu',
+      cinemaNamePh: 'Nhập',
+      cinemaAddressTt: 'Địa chỉ',
+      cinemaAddressPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        cinemaNameRqMsg: 'Tên rạp chiếu không được trống',
+        cinemaAddressRqMsg: 'Địa chỉ không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      cinemaNameLb: 'Tên rạp chiếu',
+      cinemaAddressLb: 'Địa chỉ',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá rạp chiếu?'
+    }
+  },
 };

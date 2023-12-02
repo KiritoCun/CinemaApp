@@ -2,6 +2,7 @@ package vn.udn.dut.cinema.port.domain.vo;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 
@@ -33,4 +34,6 @@ public class CinemaVo implements Serializable {
 	private String cinemaAddress;
 
 	private String remark;
+	
+	private Date createTime;
 }

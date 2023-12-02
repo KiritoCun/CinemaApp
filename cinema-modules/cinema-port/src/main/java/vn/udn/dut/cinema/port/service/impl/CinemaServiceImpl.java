@@ -14,54 +14,54 @@ import vn.udn.dut.cinema.common.core.utils.MapstructUtils;
 import vn.udn.dut.cinema.common.core.utils.StringUtils;
 import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
-import vn.udn.dut.cinema.port.domain.Slide;
-import vn.udn.dut.cinema.port.domain.bo.SlideBo;
-import vn.udn.dut.cinema.port.domain.vo.SlideVo;
-import vn.udn.dut.cinema.port.mapper.SlideMapper;
-import vn.udn.dut.cinema.port.service.ISlideService;
+import vn.udn.dut.cinema.port.domain.Cinema;
+import vn.udn.dut.cinema.port.domain.bo.CinemaBo;
+import vn.udn.dut.cinema.port.domain.vo.CinemaVo;
+import vn.udn.dut.cinema.port.mapper.CinemaMapper;
+import vn.udn.dut.cinema.port.service.ICinemaService;
 
 @RequiredArgsConstructor
 @Service
-public class SlideServiceImpl implements ISlideService {
-	private final SlideMapper baseMapper;
+public class CinemaServiceImpl implements ICinemaService {
+	private final CinemaMapper baseMapper;
 
-	public SlideVo queryById(Long id) {
+	public CinemaVo queryById(Long id) {
 		return baseMapper.selectVoById(id);
 	}
 
 	/**
-	 * Query Slide list
+	 * Query Cinema list
 	 */
 	@Override
-	public TableDataInfo<SlideVo> queryPageList(SlideBo bo, PageQuery pageQuery) {
-		LambdaQueryWrapper<Slide> lqw = buildQueryWrapper(bo);
-		Page<SlideVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+	public TableDataInfo<CinemaVo> queryPageList(CinemaBo bo, PageQuery pageQuery) {
+		LambdaQueryWrapper<Cinema> lqw = buildQueryWrapper(bo);
+		Page<CinemaVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
 		return TableDataInfo.build(result);
 	}
 
 	/**
-	 * Query Slide list
+	 * Query Cinema list
 	 */
 	@Override
-	public List<SlideVo> queryList(SlideBo bo) {
-		LambdaQueryWrapper<Slide> lqw = buildQueryWrapper(bo);
+	public List<CinemaVo> queryList(CinemaBo bo) {
+		LambdaQueryWrapper<Cinema> lqw = buildQueryWrapper(bo);
 		return baseMapper.selectVoList(lqw);
 	}
 
-	private LambdaQueryWrapper<Slide> buildQueryWrapper(SlideBo bo) {
+	private LambdaQueryWrapper<Cinema> buildQueryWrapper(CinemaBo bo) {
 //        Map<String, Object> params = bo.getParams();
-		LambdaQueryWrapper<Slide> lqw = Wrappers.lambdaQuery();
-		lqw.eq(StringUtils.isNotBlank(bo.getSlideUrl()), Slide::getSlideUrl, bo.getSlideUrl());
-
+		LambdaQueryWrapper<Cinema> lqw = Wrappers.lambdaQuery();
+		lqw.like(StringUtils.isNotBlank(bo.getCinemaName()), Cinema::getCinemaName, bo.getCinemaName());
+		lqw.like(StringUtils.isNotBlank(bo.getCinemaAddress()), Cinema::getCinemaAddress, bo.getCinemaAddress());
 		return lqw;
 	}
 
 	/**
-	 * Add Slide
+	 * Add Cinema
 	 */
 	@Override
-	public Boolean insertByBo(SlideBo bo) {
-		Slide add = MapstructUtils.convert(bo, Slide.class);
+	public Boolean insertByBo(CinemaBo bo) {
+		Cinema add = MapstructUtils.convert(bo, Cinema.class);
 		validEntityBeforeSave(add);
 		boolean flag = baseMapper.insert(add) > 0;
 		if (flag) {
@@ -71,11 +71,11 @@ public class SlideServiceImpl implements ISlideService {
 	}
 
 	/**
-	 * Edit Slide
+	 * Edit Cinema
 	 */
 	@Override
-	public Boolean updateByBo(SlideBo bo) {
-		Slide update = MapstructUtils.convert(bo, Slide.class);
+	public Boolean updateByBo(CinemaBo bo) {
+		Cinema update = MapstructUtils.convert(bo, Cinema.class);
 		validEntityBeforeSave(update);
 		return baseMapper.updateById(update) > 0;
 	}
@@ -83,12 +83,12 @@ public class SlideServiceImpl implements ISlideService {
 	/**
 	 * Data verification before saving
 	 */
-	private void validEntityBeforeSave(Slide entity) {
+	private void validEntityBeforeSave(Cinema entity) {
 		// TODO Do some data validation, such as unique constraints
 	}
 
 	/**
-	 * Batch delete Slide
+	 * Batch delete Cinema
 	 */
 	@Override
 	public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {

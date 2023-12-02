@@ -163,17 +163,17 @@ INSERT sys_menu VALUES (107, N'{"vi_VN":"Thông báo","en_US":"Announcement"}', 
 GO
 
 -- Management cinema
-INSERT sys_menu VALUES (110, N'{"vi_VN":"Quản lý rạp","en_US":"Management cinema"}', 2, 1, N'cinema', N'cinema/cinema/index', N'', 1, 0, N'C', N'0', N'0', N'cinema:cinema:list', N'cinema', 103, 1, getdate(), NULL, NULL, N'Management cinema menu', N'system')
+INSERT sys_menu VALUES (110, N'{"vi_VN":"Quản lý rạp","en_US":"Management cinema"}', 2, 1, N'cinema', N'portCustomer/cinemaManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:cinema:list', N'cinema', 103, 1, getdate(), NULL, NULL, N'Management cinema menu', N'system')
 GO
-INSERT sys_menu VALUES (111, N'{"vi_VN":"Quản lý phim","en_US":"Management movie"}', 2, 2, N'movie', N'cinema/movie/index', N'', 1, 0, N'C', N'0', N'0', N'cinema:movie:list', N'movie', 103, 1, getdate(), NULL, NULL, N'Management movie menu', N'system')
+INSERT sys_menu VALUES (111, N'{"vi_VN":"Quản lý phim","en_US":"Management movie"}', 2, 2, N'movie', N'portCustomer/movieManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:movie:list', N'movie', 103, 1, getdate(), NULL, NULL, N'Management movie menu', N'system')
 GO
-INSERT sys_menu VALUES (112, N'{"vi_VN":"Quản lý phòng chiếu","en_US":"Management hall"}', 2, 3, N'hall', N'cinema/hall/index', N'', 1, 0, N'C', N'0', N'0', N'cinema:hall:list', N'hall', 103, 1, getdate(), NULL, NULL, N'Management hall menu', N'system')
+INSERT sys_menu VALUES (112, N'{"vi_VN":"Quản lý phòng chiếu","en_US":"Management hall"}', 2, 3, N'hall', N'portCustomer/hallManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:hall:list', N'hall', 103, 1, getdate(), NULL, NULL, N'Management hall menu', N'system')
 GO
-INSERT sys_menu VALUES (113, N'{"vi_VN":"Quản lý lịch chiếu","en_US":"Management showtime"}', 2, 4, N'showtime', N'cinema/showtime/index', N'', 1, 0, N'C', N'0', N'0', N'cinema:showtime:list', N'showtime', 103, 1, getdate(), NULL, NULL, N'Management showtime menu', N'system')
+INSERT sys_menu VALUES (113, N'{"vi_VN":"Quản lý lịch chiếu","en_US":"Management showtime"}', 2, 4, N'showtime', N'portCustomer/showtimeManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:showtime:list', N'showtime', 103, 1, getdate(), NULL, NULL, N'Management showtime menu', N'system')
 GO
-INSERT sys_menu VALUES (114, N'{"vi_VN":"Quản lý vé","en_US":"Management ticket"}', 2, 5, N'ticket', N'cinema/ticket/index', N'', 1, 0, N'C', N'0', N'0', N'cinema:ticket:list', N'ticket', 103, 1, getdate(), NULL, NULL, N'Management ticket menu', N'system')
+INSERT sys_menu VALUES (114, N'{"vi_VN":"Quản lý vé","en_US":"Management ticket"}', 2, 5, N'ticket', N'portCustomer/ticketManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:ticket:list', N'ticket', 103, 1, getdate(), NULL, NULL, N'Management ticket menu', N'system')
 GO
-INSERT sys_menu VALUES (115, N'{"vi_VN":"Quản lý doanh thu","en_US":"Management revenue"}', 2, 6, N'revenue', N'cinema/revenue/index', N'', 1, 0, N'C', N'0', N'0', N'cinema:revenue:list', N'revenue', 103, 1, getdate(), NULL, NULL, N'Management revenue menu', N'system')
+INSERT sys_menu VALUES (115, N'{"vi_VN":"Quản lý doanh thu","en_US":"Management revenue"}', 2, 6, N'revenue', N'portCustomer/revenueManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:revenue:list', N'revenue', 103, 1, getdate(), NULL, NULL, N'Management revenue menu', N'system')
 GO
 
 

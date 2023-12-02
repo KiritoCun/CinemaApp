@@ -1180,4 +1180,49 @@ export default {
       deleteCf: 'Are you sure to delete history%{id}?'
     }
   },
+  // Cinema menu internationalization
+  cinemaManagement: {
+    searchInput: {
+      cinemaNameLb: 'Cinema name',
+      cinemaNamePh: 'Input',
+      cinemaAddressLb: 'Address',
+      cinemaAddressPh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add cinema',
+      editTt: 'Edit cinema',
+      cinemaNameTt: 'Cinema name',
+      cinemaNamePh: 'Input',
+      cinemaAddressTt: 'Address',
+      cinemaAddressPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        cinemaNameRqMsg: 'Cinema name cannot be empty',
+        cinemaAddressRqMsg: 'Cinema address cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      cinemaNameLb: 'Cinema name',
+      cinemaAddressLb: 'Address',
+      createTimeLb: 'Create time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete cinema?'
+    }
+  },
 };
