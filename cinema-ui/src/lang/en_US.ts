@@ -1225,4 +1225,79 @@ export default {
       deleteCf: 'Are you sure to delete cinema?'
     }
   },
+  // Movie menu internationalization
+  movieManagement: {
+    searchInput: {
+      titleLb: 'Title Movie',
+      titlePh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add Movie',
+      editTt: 'Edit Movie',
+      titleTt: 'Title Movie',
+      titlePh: 'Input',
+      movieDescriptionTt: 'Movie Description',
+      movieDescriptionPh: 'Input',
+      releaseDateTt: 'Release Date',
+      releaseDatePh: 'Input',
+      endDateTt: 'End Date',
+      endDatePh: 'Input',
+      durationTt: 'Duration',
+      durationPh: 'Input',
+      languageTt: 'Language',
+      languagePh: 'Input',
+      ratedTt: 'Rated',
+      ratedPh: 'Input',
+      genreTt: 'Genre',
+      genrePh: 'Input',
+      directorTt: 'Director',
+      directorPh: 'Input',
+      actorTt: 'Actor',
+      actorPh: 'Input',
+      ratingTt: 'Rating',
+      ratingPh: 'Input',
+      posterUrlTt: 'Poster',
+      posterUrlPh: 'Input',
+      trailerUrlTt: 'Trailer',
+      trailerUrlPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        titleRqMsg: 'Title movie cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Title Movie',
+      movieDescriptionLb: 'Movie Description',
+      releaseDateLb: 'Release Date',
+      endDateLb: 'End Date',
+      durationLb: 'Duration',
+      languageLb: 'Language',
+      ratedLb: 'Rated',
+      genreLb: 'Genre',
+      directorLb: 'Director',
+      actorLb: 'Actor',
+      ratingLb: 'Rating',
+      posterUrlLb: 'Poster',
+      trailerUrlLb: 'Trailer',
+      createTimeLb: 'Create Time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete movie?'
+    }
+  },
 };

@@ -1223,4 +1223,79 @@ export default {
       deleteCf: 'Xác nhận xoá rạp chiếu?'
     }
   },
+  // Movie menu internationalization
+  movieManagement: {
+    searchInput: {
+      titleLb: 'Tên phim',
+      titlePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm phim',
+      editTt: 'Sửa thông tin phim',
+      titleTt: 'Tên phim',
+      titlePh: 'Nhập',
+      movieDescriptionTt: 'Mô tả',
+      movieDescriptionPh: 'Nhập',
+      releaseDateTt: 'Ngày khởi chiếu',
+      releaseDatePh: 'Nhập',
+      endDateTt: 'Ngày kết thúc',
+      endDatePh: 'Nhập',
+      durationTt: 'Thời lượng',
+      durationPh: 'Nhập',
+      languageTt: 'Ngôn ngữ',
+      languagePh: 'Nhập',
+      ratedTt: 'Độ tuổi',
+      ratedPh: 'Nhập',
+      genreTt: 'Thể loại',
+      genrePh: 'Nhập',
+      directorTt: 'Đạo diễn',
+      directorPh: 'Nhập',
+      actorTt: 'Diễn viên',
+      actorPh: 'Nhập',
+      ratingTt: 'Rating',
+      ratingPh: 'Nhập',
+      posterUrlTt: 'Poster',
+      posterUrlPh: 'Nhập',
+      trailerUrlTt: 'Trailer',
+      trailerUrlPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        titleRqMsg: 'Tên phim không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Tên phim',
+      movieDescriptionLb: 'Mô tả',
+      releaseDateLb: 'Ngày khởi chiếu',
+      endDateLb: 'Ngày kết thúc',
+      durationLb: 'Thời lượng',
+      languageLb: 'Ngôn ngữ',
+      ratedLb: 'Độ tuổi',
+      genreLb: 'Thể loại',
+      directorLb: 'Đạo diễn',
+      actorLb: 'Diễn viên',
+      ratingLb: 'Rating',
+      posterUrlLb: 'Poster',
+      trailerUrlLb: 'Trailer',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá phim?'
+    }
+  },
 };

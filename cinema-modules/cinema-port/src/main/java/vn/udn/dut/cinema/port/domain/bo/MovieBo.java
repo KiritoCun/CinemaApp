@@ -37,10 +37,8 @@ public class MovieBo extends TenantEntity {
 	@NotBlank(message = "Movie description cannot be empty", groups = { AddGroup.class, EditGroup.class })
 	private String movieDescription;
 
-	@NotNull(message = "Release date cannot be empty", groups = { AddGroup.class, EditGroup.class })
 	private Date releaseDate;
 
-	@NotNull(message = "End date cannot be empty", groups = { AddGroup.class, EditGroup.class })
 	private Date endDate;
 
 	@NotNull(message = "Duration cannot be empty", groups = { AddGroup.class, EditGroup.class })

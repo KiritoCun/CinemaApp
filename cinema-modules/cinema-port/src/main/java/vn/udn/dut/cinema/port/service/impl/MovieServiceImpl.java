@@ -62,9 +62,7 @@ public class MovieServiceImpl implements IMovieService {
 	private LambdaQueryWrapper<Movie> buildQueryWrapper(MovieBo bo) {
 //        Map<String, Object> params = bo.getParams();
 		LambdaQueryWrapper<Movie> lqw = Wrappers.lambdaQuery();
-		lqw.eq(StringUtils.isNotBlank(bo.getTitle()), Movie::getTitle, bo.getTitle());
-		lqw.like(StringUtils.isNotBlank(bo.getMovieDescription()), Movie::getMovieDescription,
-				bo.getMovieDescription());
+		lqw.like(StringUtils.isNotBlank(bo.getTitle()), Movie::getTitle, bo.getTitle());
 		return lqw;
 	}
 

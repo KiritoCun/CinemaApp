@@ -56,4 +56,5 @@ public class MovieVo implements Serializable {
 	private String trailerUrl;
 
 	private String remark;
+	private Date createTime;
 }
