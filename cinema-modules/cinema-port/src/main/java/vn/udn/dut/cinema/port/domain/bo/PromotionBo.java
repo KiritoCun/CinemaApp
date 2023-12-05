@@ -56,13 +56,11 @@ public class PromotionBo extends TenantEntity {
 	/**
 	 * 
 	 */
-	@NotNull(message = "From date can be null", groups = { EditGroup.class })
 	private Date fromDate;
 
 	/**
 	 * 
 	 */
-	@NotNull(message = "To date can be null", groups = { EditGroup.class })
 	private Date toDate;
 
 	/**

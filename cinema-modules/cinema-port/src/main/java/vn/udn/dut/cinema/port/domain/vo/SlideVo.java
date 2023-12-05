@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
+
 import vn.udn.dut.cinema.port.domain.Slide;
 
 @Data
@@ -17,4 +19,5 @@ public class SlideVo implements Serializable {
     private Long id;
     private String slideUrl;
     private String remark;
+    private Date createTime;
 }

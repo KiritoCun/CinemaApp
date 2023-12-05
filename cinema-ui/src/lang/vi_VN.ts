@@ -161,7 +161,7 @@ export default {
       guideTt: 'Khuyến mãi',
       documentTt: 'Tải biểu mẫu',
       documentDownloadBtn: 'Tải về',
-      showAllBtn: 'Xem tất cả',
+      showAllBtn: 'Xem tất cả'
     },
     contactInfo: {
       contactAddrLb: 'Địa chỉ liên hệ',
@@ -1298,4 +1298,93 @@ export default {
       deleteCf: 'Xác nhận xoá phim?'
     }
   },
+  // Promotion menu internationalization
+  promotionManagement: {
+    searchInput: {
+      titleLb: 'Tên khuyến mãi',
+      titlePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm khuyến mãi',
+      editTt: 'Sửa thông tin khuyến mãi',
+      titleTt: 'Tên khuyến mãi',
+      titlePh: 'Nhập',
+      promotionDescriptionTt: 'Mô tả',
+      promotionDescriptionPh: 'Nhập',
+      discountTt: 'Discount (%)',
+      discountPh: 'Nhập',
+      imageUrlTt: 'Image URL',
+      imageUrlPh: 'Nhập',
+      fromDateTt: 'Ngày bắt đầu',
+      fromDatePh: 'Nhập',
+      toDateTt: 'Ngày kết thúc',
+      toDatePh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        titleRqMsg: 'Tên khuyến mãi không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Tên khuyến mãi',
+      promotionDescriptionLb: 'Mô tả',
+      discountLb: 'Discount (%)',
+      imageUrlLb: 'Image URL',
+      fromDateLb: 'Ngày bắt đầu',
+      toDateLb: 'Ngày kết thúc',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá khuyến mãi?'
+    }
+  },
+  // Slide menu internationalization
+  slideManagement: {
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm slide',
+      editTt: 'Sửa slide',
+      slideUrlTt: 'Slide URL',
+      slideUrlPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        slideRqMsg: 'Slide URL không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      slideUrlLb: 'Slide URL',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá slide?'
+    }
+  }
 };

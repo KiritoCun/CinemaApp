@@ -1300,4 +1300,93 @@ export default {
       deleteCf: 'Are you sure to delete movie?'
     }
   },
+  // Promotion menu internationalization
+  promotionManagement: {
+    searchInput: {
+      titleLb: 'Promotion Title',
+      titlePh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add Promotion',
+      editTt: 'Edit Promotion',
+      titleTt: 'Promotion Title',
+      titlePh: 'Input',
+      promotionDescriptionTt: 'Promotion Description',
+      promotionDescriptionPh: 'Input',
+      discountTt: 'Discount (%)',
+      discountPh: 'Input',
+      imageUrlTt: 'Image URL',
+      imageUrlPh: 'Input',
+      fromDateTt: 'From Date',
+      fromDatePh: 'Input',
+      toDateeTt: 'To Date',
+      toDatePh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        titleRqMsg: 'Promotion Title cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Promotion Title',
+      promotionDescriptionLb: 'Promotion Description',
+      discountLb: 'Discount (%)',
+      imageUrlLb: 'Image URL',
+      fromDateLb: 'From Date',
+      toDateLb: 'To Date',
+      createTimeLb: 'Create Time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete promotion?'
+    }
+  },
+  // Slide menu internationalization
+  slideManagement: {
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add slide',
+      editTt: 'Edit slide',
+      slideUrlTt: 'Slide URL',
+      slideUrlPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        slideRqMsg: 'Slide URL cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      slideUrlLb: 'Slide URL',
+      createTimeLb: 'Create Time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete slide?'
+    }
+  }
 };

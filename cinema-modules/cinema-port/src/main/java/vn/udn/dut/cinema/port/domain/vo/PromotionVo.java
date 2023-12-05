@@ -63,4 +63,5 @@ public class PromotionVo implements Serializable {
 	 * 
 	 */
 	private String remark;
+	private Date createTime;
 }
