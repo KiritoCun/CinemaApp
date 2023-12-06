@@ -15,16 +15,15 @@ import vn.udn.dut.cinema.common.core.domain.R;
 import vn.udn.dut.cinema.common.core.domain.model.LoginUser;
 import vn.udn.dut.cinema.common.core.utils.StringUtils;
 import vn.udn.dut.cinema.common.satoken.utils.LoginHelper;
-import vn.udn.dut.cinema.common.tenant.helper.TenantHelper;
+import vn.udn.dut.cinema.port.domain.vo.CustomerUserInfoVo;
+import vn.udn.dut.cinema.port.domain.vo.CustomerVo;
+import vn.udn.dut.cinema.port.service.ICustomerService;
 import vn.udn.dut.cinema.system.constant.SystemConstants;
 import vn.udn.dut.cinema.system.domain.SysMenu;
 import vn.udn.dut.cinema.system.domain.vo.RouterVo;
 import vn.udn.dut.cinema.system.domain.vo.SysDictDataVo;
-import vn.udn.dut.cinema.system.domain.vo.SysUserVo;
-import vn.udn.dut.cinema.system.domain.vo.UserInfoVo;
 import vn.udn.dut.cinema.system.service.ISysDictTypeService;
 import vn.udn.dut.cinema.system.service.ISysMenuService;
-import vn.udn.dut.cinema.system.service.ISysUserService;
 
 /**
  * Front page
@@ -35,10 +34,10 @@ import vn.udn.dut.cinema.system.service.ISysUserService;
 @RequiredArgsConstructor
 @RestController
 public class IndexController {
-
-	private final ISysUserService userService;
+	
 	private final ISysMenuService menuService;
 	private final ISysDictTypeService dictTypeService;
+	private final ICustomerService customerService;
 
 	/**
 	 * System basic configuration
@@ -61,18 +60,11 @@ public class IndexController {
 	 * @return User Info
 	 */
 	@GetMapping("/system/user/getInfo")
-	public R<UserInfoVo> getInfo() {
-		UserInfoVo userInfoVo = new UserInfoVo();
+	public R<CustomerUserInfoVo> getInfo() {
+		CustomerUserInfoVo userInfoVo = new CustomerUserInfoVo();
 		LoginUser loginUser = LoginHelper.getLoginUser();
-		if (TenantHelper.isEnable() && LoginHelper.isSuperAdmin()) {
-			// Super administrators need to clear dynamic tenants if user information is
-			// reloaded
-			TenantHelper.clearDynamic();
-		}
-		SysUserVo user = userService.selectUserById(loginUser.getUserId());
-		userInfoVo.setUser(user);
-		userInfoVo.setPermissions(loginUser.getMenuPermission());
-		userInfoVo.setRoles(loginUser.getRolePermission());
+		CustomerVo customerUser = customerService.selectByUserId(loginUser.getUserId());
+		userInfoVo.setUser(customerUser);
 		return R.ok(userInfoVo);
 	}
 

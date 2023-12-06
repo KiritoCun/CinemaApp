@@ -22,7 +22,7 @@
           </el-form-item>
           <el-form-item prop="confirmPassword" :label="$t('homepage.register.rePasswordLb')">
             <el-input
-              v-model="registerForm.password"
+              v-model="registerForm.confirmPassword"
               type="password"
               size="large"
               auto-complete="off"
@@ -40,7 +40,7 @@
               buttonSize="large"
               :title="$t('homepage.register.registerBtnTt')"
               widthPercent="100%"
-              @onClick=""
+              @onClick="handleRegister"
               style="width:100%;"
             />
             <div style="float: right;" v-if="register">
@@ -53,23 +53,18 @@
   </LayoutCustomerHomepage>
 </template>
 
-<script setup name="SearchEdo" lang="ts">
+<script setup name="RegisterCustomer" lang="ts">
 import { FormRules } from 'element-plus';
-import {searchEdo} from '@/api/homepage'
-import {EdoSearchParam, Edo} from '@/api/homepage/type'
 import { ComponentInternalInstance } from "vue";
-import Cookies from 'js-cookie';
-import { encrypt, decrypt } from '@/utils/jsencrypt';
-import { useUserStore } from '@/store/modules/user';
+import { useCustomerUserStore } from '@/store/modules/customer';
 import { RegisterData, TenantVO } from '@/api/types';
-import { getCodeImg, getTenantList } from '@/api/login';
-import { to } from 'await-to-js';
 import i18n from '@/lang';
+import { to } from 'await-to-js';
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 const route = useRoute()
 const router = useRouter();
-const userStore = useUserStore();
+const userStore = useCustomerUserStore();
 
 const activeLogin = ref('')
 const codeUrl = ref('customer');
@@ -95,18 +90,18 @@ const registerRules: FormRules = {
   code: [{ required: true, trigger: 'change', message: 'Please enter verification code' }]
 };
 
-/**
- * get verification code
- */
- const getCode = async () => {
-  const res = await getCodeImg();
-  const { data } = res;
-  captchaEnabled.value = data.captchaEnabled === undefined ? true : data.captchaEnabled;
-  if (captchaEnabled.value) {
-    codeUrl.value = 'data:image/gif;base64,' + data.img;
-    registerForm.value.uuid = data.uuid;
+const loading = ref(false);
+const redirect = ref(undefined);
+
+const handleRegister = async () => {
+  const [err] = await to(userStore.register(registerForm.value));
+  if (!err) {
+    await router.push({ path: redirect.value || '/homepage/customer-login' });
+  } else {
+    loading.value = false;
   }
 };
+
 onMounted(() => {
 });
 </script>

@@ -307,7 +307,6 @@ const onScroll = () => {
 }
 /** Play youtube popup */
 const playYoutube = (url: string) => {
-  console.log(url)
   youtubeSrc.value = url;
   dialog.visible = true;
 }

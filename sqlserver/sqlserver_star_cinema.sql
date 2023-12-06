@@ -557,7 +557,7 @@ CREATE TABLE customer
 (
 	user_id             bigint                              NOT NULL,
   tenant_id           nvarchar(20)  DEFAULT ('000000')    NULL,
-	customer_type       nvarchar(10)  DEFAULT ('sys_customer')  NULL,
+	customer_type       nvarchar(20)  DEFAULT ('sys_customer')  NULL,
 	user_name           nvarchar(40)                        NOT NULL,
 	password            nvarchar(100) DEFAULT ''                    NULL,
 	nick_name           nvarchar(255)                       NOT NULL,
@@ -572,7 +572,7 @@ CREATE TABLE customer
   update_by           bigint                              NULL,
   update_time         datetime2(7)                        NULL,
   remark              nvarchar(500)                       NULL,
-	CONSTRAINT PK__customer__3E82A5DB0EC94801 PRIMARY KEY CLUSTERED (id)
+	CONSTRAINT PK__customer__3E82A5DB0EC94801 PRIMARY KEY CLUSTERED (user_id)
         WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
         ON [PRIMARY]
 )

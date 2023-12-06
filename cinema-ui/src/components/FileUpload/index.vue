@@ -281,7 +281,6 @@ const handleChange = (uploadFile: UploadFile, uploadFiles: any) => {
     });
 }
 const submitFile = () => {
-    console.log(delOssIds.value);
     if (selectedFiles.value.length === 0 && !props.required) {
         return true;
     } else if (selectedFiles.value.length > 0) {

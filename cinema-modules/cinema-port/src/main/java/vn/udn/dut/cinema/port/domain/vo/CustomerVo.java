@@ -7,6 +7,8 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import vn.udn.dut.cinema.common.translation.annotation.Translation;
+import vn.udn.dut.cinema.common.translation.constant.TransConstant;
 import vn.udn.dut.cinema.port.domain.Customer;
 
 /**
@@ -40,6 +42,10 @@ public class CustomerVo implements Serializable {
 
 	private String sex;
 
+    /**
+     * Avatar address
+     */
+    @Translation(type = TransConstant.OSS_ID_TO_URL)
 	private Long avatar;
 
 	private String password;

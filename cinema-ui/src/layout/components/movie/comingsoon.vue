@@ -55,12 +55,10 @@ const dialog = reactive<DialogOption>({
   footer: false
 });
 const onReady = () => {
-  console.log('1111');
   youtube.value.playVideo();
 }
 
 const playYoutube = (url: string) => {
-  console.log(url)
   youtubeSrc.value = `https://www.youtube.com/watch?v=${url}`;
   dialog.visible = true;
 }

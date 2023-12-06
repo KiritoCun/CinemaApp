@@ -141,6 +141,7 @@ declare global {
     validate?: any;
     required?: boolean;
     click?: any;
+    formatter?: string;
   }
 
   /**
