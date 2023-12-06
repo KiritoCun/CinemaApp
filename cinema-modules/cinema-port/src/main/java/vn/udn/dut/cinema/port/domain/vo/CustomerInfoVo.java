@@ -8,7 +8,7 @@ import lombok.Data;
  * @author HoaLD
  */
 @Data
-public class CustomerUserInfoVo {
+public class CustomerInfoVo {
 
     /**
      * Basic user information

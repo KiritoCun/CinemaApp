@@ -15,7 +15,7 @@ import vn.udn.dut.cinema.common.core.domain.R;
 import vn.udn.dut.cinema.common.core.domain.model.LoginUser;
 import vn.udn.dut.cinema.common.core.utils.StringUtils;
 import vn.udn.dut.cinema.common.satoken.utils.LoginHelper;
-import vn.udn.dut.cinema.port.domain.vo.CustomerUserInfoVo;
+import vn.udn.dut.cinema.port.domain.vo.CustomerInfoVo;
 import vn.udn.dut.cinema.port.domain.vo.CustomerVo;
 import vn.udn.dut.cinema.port.service.ICustomerService;
 import vn.udn.dut.cinema.system.constant.SystemConstants;
@@ -60,8 +60,8 @@ public class IndexController {
 	 * @return User Info
 	 */
 	@GetMapping("/system/user/getInfo")
-	public R<CustomerUserInfoVo> getInfo() {
-		CustomerUserInfoVo userInfoVo = new CustomerUserInfoVo();
+	public R<CustomerInfoVo> getInfo() {
+		CustomerInfoVo userInfoVo = new CustomerInfoVo();
 		LoginUser loginUser = LoginHelper.getLoginUser();
 		CustomerVo customerUser = customerService.selectByUserId(loginUser.getUserId());
 		userInfoVo.setUser(customerUser);
