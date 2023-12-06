@@ -175,9 +175,9 @@ INSERT sys_menu VALUES (114, N'{"vi_VN":"Quản lý vé","en_US":"Management tic
 GO
 INSERT sys_menu VALUES (115, N'{"vi_VN":"Quản lý doanh thu","en_US":"Management revenue"}', 2, 6, N'revenue', N'portCustomer/revenueManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:revenue:list', N'revenue', 103, 1, getdate(), NULL, NULL, N'Management revenue menu', N'system')
 GO
-INSERT sys_menu VALUES (118, N'{"vi_VN":"Qu?n l� khuy?n m�i","en_US":"Management promotion"}', 2, 5, N'promotion', N'portCustomer/promotionManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:promotion:list', N'promotion', 103, 1, getdate(), NULL, NULL, N'Management promotion menu', N'system')
+INSERT sys_menu VALUES (118, N'{"vi_VN":"Quản lý khuyến mãi","en_US":"Management promotion"}', 2, 5, N'promotion', N'portCustomer/promotionManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:promotion:list', N'promotion', 103, 1, getdate(), NULL, NULL, N'Management promotion menu', N'system')
 GO
-INSERT sys_menu VALUES (119, N'{"vi_VN":"Qu?n l� slide","en_US":"Management slide"}', 2, 6, N'slide', N'portCustomer/slideManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:slide:list', N'slide', 103, 1, getdate(), NULL, NULL, N'Management promotion menu', N'system')
+INSERT sys_menu VALUES (119, N'{"vi_VN":"Quản lý slide","en_US":"Management slide"}', 2, 6, N'slide', N'portCustomer/slideManagement/index', N'', 1, 0, N'C', N'0', N'0', N'portCustomer:slide:list', N'slide', 103, 1, getdate(), NULL, NULL, N'Management promotion menu', N'system')
 GO
 
 -- Staff menu
@@ -188,6 +188,10 @@ GO
 INSERT sys_role_menu VALUES (4, 114)
 GO
 INSERT sys_role_menu VALUES (5, 115)
+GO
+INSERT sys_role_menu VALUES (4, 118)
+GO
+INSERT sys_role_menu VALUES (5, 119)
 GO
 
 -- Management customer menu
