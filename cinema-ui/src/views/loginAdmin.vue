@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 import IrButton from '@/components/IrButton/index.vue';
-import { getCodeImg, getTenantList } from '@/api/login';
+import { getTenantList } from '@/api/login';
 import Cookies from 'js-cookie';
 import { encrypt, decrypt } from '@/utils/jsencrypt';
 import { useUserStore } from '@/store/modules/user';
@@ -145,28 +145,11 @@ const handleLogin = () => {
         await router.push({ path: redirect.value || '/' });
       } else {
         loading.value = false;
-        // Get verification code again
-        if (captchaEnabled.value) {
-            await getCode();
-        }
       }
     } else {
       console.log('error submit!', fields);
     }
   });
-};
-
-/**
- * get verification code
- */
-const getCode = async () => {
-  const res = await getCodeImg();
-  const { data } = res;
-  captchaEnabled.value = data.captchaEnabled === undefined ? true : data.captchaEnabled;
-  if (captchaEnabled.value) {
-    codeUrl.value = 'data:image/gif;base64,' + data.img;
-    loginForm.value.uuid = data.uuid;
-  }
 };
 
 const getCookie = () => {
@@ -198,7 +181,6 @@ const initTenantList = async () => {
 }
 
 onMounted(() => {
-  getCode();
   initTenantList();
   getCookie();
 });

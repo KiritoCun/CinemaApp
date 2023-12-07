@@ -25,6 +25,8 @@ import vn.udn.dut.cinema.system.domain.SysUser;
 public class SysUserBo extends BaseEntity {
 
     private static final long serialVersionUID = -3287306280356579833L;
+    
+    private Long cinemaId;
 
 	/**
      * User ID

@@ -233,6 +233,8 @@ export default {
     dialog: {
       addTt: 'Add user',
       editTt: 'Edit user',
+      cinemaLb: 'Cinema',
+      cinemaPh: 'Select',
       nickNameLb: 'Personal name',
       nickNamePh: 'Input',
       deptIdLb: 'Department',
@@ -257,6 +259,7 @@ export default {
       footerCancelTt: 'Close',
       footerSubmitTt: 'Save',
       rules: {
+        cinemaRqMsg: 'Cinema cannot be empty',
         userNameRqMsg: 'Username cannot be empty',
         userNameMinMaxMsg: 'Length of username must be from %{min} to %{max} characters',
         nickNameRqMsg: 'Personal name cannot be empty',

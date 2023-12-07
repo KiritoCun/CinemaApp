@@ -232,6 +232,8 @@ export default {
     dialog: {
       addTt: 'Thêm tài khoản',
       editTt: 'Sửa tài khoản',
+      cinemaLb: 'Rạp chiếu',
+      cinemaPh: 'Chọn',
       nickNameLb: 'Tên cá nhân',
       nickNamePh: 'Nhập',
       deptIdLb: 'Phòng ban',
@@ -256,6 +258,7 @@ export default {
       footerCancelTt: 'Đóng',
       footerSubmitTt: 'Lưu',
       rules: {
+        cinemaRqMsg: 'Rạp chiếu không được trống',
         userNameRqMsg: 'Tên tài khoản không được trống',
         userNameMinMaxMsg: 'Độ dài tên tài khoản phải từ %{min} đến %{max} ký tự',
         nickNameRqMsg: 'Tên cá nhân không được trống',

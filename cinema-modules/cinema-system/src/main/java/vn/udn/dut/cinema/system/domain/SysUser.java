@@ -23,6 +23,8 @@ import java.util.Date;
 public class SysUser extends TenantEntity {
 
     private static final long serialVersionUID = 1445341316497924617L;
+    
+    private Long cinemaId;
 
 	/**
      * User ID

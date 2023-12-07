@@ -1,5 +1,6 @@
 package vn.udn.dut.cinema.admin.controller.portCustomer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.hutool.core.util.ObjectUtil;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import vn.udn.dut.cinema.common.core.domain.R;
@@ -41,6 +43,16 @@ import vn.udn.dut.cinema.port.service.ICinemaService;
 public class CinemaController extends BaseController {
 
 	private final ICinemaService cinemaService;
+	
+	@GetMapping(value = { "support/", "support/{cinemaId}" })
+	public R<List<CinemaVo>> getCinemaInfo(@PathVariable(value = "userId", required = false) Long cinemaId) {
+		if (ObjectUtil.isNotNull(cinemaId)) {
+			List<CinemaVo> cinemas = new ArrayList<>();
+			cinemas.add(cinemaService.queryById(cinemaId));
+			return R.ok(cinemas);
+		}
+		return R.ok(cinemaService.queryList(new CinemaBo()));
+	}
 
 	/**
 	 * Query Cinema list

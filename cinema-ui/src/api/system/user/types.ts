@@ -1,6 +1,7 @@
 import { DeptVO } from './../dept/types';
 import { RoleVO } from '@/api/system/role/types';
 import { PostVO } from '@/api/system/post/types';
+import { CinemaVO } from "@/api/portCustomer/cinemaManagement/types";
 
 /**
  * User Info
@@ -26,6 +27,7 @@ export interface UserQuery extends PageQuery {
  * user return object
  */
 export interface UserVO extends BaseEntity {
+  cinemaId: string | number;
   userId: string | number;
   deptId: number;
   userName: string;
@@ -66,11 +68,13 @@ export interface UserForm {
   remark?: string;
   postIds: string[];
   roleIds: string[];
+  cinemaId?: number;
 }
 
 export interface UserInfoVO {
   user: UserVO;
   roles: RoleVO[];
+  cinemas: CinemaVO[];
   roleIds: string[];
   posts: PostVO[];
   postIds: string[];
