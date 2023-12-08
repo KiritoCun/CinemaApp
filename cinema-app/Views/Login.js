@@ -9,7 +9,7 @@ export default Login = function({navigation, onLogin, route}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonEnabled, setButtonEnabled] = useState(false);
-  const [state, setState] = useState(false);
+  // const [state, setState] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -44,33 +44,25 @@ export default Login = function({navigation, onLogin, route}) {
       setPassword(newPassword);
     }
   };
-  // const email1 = route.params.email;
-  // const password1 = route.params.password1;
-  // console.log(email1, password1); 
+  useEffect(() => {
+    if (route.params) {
+      const { email, password1 } = route.params;
+      setEmail(email);
+      setPassword(password1);
+    }
+  }, [route.params]); 
 
   const checkLogin = () => {
-    setState(route.params.isButtonEnabled);
-    if(state) {
-      const email1 = route.params.email;
-      const password1 = route.params.password1;
-      if( (email.toString() === email1 && password.toString() === password1) || (email.toString() === 'a@gmail.com' && password.toString() === '123')){
-        onLogin();
-        route.params.onLoginSuccess();
+    if( (email.toString() === email1 && password.toString() === password1) || (email.toString() === 'a@gmail.com' && password.toString() === '123')){
+      onLogin();
+      const { onLoginSuccess } = route.params || {};
+      if (onLoginSuccess) {
+        onLoginSuccess();
       }
-       else {
-        // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-        alert('Đăng nhập thất bại. Vui lòng thử lại.');
-      }
-    } else {
-      if((email.toString() === 'a@gmail.com' && password.toString() === '123')){
-        // (email.toString() === email1 && password.toString() === password1) ||
-        onLogin();
-        route.params.onLoginSuccess();
-      }
-       else {
-        // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
-        alert('Đăng nhập thất bại. Vui lòng thử lại.');
-      }
+    }
+      else {
+      // Đăng nhập thất bại, có thể hiển thị thông báo lỗi
+      alert('Đăng nhập thất bại. Vui lòng thử lại.');
     }
   };
 

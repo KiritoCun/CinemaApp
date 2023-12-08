@@ -265,7 +265,12 @@ export default Register = function({navigation}) {
           if(isButtonEnabled)
           {
             if (password.trim() === password1.trim()) {
-              navigation.navigate('Login', { email, password1, isButtonEnabled});
+              console.log(isButtonEnabled);
+              navigation.navigate('Login', {
+              onLoginSuccess: () => {
+                // Callback được gọi khi người dùng đăng nhập thành công
+                navigation.navigate('Profile');
+              } , email, password1});
             } else {
               alert('Mật khẩu không trùng khớp, vui lòng nhập lại.');
             }

@@ -106,13 +106,13 @@ export default function Cinema() {
 
   const viewItem = ({item}) => {
     return (
-      <View style={{alignItems: 'flex-start', flexDirection: 'row', margin: 15, justifyContent: 'flex-start', }}>
+      <TouchableOpacity style={{alignItems: 'flex-start', flexDirection: 'row', margin: 15, justifyContent: 'flex-start', }}>
         {item.image}
-        <View>
+        <View style={{}}>
           <Text>{item.name}</Text>
           <Text>{item.address}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 

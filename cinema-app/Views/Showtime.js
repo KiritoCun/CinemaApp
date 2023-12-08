@@ -86,7 +86,7 @@ export default function Showtime({navigation, route, isLoggedIn}) {
     const data2 = generateDateArray(startDate, numberOfDays);
 
 
-    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const toggleExpanded = () => {
       setIsCollapsed(!isCollapsed);
     }
@@ -229,6 +229,7 @@ export default function Showtime({navigation, route, isLoggedIn}) {
             <Image style={{width: '15%', height: '80%',}} source={require('./Image/icon_dropdown.png')} resizeMode='contain'/>
           </TouchableOpacity>
           )}
+          {(address != null) && (cinema != null) && (
           <Collapsible collapsed={isCollapsed}>
             <View style={{borderBottomWidth: 6, height: 115, borderColor: '#EEEEEE'}}>
               <FlatList
@@ -240,6 +241,7 @@ export default function Showtime({navigation, route, isLoggedIn}) {
               />
             </View>
           </Collapsible>
+          )}
         </View>
 
         <View></View>
