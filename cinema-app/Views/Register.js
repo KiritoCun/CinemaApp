@@ -269,7 +269,7 @@ export default Register = function({navigation}) {
               navigation.navigate('Login', {
               onLoginSuccess: () => {
                 // Callback được gọi khi người dùng đăng nhập thành công
-                navigation.navigate('Profile');
+                navigation.navigate('MyTabs', {screen: 'Profile'});
               } , email, password1});
             } else {
               alert('Mật khẩu không trùng khớp, vui lòng nhập lại.');

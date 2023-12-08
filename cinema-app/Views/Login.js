@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import TextInputField from '../Component/TextInputField';
 import Header from '../Component/header';
@@ -8,6 +8,8 @@ export default Login = function({navigation, onLogin, route}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [email1, setEmail1] = useState('');
+  const [password1, setPassword1] = useState('');
   const [isButtonEnabled, setButtonEnabled] = useState(false);
   // const [state, setState] = useState(false);
 
@@ -46,9 +48,8 @@ export default Login = function({navigation, onLogin, route}) {
   };
   useEffect(() => {
     if (route.params) {
-      const { email, password1 } = route.params;
-      setEmail(email);
-      setPassword(password1);
+      setEmail1(route.params.email);
+      setPassword1(route.params.password1);
     }
   }, [route.params]); 
 
