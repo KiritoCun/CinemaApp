@@ -1389,5 +1389,48 @@ export default {
       deleteSuccess: 'Xoá thành công',
       deleteCf: 'Xác nhận xoá slide?'
     }
+  },
+  // Seat type menu internationalization
+  seatTypeManagement: {
+    searchInput: {
+      titleLb: 'Tên loại ghế',
+      titlePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm loại ghế',
+      editTt: 'Sửa thông tin loại ghế',
+      seatTypeNameTt: 'Tên loại ghế',
+      seatTypeNamePh: 'Nhập',
+      priceTt: 'Đơn giá',
+      pricePh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        seatTypeNameRqMsg: 'Tên loại ghế không được trống',
+        priceRqMsg: 'Đơn giá không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      seatTypeNameLb: 'Tên loại ghế',
+      priceLb: 'Đơn giá',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá loại ghế?'
+    }
   }
 };

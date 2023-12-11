@@ -31,6 +31,8 @@ public class Seat extends TenantEntity {
 	private Long hallId;
 
 	private String seatCode;
+	
+	private String status;
 
 	private String remark;
 }

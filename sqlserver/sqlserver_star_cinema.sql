@@ -480,6 +480,23 @@ CREATE TABLE hall
 ON [PRIMARY]
 GO
 
+IF OBJECT_ID('hall_seat', 'U') IS NOT NULL
+  DROP TABLE hall_seat;
+GO
+CREATE TABLE hall_seat
+(
+	id                  bigint                              NOT NULL,
+  tenant_id           nvarchar(20)    DEFAULT ('000000')  NULL,
+	hall_id             bigint                              NOT NULL,
+  row_code            char(1)                             NOT NULL,
+	column_code         tinyint                             NOT NULL,
+	CONSTRAINT PK__hall_seat__3E82A5DB0EC94801 PRIMARY KEY CLUSTERED (id)
+        WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+        ON [PRIMARY]
+)
+ON [PRIMARY]
+GO
+
 IF OBJECT_ID('showtime', 'U') IS NOT NULL
   DROP TABLE showtime;
 GO
@@ -512,7 +529,7 @@ CREATE TABLE seat_type
 (
 	id                  bigint                              NOT NULL,
   tenant_id           nvarchar(20)    DEFAULT ('000000')  NULL,
-	seat_name           nvarchar(50)                        NOT NULL,
+	seat_type_name      nvarchar(50)                        NOT NULL,
 	price               bigint                              NOT NULL,
   create_dept         bigint                              NULL,
   create_by           bigint                              NULL,
@@ -535,8 +552,10 @@ CREATE TABLE seat
 	id                  bigint                              NOT NULL,
   tenant_id           nvarchar(20)    DEFAULT ('000000')  NULL,
 	hall_id             bigint                              NOT NULL,
+  showtime_id         bigint                              NOT NULL,
 	seat_code           nvarchar(10)                        NOT NULL,
 	seat_type_id        bigint                              NOT NULL,
+  status              char(1)                             NOT NULL,
   create_dept         bigint                              NULL,
   create_by           bigint                              NULL,
   create_time         datetime2(7)                        NULL,

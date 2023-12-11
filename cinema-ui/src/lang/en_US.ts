@@ -1391,5 +1391,48 @@ export default {
       deleteSuccess: 'Delete successfully',
       deleteCf: 'Are you sure to delete slide?'
     }
-  }
+  },
+    // Seat type menu internationalization
+    seatTypeManagement: {
+      searchInput: {
+        titleLb: 'Seat type name',
+        titlePh: 'Input'
+      },
+      headerButton: {
+        addTt: 'Add',
+        editTt: 'Edit',
+        deleteTt: 'Delete'
+      },
+      dialog: {
+        addTt: 'Add seat type',
+        editTt: 'Edit seat type information',
+        seatTypeNameTt: 'Seat type name',
+        seatTypeNamePh: 'Input',
+        priceTt: 'Unit price',
+        pricePh: 'Input',
+        remarkTt: 'Remark',
+        remarkPh: 'Input',
+        footerCancelTt: 'Close',
+        footerSubmitTt: 'Save',
+        rules: {
+          seatTypeNameRqMsg: 'Seat type name cannot be empty',
+          priceRqMsg: 'Unit price cannot be empty',
+        }
+      },
+      columns: {
+        idLb: 'ID',
+        seatTypeNameLb: 'Seat type name',
+        priceLb: 'Unit price',
+        createTimeLb: 'Create time',
+        remarkLb: 'Remark',
+        operateLb: 'Operate',
+        editLb: 'Edit',
+        deleteLb: 'Delete'
+      },
+      operationMsg: {
+        submitSuccess: 'Edit successfully',
+        deleteSuccess: 'Delete successfully',
+        deleteCf: 'Are you sure to delete seat type?'
+      }
+    }
 };

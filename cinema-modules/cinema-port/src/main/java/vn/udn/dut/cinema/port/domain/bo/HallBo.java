@@ -33,7 +33,7 @@ public class HallBo extends TenantEntity {
 
 	private Boolean capacity;
 
-	private Long setNumber;
+	private Long seatNumber;
 
 	private String remark;
 }

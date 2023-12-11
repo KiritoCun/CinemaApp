@@ -28,7 +28,7 @@ public class SeatTypeVo implements Serializable {
 	 */
 	private Long id;
 
-	private String seatName;
+	private String seatTypeName;
 
 	private Long price;
 

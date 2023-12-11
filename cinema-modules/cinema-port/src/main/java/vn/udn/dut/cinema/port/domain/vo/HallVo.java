@@ -34,7 +34,7 @@ public class HallVo implements Serializable {
 
 	private Boolean capacity;
 
-	private Long setNumber;
+	private Long seatNumber;
 
 	private String remark;
 }

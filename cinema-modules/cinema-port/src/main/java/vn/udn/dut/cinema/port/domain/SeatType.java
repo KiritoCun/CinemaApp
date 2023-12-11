@@ -26,7 +26,7 @@ public class SeatType extends TenantEntity {
 	@TableId(value = "id")
 	private Long id;
 
-	private String seatName;
+	private String seatTypeName;
 
 	private Long price;
 
