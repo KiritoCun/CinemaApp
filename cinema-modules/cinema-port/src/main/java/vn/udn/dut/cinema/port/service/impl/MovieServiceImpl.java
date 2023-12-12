@@ -1,5 +1,6 @@
 package vn.udn.dut.cinema.port.service.impl;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class MovieServiceImpl implements IMovieService {
 //        Map<String, Object> params = bo.getParams();
 		LambdaQueryWrapper<Movie> lqw = Wrappers.lambdaQuery();
 		lqw.like(StringUtils.isNotBlank(bo.getTitle()), Movie::getTitle, bo.getTitle());
+		
 		return lqw;
 	}
 
@@ -108,4 +110,33 @@ public class MovieServiceImpl implements IMovieService {
 		}
 		return baseMapper.deleteBatchIds(ids) > 0;
 	}
+
+	public List<MovieVo> getNowPlayingMovies() {
+	    // Lấy ngày hiện tại
+	    LocalDate currentDate = LocalDate.now();
+
+	    // Tạo điều kiện cho phim đang chiếu
+	    LambdaQueryWrapper<Movie> nowPlayingWrapper = Wrappers.lambdaQuery();
+	    nowPlayingWrapper.le(Movie::getReleaseDate, currentDate);
+
+	    List<MovieVo> nowPlayingMovies = baseMapper.selectVoList(nowPlayingWrapper);
+
+
+	    return nowPlayingMovies;
+	}
+
+	public List<MovieVo> getUpcomingMovies() {
+	    // Lấy ngày hiện tại
+	    LocalDate currentDate = LocalDate.now();
+
+	    // Tạo điều kiện cho phim sắp chiếu
+	    LambdaQueryWrapper<Movie> upcomingWrapper = Wrappers.lambdaQuery();
+	    upcomingWrapper.gt(Movie::getReleaseDate, currentDate);
+
+	    List<MovieVo> upcomingMovies = baseMapper.selectVoList(upcomingWrapper);
+
+
+	    return upcomingMovies;
+	}
+
 }

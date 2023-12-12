@@ -36,4 +36,6 @@ public class CinemaVo implements Serializable {
 	private String remark;
 	
 	private Date createTime;
+	
+	
 }

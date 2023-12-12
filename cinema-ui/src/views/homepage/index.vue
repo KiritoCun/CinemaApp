@@ -116,7 +116,7 @@ const movieList = ref<any[]>(
   { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Năm Đêm Kinh Hoàng', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000-5demkinhhoang.jpg'},
   { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Đất Rừng Phương Nam', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/7/0/700x1000_19_.jpg'},
   { trailerUrl: 'https://www.youtube.com/watch?v=cwLAor_smGw&ab_channel=CGVCinemasVietnam', title: 'Âm Hồn Đô Thị', movieDescription: 'Hoa', posterUrl: 'https://ocwckgy6c1obj.vcdn.cloud/media/catalog/product/cache/1/thumbnail/240x388/c88460ec71d04fa96e628a21494d2fd3/t/o/toh_now-showing_size-poster_1_.jpg'}]);
-const slideList = ref<any[]>()
+const slideList = ref<any[]>();
 const videoList = ref<DocumentVO[]>([]);
 const documentList = ref<DocumentVO[]>([]);
 

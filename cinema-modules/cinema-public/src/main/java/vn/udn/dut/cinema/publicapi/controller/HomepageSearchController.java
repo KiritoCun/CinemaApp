@@ -43,6 +43,8 @@ public class HomepageSearchController extends BaseController {
 		result.put("movies", movieService.queryList(bo2));
 		SlideBo bo3 = new SlideBo();
 		result.put("slides", slideService.queryList(bo3));
+		result.put("nowplayingmovies", movieService.getNowPlayingMovies());
+		result.put("upcommingmovies", movieService.getUpcomingMovies());
 		return R.ok(result);
 	}
 }
