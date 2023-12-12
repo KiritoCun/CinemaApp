@@ -31,7 +31,9 @@
             <div class="stepper-pane" v-show="step == 3">
               <Payment></Payment>
             </div>
-            <div class="stepper-pane" v-show="step == 4"></div>
+            <div class="stepper-pane" v-show="step == 4">
+              <Invoice></Invoice>
+            </div>
           </div>
           <div class="controls">
             <button class="btn" @click="step--" :disabled="step == 1">Quay lại</button>
@@ -48,6 +50,8 @@ import { computed, ref } from 'vue';
 import MovieSelection from '@/components/booking/MovieSelection.vue';
 import SeatSelection from '@/components/booking/SeatSelection.vue';
 import Payment from '@/components/booking/Payment.vue';
+import Invoice from '@/components/booking/Invoice.vue';
+
 
 const step = ref(1);
 

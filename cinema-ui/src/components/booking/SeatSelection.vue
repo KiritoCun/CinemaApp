@@ -3,22 +3,6 @@
     <div class="expansion-panels">
       <v-expansion-panels v-model="panel" multiple>
         <v-expansion-panel>
-          <div class="px-4 py-2" style="width: 100%;">
-            <div class="mx-2 d-flex align-items-center row">
-              <h5 class="col-3 col">Đổi suất chiếu</h5>
-              <div class="mx-1 row col col-8">
-                <el-card
-                  v-for="showtime in showtimes"
-                  :key="showtime.id"
-                  class="my-1 mx-2 col col-2 btn btn-primary"
-                  @click="selectShowtime(showtime)"
-                  >{{ showtime.time }}</el-card
-                >
-              </div>
-            </div>
-          </div>
-        </v-expansion-panel>
-        <v-expansion-panel>
           <div class="my-4" style="width:100%;">
             <div class="seat-map mb-5">
               <div v-for="rowNumber in 12" :key="rowNumber" class="seat-row">
@@ -30,7 +14,7 @@
                   :class="{ selected: isSelected(rowNumber, seatNumber) }"
                   @click="toggleSeat(rowNumber, seatNumber)"
                 >
-                  {{ seatNumber }}
+                  {{ String.fromCharCode(77 - rowNumber) }}{{ seatNumber }}
                 </div>
               </div>
             </div>
@@ -57,12 +41,31 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-const panel = ref([1])
-const selectedShowtime = ref('');
+import axios from 'axios';
 
-const selectShowtime = (showtime) => {
-  selectedShowtime.value = showtime;
+const panel = ref([1])
+
+interface SeatProp {
+  rowCode: string;
+  columnCode: number;
+  price: number;
+  seatTypeName: string;
+
+}
+const seats = ref<SeatProp[]>([]);
+
+const fetchData = async () => {
+  try {
+    const response = await axios.get('https://65780c1c197926adf62f617a.mockapi.io/seat');
+    seats.value = response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 };
+
+onMounted(() => {
+  fetchData();
+});
 
 const selectedSeats = ref<number[][]>([]);
 
@@ -83,37 +86,6 @@ const toggleSeat = (rowNumber: number, seatNumber: number): void => {
     selectedSeats.value.splice(index, 1);
   }
 };
-const hallMaps = [
-{
-  seat_code:1,
-},]
-
-const showtimes = [
-  {
-    id:1,
-    time: '20:15'
-  },
-  {
-    id:2,
-    time: '20:15'
-  },
-  {
-    id:3,
-    time: '20:15'
-  },
-  {
-    id:4,
-    time: '20:15'
-  },
-  {
-    id:5,
-    time: '20:15'
-  },
-  {
-    id:6,
-    time: '20:15'
-  },
-]
 </script>
 <style lang="scss" scoped>
 .seat-map {
@@ -123,7 +95,7 @@ const showtimes = [
   margin-right: 40px;
   margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 80px;
+  margin-left: 120px;
 }
 
 .seat-row {
@@ -135,25 +107,26 @@ const showtimes = [
 .seat {
   width: 10px;
   height: 10px;
-  padding: 10px;
+  padding: 14px;
   border-radius: 4px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   color:#fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   cursor: pointer;
+  box-shadow: 0 0 4px 0 sloid #000;
 }
 
 .seat.selected,
 .seat:hover {
-  background-color: #ff5e19;
+  background-color: #87f079;
   color: #fff;
 }
 .row-letter{
-  margin-left: -120px;
+  margin-left: -200px;
   font-size: 20px;
 }
 .note,.note-details{
@@ -177,8 +150,8 @@ const showtimes = [
   padding: 10px;
   border-radius: 4px;
   margin-right: 4px;
-  background-color: #ff5e19;
-  border: 1px solid #ff5e19;
+  background-color: #87f079;
+  border: 1px solid #87f079;
   cursor: default;
 }
 .btn{

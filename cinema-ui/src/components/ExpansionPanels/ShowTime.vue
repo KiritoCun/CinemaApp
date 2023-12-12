@@ -26,7 +26,7 @@
           <span>2D Phụ Đề</span>
         </div>
         <div class="col col-sm-9 row">
-          <el-card v-for="item in itemData" :key="item.id" class="col-2 mx-2 my-1 btn btn-primary ">{{ item.title }}</el-card>
+          <el-card v-for="item in itemData" :key="item.id" class="col-2 mx-2 my-3 btn btn-primary ">{{ item.title }}</el-card>
         </div>
       </li>
     </ul>

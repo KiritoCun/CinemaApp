@@ -5,7 +5,29 @@
         <v-expansion-panel>
           <div class="px-4 py-2" style="width: 100%;">
             <div class="card-body">
-              <h4 class="card-title">Khuyến mãi</h4>
+              <div class="my-4 d-flex justify-content-center">
+                <h5 v-if="remainingTime > 0">
+                  Thời gian giữ ghế : <strong class="time-out">{{ formatTime((remainingTime)) }}</strong>
+                </h5>
+                <div v-else-ife="modalVisible" class="modal" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <v-select :items="[ 'VNPAY','Thanh toán bằng tiền mặt']" label="Phương Thức Thanh Toán "></v-select>
               <div class="card-subtitle text-muted my-4">
                 <h6 class="d-flex flex-start">Mã khuyến mãi</h6>
                 <div class="d-flex mb-1">
@@ -19,32 +41,11 @@
                 <div v-for="code in codes" :key="code.id" class="card my-1" style="width: 100%;">
                   <img :src="code.img" class="card-img-top image" alt="..." style="width: 20%;" />
                   <div class="card-body d-flex justify-content-between align-items-center" style="100%">
-                    <h6 class="card-title">{{code.title}}</h6>
+                    <h6 class="card-title w-30">{{code.title}}</h6>
                     <p class="card-title ml-1">Hạn sử dụng : {{code.expiry}}</p>
                     <a href="#" class="btn btn-outline btn-apply">Dùng ngay</a>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <div class="px-4 py-2 my-4" style="width: 100%;">
-            <div class="card-body">
-              <!-- <h4 class="card-title">Phương thức thanh toán</h4> -->
-
-              <v-select :items="[ 'VNPAY','Thanh toán bằng tiền mặt']" label="Phương Thức Thanh Toán "></v-select>
-              <div class="card-subtitle text-muted my-4">
-                <h6 class="d-flex flex-start">Mã khuyến mãi</h6>
-                <div class="d-flex mb-4">
-                  <input type="text" class="form-control me-4" style="width: 60%;" />
-                  <button class="btn-promotion btn btn-outline">Áp Dụng</button>
-                </div>
-                <span style="display: flex; font-size: 14px;color: #000; align-items: center;">
-                  <p class="flex-start" style="margin-right: 4px;color: #ff646e;">(*)</p>
-                  Bằng việc click/chạm vào THANH TOÁN bên phải, bạn đã xác nhận hiểu rõ các Quy Định Giao Dịch Trực Tuyến của Galaxy Cinema. Xem thêm
-                  tại:
-                </span>
               </div>
             </div>
           </div>
@@ -58,14 +59,46 @@
 </template>
 
 <script setup name="pay" lang="ts">
-import { ref } from 'vue';
+import { ref,watch , onMounted } from 'vue';
 const panel = ref([2])
 
+//giu ghe
+const remainingTime = ref(10);
+const modalVisible = ref(false);
+
+const formatTime = (seconds : number) => {
+  const minutes = Math.floor(seconds / 60);
+  const secondsLeft = seconds % 60;
+  return `${minutes}:${String(secondsLeft).padStart(2, '0')}`;
+};
+
+const showModal = () => {
+  modalVisible.value = true;
+};
+const countDown = () => {
+  if (remainingTime.value > 0) {
+    remainingTime.value -= 1;
+  } else {
+    showModal();
+  }
+};
+
+onMounted(() => {
+  const intervalId = setInterval(countDown, 1000);
+
+  watch(() => modalVisible.value, (newValue) => {
+    if (newValue) {
+      clearInterval(intervalId);
+    }
+  });
+  })
+
+//
 const currentDate = new Date()
 const codes = [
 {
   id: 1,
-  title: 'Giáng sinh an lành',
+  title: 'Giáng sinh an lành hausnasnsj nska ',
   img: 'https://www.gocbao.com/wp-content/uploads/2020/04/thiep-chuc-giang-sinh_092358931.jpg',
   expiry: '13/12/2023'
 },
@@ -123,6 +156,7 @@ const codes = [
   .image {
     width: 10%;
     display: block;
+    border-radius: 4px;
   }
 
   .clearfix:before,
@@ -180,5 +214,8 @@ const codes = [
   display:flex-column;
   justify-content: start;
   font-family: sans-serif
+}
+.time-out{
+  color: #ff5e19;
 }
 </style>

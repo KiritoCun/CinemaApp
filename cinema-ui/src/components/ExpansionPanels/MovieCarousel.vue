@@ -6,107 +6,19 @@
           <div style="min-height: 140px;">
             <div class="d-block">
               <b-container>
-                <!-- First Row -->
                 <b-row class="ml-5">
-                  <b-col class="d-flex flex-column align-items-start film-item"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
+                  <b-col v-for="movie in movies" :key="movie.id" class="d-flex flex-column align-items-start film-item"
+                    ><img style="height:243px;width: 160px;border-radius: 0.25rem" class="card-img-top" :src="movie.posterUrl" alt="Image" />
                     <div class="film-text">
-                      <span class="bold-font"><strong>Điều ước</strong></span>
-                    </div>
-                  </b-col>
-
-                  <b-col class="d-flex flex-column align-items-start"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
-                    <div class="film-text">
-                      <span class="bold-font"><strong>Người vợ cuối cùng </strong></span>
-                    </div>
-                  </b-col>
-                  <b-col class="d-flex flex-column align-items-start"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
-                    <div class="film-text">
-                      <span class="bold-font"><strong>Điều ước</strong></span>
-                    </div>
-                  </b-col>
-                  <b-col class="d-flex flex-column align-items-start"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
-                    <div class="film-text">
-                      <span class="bold-font"><strong>Điều ước</strong></span>
-                    </div>
-                  </b-col>
-                </b-row>
-
-                <!-- Second Row -->
-                <b-row class="ml-5">
-                  <b-col class="d-flex flex-column align-items-start"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
-                    <div class="film-text">
-                      <span class="bold-font"><strong>Điều ước</strong></span>
-                    </div>
-                  </b-col>
-
-                  <b-col class="d-flex flex-column align-items-start"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
-                    <div class="film-text">
-                      <span class="bold-font"><strong>Điều ước</strong></span>
-                    </div>
-                  </b-col>
-                  <b-col class="d-flex flex-column align-items-start"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
-                    <div class="film-text">
-                      <span class="bold-font"><strong>Điều ước</strong></span>
-                    </div>
-                  </b-col>
-                  <b-col class="d-flex flex-column align-items-start"
-                    ><img
-                      style="height:243px;width: 160px;border-radius: 0.25rem"
-                      class="card-img-top"
-                      src="https://image.tmdb.org/t/p/original/yg7B62JJbJrkBwiQrRf8vMDogLB.jpg"
-                      alt="Image"
-                    />
-                    <div class="film-text">
-                      <span class="bold-font"><strong>Điều ước</strong></span>
+                      <span class="bold-font"
+                        ><strong>{{ movie.title }}</strong></span
+                      >
                     </div>
                   </b-col>
                 </b-row>
               </b-container>
             </div>
           </div>
-          <!-- end of div style min-height: 140px; -->
         </div>
       </div>
       <button class="carousel-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -120,6 +32,41 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+import {ref,onMounted} from 'vue';
+import axios from 'axios';
+interface Movie {
+    id: number;
+    title: string;
+    movieDescription: string;
+    releaseDate: string;
+    endDate: string;
+    duration: number;
+    language: string;
+    rated: string;
+    genre: string;
+    director: string;
+    actor: string;
+    rating: string;
+    posterUrl: string;
+    trailerUrl: string;
+    remark: string
+}[];
+
+const movies = ref<Movie[]>([])
+
+const fetchData  = async () => {
+  try {
+  const response = await axios.get('https://65742768f941bda3f2af6a27.mockapi.io/api/mq/movie');
+  movies.value = response.data;
+} catch (error) {
+  console.error('Error fetching data:', error);
+}
+};
+onMounted(() => {
+  fetchData();
+})
+</script>
 
 <style scoped>
 .carousel-next {
