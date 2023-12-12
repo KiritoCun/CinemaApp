@@ -1,6 +1,7 @@
 package vn.udn.dut.cinema.publicapi.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import vn.udn.dut.cinema.common.web.core.BaseController;
 import vn.udn.dut.cinema.port.domain.bo.MovieBo;
 import vn.udn.dut.cinema.port.domain.bo.PromotionBo;
 import vn.udn.dut.cinema.port.domain.bo.SlideBo;
+import vn.udn.dut.cinema.port.domain.vo.MovieVo;
 import vn.udn.dut.cinema.port.service.IMovieService;
 import vn.udn.dut.cinema.port.service.IPromotionService;
 import vn.udn.dut.cinema.port.service.ISlideService;
@@ -46,5 +48,13 @@ public class HomepageSearchController extends BaseController {
 		result.put("nowplayingmovies", movieService.getNowPlayingMovies());
 		result.put("upcommingmovies", movieService.getUpcomingMovies());
 		return R.ok(result);
+	}
+	@GetMapping("/nowplayingmovies")
+	public List<MovieVo> getNowPlayingMovies() {
+		return movieService.getNowPlayingMovies();
+	}
+	@GetMapping("/upcommingmovies")
+	public List<MovieVo> getUpcommingMovies() {
+		return movieService.getUpcomingMovies();
 	}
 }
