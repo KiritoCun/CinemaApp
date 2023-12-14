@@ -103,7 +103,7 @@ export default function Showtime({navigation, route, isLoggedIn}) {
     const [date, setDate] = useState('');
     const viewItem = ({item, index}) => {
       return (
-        <TouchableOpacity style={{width: 95, height: 80, backgroundColor: (selected === index) ? 'purple' : '#F5F5F5', justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 45,
+        <TouchableOpacity style={{width: 100, height: 80, backgroundColor: (selected === index) ? 'purple' : '#F5F5F5', justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 45,
         marginRight: 20, marginLeft: (index === 0) ? 20 : 0, borderRadius: 5, opacity: 1, shadowOffset: { width: 0, height: 6}, shadowOpacity: 0.1}} 
         onPress={() => {
           setSelected(index);
@@ -124,7 +124,7 @@ export default function Showtime({navigation, route, isLoggedIn}) {
             onLoginSuccess: () => {
               // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
               isLoggedIn = true;
-              navigation.navigate('Room', {dataTime, item, name, isLoggedIn});
+              navigation.navigate('Room', {dataTime, item, name, isLoggedIn, address});
           },
         })}}
         >

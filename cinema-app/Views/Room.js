@@ -5,15 +5,6 @@ import { Dropdown } from 'react-native-element-dropdown';
 import Seat from '../Component/seat';
 
 export default function Room({navigation, route}) {
-  useEffect(() => {
-    // Ngăn chặn việc lướt màn hình để quay lại
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      e.preventDefault();
-    });
-
-    // Xóa sự kiện khi component unmounted
-    return unsubscribe;
-  }, [navigation]);
     
   const [nameMovie, setNameMovie] = useState(route.params.name);
   const [price, setPrice] = useState(0);
@@ -137,34 +128,11 @@ export default function Room({navigation, route}) {
       </View>
 
       <View style={{width: '100%', height: '10%', borderTopWidth: 0.2, flexDirection: 'row', justifyContent: 'space-evenly',}}>
-        <View style={{width: '60%', height: '100%',}}>
+        <View style={{width: '60%', height: '100%', backgroundColor: 'red'}}>
           <Text style={{fontSize: 15, fontWeight: '600', top: '20%'}}>{nameMovie}</Text>
         </View>
         <View style={{width: '28%', height: '100%', justifyContent: 'center',}}>
-          <View style={{ backgroundColor: 'white', width: '100%', height: '52%'}}>
-          {/* {renderLabel()} */}
-            <Dropdown
-              style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              // inputSearchStyle={styles.inputSearchStyle}
-              // iconStyle={styles.iconStyle}
-              data={route.params.dataTime}
-              // search
-              maxHeight={300} 
-              labelField="time"
-              valueField="time"
-              placeholder={'Time'} 
-              // searchPlaceholder="Search..."
-              value={time}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setTime(item.time);
-                setIsFocus(false);
-              }}
-            />
-          </View>
+          
         </View>
       </View>
 
@@ -181,7 +149,7 @@ export default function Room({navigation, route}) {
           />
           <FlatList
             numColumns={12}
-            data={createSeatArray(12*12)}
+            data={createSeatArray(144)}
             renderItem={viewItem}
             nestedScrollEnabled={true}
             scrollEnabled={false}
