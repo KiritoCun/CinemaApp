@@ -1391,5 +1391,64 @@ export default {
       deleteSuccess: 'Delete successfully',
       deleteCf: 'Are you sure to delete slide?'
     }
+  },
+  // Account menu internationalization
+  account: {
+    searchInput: {
+      nickNameLb: 'Nick Name',
+      nickNamePh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add account',
+      editTt: 'Edit account',
+      userNameTt: 'User Name',
+      userNamePh: 'Input',
+      nickNameTt: 'Nick Name',
+      nickNamePh: 'Input',
+      customerTypeTt: 'Customer Type',
+      customerTypePh: 'Input',
+      emailTt: 'Emaik',
+      emailPh: 'Input',
+      phonenumberTt: 'Phonenumber',
+      phonenumberPh: 'Input',
+      sexTt: 'Sex',
+      sexPh: 'Input',
+      avatarTt: 'Avatar',
+      avatarPh: 'Input',
+      passwordTt: 'Password',
+      passwordPh: 'Input',
+      statusTt: 'Status',
+      statusPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save'
+    },
+    columns: {
+      userIdLb: 'ID',
+      userNameLb: 'User Name',
+      nickNameLb: 'Nick Name',
+      customerTypeLb: 'Customer Type',
+      emailLb: 'Email',
+      phonenumberLb: 'PhoneNumber', 
+      sexLb: 'Sex',
+      avatarLb: 'Avatar',
+      passwordLb: 'Password',
+      statusLb: 'Status',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete account?'
+    }
   }
 };
