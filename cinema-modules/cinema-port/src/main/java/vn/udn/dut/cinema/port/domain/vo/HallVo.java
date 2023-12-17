@@ -2,6 +2,7 @@ package vn.udn.dut.cinema.port.domain.vo;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 
@@ -29,12 +30,16 @@ public class HallVo implements Serializable {
 	private Long id;
 
 	private Long cinemaId;
+	
+	private String cinemaName;
 
 	private String hallName;
 
 	private Boolean capacity;
 
-	private Long seatNumber;
+	private Long rowNumber;
+	
+	private Date createTime;
 
 	private String remark;
 }

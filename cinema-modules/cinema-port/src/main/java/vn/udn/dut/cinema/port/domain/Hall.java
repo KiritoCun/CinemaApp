@@ -1,6 +1,7 @@
 package vn.udn.dut.cinema.port.domain;
 
 import java.io.Serial;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -32,7 +33,9 @@ public class Hall extends TenantEntity {
 
 	private Boolean capacity;
 
-	private Long seatNumber;
+	private Long rowNumber;
+	
+	private Date createTime;
 	
 	private String remark;
 }

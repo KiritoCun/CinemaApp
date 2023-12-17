@@ -24,49 +24,49 @@ import vn.udn.dut.cinema.common.log.enums.BusinessType;
 import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
 import vn.udn.dut.cinema.common.web.core.BaseController;
-import vn.udn.dut.cinema.port.domain.bo.SeatTypeBo;
-import vn.udn.dut.cinema.port.domain.vo.SeatTypeVo;
-import vn.udn.dut.cinema.port.service.ISeatTypeService;
+import vn.udn.dut.cinema.port.domain.bo.HallBo;
+import vn.udn.dut.cinema.port.domain.vo.HallVo;
+import vn.udn.dut.cinema.port.service.IHallService;
 
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/portCustomer/seatType")
-public class SeatTypeController extends BaseController{
-	private final ISeatTypeService seatTypeService;
+@RequestMapping("/portCustomer/hall")
+public class HallController extends BaseController{
+	private final IHallService hallService;
 	
-	@SaCheckPermission("portCustomer:seatType:list")
+	@SaCheckPermission("portCustomer:hall:list")
 	@GetMapping("/list")
-	public TableDataInfo<SeatTypeVo> list(SeatTypeBo bo, PageQuery pageQuery) {
-		return seatTypeService.queryPageList(bo, pageQuery);
+	public TableDataInfo<HallVo> list(HallBo bo, PageQuery pageQuery) {
+		return hallService.queryPageList(bo, pageQuery);
 	}
 	
-	@SaCheckPermission("portCustomer:seatType:query")
+	@SaCheckPermission("portCustomer:hall:query")
 	@GetMapping(value = { "/", "/{id}" })
-	public R<SeatTypeVo> getInfo(@PathVariable(value = "id", required = false) Long id) {
-		return R.ok(seatTypeService.queryById(id));
+	public R<HallVo> getInfo(@PathVariable(value = "id", required = false) Long id) {
+		return R.ok(hallService.queryById(id));
 	}
 	
-	@SaCheckPermission("portCustomer:seatType:add")
-	@Log(title = "Seat type", businessType = BusinessType.INSERT)
+	@SaCheckPermission("portCustomer:hall:add")
+	@Log(title = "Hall", businessType = BusinessType.INSERT)
 	@RepeatSubmit()
 	@PostMapping()
-	public R<Void> add(@Validated(AddGroup.class) @RequestBody SeatTypeBo bo) {
-		return toAjax(seatTypeService.insertByBo(bo));
+	public R<Void> add(@Validated(AddGroup.class) @RequestBody HallBo bo) {
+		return toAjax(hallService.insertByBo(bo));
 	}
 	
-	@SaCheckPermission("portCustomer:seatType:edit")
-	@Log(title = "Seat type", businessType = BusinessType.UPDATE)
+	@SaCheckPermission("portCustomer:hall:edit")
+	@Log(title = "Hall", businessType = BusinessType.UPDATE)
 	@RepeatSubmit()
 	@PutMapping()
-	public R<Void> edit(@Validated(EditGroup.class) @RequestBody SeatTypeBo bo) {
-		return toAjax(seatTypeService.updateByBo(bo));
+	public R<Void> edit(@Validated(EditGroup.class) @RequestBody HallBo bo) {
+		return toAjax(hallService.updateByBo(bo));
 	}
 	
-	@SaCheckPermission("portCustomer:seatType:remove")
-	@Log(title = "Seat type", businessType = BusinessType.DELETE)
+	@SaCheckPermission("portCustomer:hall:remove")
+	@Log(title = "Hall", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
 	public R<Void> remove(@NotEmpty(message = "Primary key cannot be empty") @PathVariable Long[] ids) {
-		return toAjax(seatTypeService.deleteWithValidByIds(List.of(ids), true));
+		return toAjax(hallService.deleteWithValidByIds(List.of(ids), true));
 	}
 }

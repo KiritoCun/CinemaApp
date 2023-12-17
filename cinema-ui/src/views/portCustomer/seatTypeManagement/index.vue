@@ -116,10 +116,10 @@ const dialog = reactive<DialogOption>({
 });
 const columns = ref<GridColumn[]>([
   { prop: "id", name: 'seatTypeManagement.columns.idLb', sortable: true, size: 10, show: false, readonly: true, },
-  { prop: "seatTypeName", name: 'seatTypeManagement.columns.seatTypeNameLb', sortable: true, size: 350, show: true, readonly: true, align: 'left'  },
-  { prop: "price", name: 'seatTypeManagement.columns.priceLb', sortable: true, size: 350, show: true, readonly: true, align: 'left' },
-  { prop: "createTime", name: 'seatTypeManagement.columns.createTimeLb', sortable: true, size: 250, show: true, readonly: true, formatter: 'datetime' },
-  { prop: "remark", name: 'seatTypeManagement.columns.remarkLb', sortable: true, size: 200, show: true, readonly: true },
+  { prop: "seatTypeName", name: 'seatTypeManagement.columns.seatTypeNameLb', sortable: true, size: 250, show: true, readonly: true, align: 'left'  },
+  { prop: "price", name: 'seatTypeManagement.columns.priceLb', sortable: true, size: 150, show: true, readonly: true, align: 'right', formatter: 'money' },
+  { prop: "createTime", name: 'seatTypeManagement.columns.createTimeLb', sortable: true, size: 150, show: true, readonly: true, formatter: 'datetime' },
+  { prop: "remark", name: 'seatTypeManagement.columns.remarkLb', sortable: true, size: 150, show: true, readonly: true },
   { prop: "operate", name: 'seatTypeManagement.columns.operateLb', size: 120, show: true, readonly: true, pin: 'colPinEnd',
     buttonProps: [
       {

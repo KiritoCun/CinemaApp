@@ -2,6 +2,7 @@ export interface SeatTypeVO {
   id: string | number;
   seatTypeName: string;
   price: string | number;
+  createTime: string;
   remark: string;
 }
 

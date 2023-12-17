@@ -1,18 +1,18 @@
-3<template>
+<template>
   <Layout3
     ref="layout"
     v-loading="layoutLoading"
     :loadingLeft="hallLoading"
-    :loadingRight="containerLoading"
+    :loadingRight="hallSeatLoading"
     :queryParamsLeft="hallQueryParams"
-    :queryParamsRight="containerQueryParams"
+    :queryParamsRight="hallSeatQueryParams"
     :totalLeft="hallTotal"
     :rowDataLeft="hallList"
-    v-model:rowDataRight="containerList"
+    v-model:rowDataRight="hallSeatList"
     :columnSettingLeft="hallColumns"
-    :columnSettingRight="containerColumns"
+    :columnSettingRight="hallSeatColumns"
     :rowKeyLeft="hallRowKey"
-    :rowKeyRight="containerRowKey"
+    :rowKeyRight="hallSeatRowKey"
     :checkboxColLeft="true"
     :checkboxColRight="true"
     @onSelectedRowsLeft="handleSelectHallRows"
@@ -21,45 +21,32 @@
     @onSearchLeft="handleQuery"
     @onResetLeft="resetQuery"
     @onPagingLeft="getHallList"
-    @onPagingRight="getContainerList"
+    @onPagingRight="getHallSeatList"
   >
     <template v-slot:search-input>
-      <el-form-item :label="$t('pickupFull.searchInput.hallIdLb')" class="form-item-search">
+      <el-form-item :label="$t('hallManagement.searchInput.hallNameLb')" class="form-item-search">
         <el-input
-          v-model="hallQueryParams.id"
-          :placeholder="$t('pickupFull.searchInput.hallIdPh')"
+          v-model="hallQueryParams.cinemaName"
+          :placeholder="$t('hallManagement.searchInput.hallNamePh')"
           clearable
           style="width: 120px"
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item :label="$t('pickupFull.searchInput.billBooking1Lb')" prop="billBooking1" class="form-item-search">
-        <el-input
-          v-model="hallQueryParams.billBooking1"
-          :placeholder="$t('pickupFull.searchInput.billBooking1Ph')"
-          clearable
-          style="width: 150px"
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item :label="$t('pickupFull.searchInput.containerNoLb')" prop="containerNo" class="form-item-search">
-        <el-input
-          v-model="hallQueryParams.containerNo"
-          :placeholder="$t('pickupFull.searchInput.containerNoPh')"
-          clearable
-          style="width: 150px"
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item :label="$t('pickupFull.searchInput.statusLb')" prop="status" class="form-item-search">
+      <el-form-item :label="$t('hallManagement.searchInput.cinemaIdLb')" prop="cinemaId" class="form-item-search">
         <el-select
-          v-model="hallQueryParams.status"
-          :placeholder="$t('pickupFull.searchInput.statusPh')"
+          v-model="hallQueryParams.cinemaId"
+          :placeholder="$t('hallManagement.searchInput.cinemaIdPh')"
           clearable
           style="width: 150px"
           @change="handleQuery"
         >
-          <el-option v-for="dict in lg_hall_status" :key="dict.value" :label="dict.label" :value="dict.value" />
+          <el-option
+            v-for="cinema in cinemaOptions"
+            :key="cinema.id"
+            :label="cinema.cinemaName"
+            :value="cinema.id"
+          />
         </el-select>
       </el-form-item>
     </template>
@@ -67,8 +54,8 @@
       <IrButton
         colorStyle="blue"
         type="primary"
-        :title="$t('pickupFull.btn.add')"
-        v-hasPermi="['logService:pickupFull:edit']"
+        :title="$t('hallManagement.headerButton.addTt')"
+        v-hasPermi="['portCustomer:hallManagement:add']"
         leftIcon="plus"
         @onClick="handleHallAdd"
       />
@@ -76,33 +63,30 @@
         colorStyle="gray"
         type="secondary"
         :disabledFlag="hallIds.length !== 1 ? true : false"
-        :title="$t('pickupFull.btn.edit')"
+        :title="$t('hallManagement.headerButton.editTt')"
         leftIcon="edit"
-        v-hasPermi="['logService:pickupFull:edit']"
+        v-hasPermi="['portCustomer:hallManagement:edit']"
         @onClick="handleHallUpdate"
       />
       <IrButton
         colorStyle="red"
         type="secondary"
         :disabledFlag="!!!hallIds.length"
-        :title="$t('pickupFull.btn.delete')"
+        :title="$t('hallManagement.headerButton.deleteTt')"
         leftIcon="delete"
-        v-hasPermi="['logService:pickupFull:edit']"
+        v-hasPermi="['portCustomer:hallManagement:edit']"
         @onClick="handleDeleteHall"
       />
     </template>
     <template v-slot:header-button-right>
-      <HallTitle :hallId="hallId" :billBooking="billBooking" />
       <IrButton
         colorStyle="green"
         type="secondary"
         title="Lưu"
         leftIcon="save"
-        @onClick="handleContainerUpdate"
-        :disabledFlag="!!!containerIds.length"
+        @onClick="handleHallSeatUpdate"
+        :disabledFlag="!!!hallSeatIds.length"
       />
-        </template>
-      </MoreButton>
     </template>
     <template v-slot:dialog>
       <IrDialog :dialog="hallDialog">
@@ -115,14 +99,21 @@
             class="common-form"
             v-loading="layoutHallFormLoading"
           >
-            <el-form-item label="B/L no" prop="billBooking1" class="form-item-row">
-              <el-input v-model="hallForm.billBooking1" placeholder="Nhập" :disabled="hallForm.id !== undefined" />
+            <el-form-item label="Rạp chiếu" prop="cinemaId" class="form-item-row">
+              <el-select v-model="hallForm.cinemaId" placeholder="Nhập">
+                <el-option
+                  v-for="item in cinemaOptions"
+                  :key="item.id"
+                  :label="item.cinemaName"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
             </el-form-item>
-            <el-form-item label="Mã nhận container" prop="orderNumber" class="form-item-row">
-              <el-input v-model="hallForm.orderNumber" placeholder="Nhập" :disabled="hallForm.id !== undefined" />
+            <el-form-item label="Tên phòng" prop="hallName" class="form-item-row">
+              <el-input v-model="hallForm.hallName" placeholder="Nhập" />
             </el-form-item>
-            <el-form-item label="Số lượng container" prop="containerAmount" class="form-item-row">
-              <el-input v-model="hallForm.containerAmount" placeholder="" disabled />
+            <el-form-item label="Số hàng ghế" prop="rowNumber" class="form-item-row">
+              <el-input v-model="hallForm.rowNumber" placeholder="Nhập" />
             </el-form-item>
             <el-form-item label="Ghi chú" prop="remark" class="form-item-row">
               <el-input v-model="hallForm.remark" type="textarea" placeholder="Nhập" />
@@ -130,107 +121,88 @@
           </el-form>
         </template>
         <template v-slot:footer>
-          <IrButton colorStyle="gray" type="secondary" title="Đóng" :width="100" @onClick="cancelHallDialog" />
+          <IrButton colorStyle="gray" type="secondary" title="Đóng" :width="100" @onClick="cancel" />
           <IrButton colorStyle="blue" type="primary" :title="$t('user.dialog.footerSubmitTt')" :width="100" @onClick="submitHallForm" />
         </template>
       </IrDialog>
     </template>
   </Layout3>
 </template>
-<script setup name="PickupFull" lang="ts">
+<script setup name="hall" lang="ts">
 ///////////////////////////////////////////////////////////////////////////////
 // IMPORT SECTION
 ///////////////////////////////////////////////////////////////////////////////
 // IMPORT COMPONENT
 // IMPORT API
+import { getCinemas } from "@/api/system/user"
+import { listHall, getHall, delHall, addHall, updateHall, listHallSeat, updateHallSeats } from '@/api/portCustomer/hallManagement';
+import { listSeatType } from '@/api/portCustomer/seatTypeManagement';
 // IMPORT TYPE
+import { CinemaVO } from "@/api/portCustomer/cinemaManagement/types";
+import { HallVO, HallSeatVO, HallQuery, HallSeatQuery, HallForm } from '@/api/portCustomer/hallManagement/types';
+import { SeatTypeVO } from '@/api/portCustomer/seatTypeManagement/types';
+import { ElForm, FormRules } from 'element-plus';
 // IMPORT GLOBAL TOOL (PROXY)
 import { ComponentInternalInstance, reactive } from "vue";
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 // IMPORT DICTIONARY
-const { lg_hall_status, lg_hall_detail_customs, lg_hall_detail_order, lg_hall_detail_payment, lg_hall_detail_finish, lg_extra_service, lg_lop_status} = toRefs<any>(proxy?.useDict("lg_hall_status", "lg_hall_detail_customs", "lg_hall_detail_order", "lg_hall_detail_payment", "lg_hall_detail_finish", "lg_extra_service", "lg_lop_status"));
 ///////////////////////////////////////////////////////////////////////////////
 // VARIABLE SECTION
 ///////////////////////////////////////////////////////////////////////////////
-const paymentInfo = ref<PaymentVo>();
 const hallId = ref<any>('');
-const billBooking = ref<any>('');
-const layout = ref();
+const hallSelected = ref<any>({});
 const layoutLoading = ref(false);
 const layoutHallFormLoading = ref(false);
 const fileUploadRef = ref();
 const hallList = ref<HallVO[]>([]);
+  const seatTypeList = ref<SeatTypeVO[]>([]);
 const hallIds = ref(<any>[]);
 const hallLoading = ref(true);
 const hallTotal = ref(0);
 const hallRowKey = ref("id");
+const cinemaOptions = ref<CinemaVO[]>([]);
 const hallColumns = ref<GridColumn[]>([
-  { prop: "id", name: 'pickupFull.hallColumns.idLb', sortable: true, size: 100, readonly: true, },
-  { prop: "status", name: 'pickupFull.hallColumns.statusLb', show: false, size: 100, dictData: lg_hall_status, changeRowColor: true },
-  { prop: "billBooking1", name: 'pickupFull.hallColumns.billBooking1Lb', sortable: true, size: 150, readonly: true, align: 'left' },
-  { prop: "containerAmount", name: 'pickupFull.hallColumns.containerAmountLb', sortable: true, size: 120, readonly: true },
-  { prop: "createTime", name: 'pickupFull.hallColumns.createTimeLb', sortable: true, size: 160, readonly: true, formatter: 'datetime' }
+  { prop: "hallName", name: 'hallManagement.columns.hallNameLb', size: 120, readonly: true, align: 'left' },
+  { prop: "cinemaName", name: 'hallManagement.columns.cinemaNameLb', sortable: true, size: 120, readonly: true, align: 'left' },
+  { prop: "rowNumber", name: 'hallManagement.columns.rowNumberLb', sortable: true, size: 100, readonly: true, align: 'right'  },
+  { prop: "createTime", name: 'hallManagement.columns.createTimeLb', sortable: true, size: 160, readonly: true, formatter: 'datetime' },
+  { prop: "remark", name: 'hallManagement.columns.remarkLb', sortable: true, size: 150, readonly: true, align: 'left' },
 ]);
-const containerIds = ref(<any>[]);
-const containerList = ref<HallDetailVO[]>([]);
-const containerLoading = ref(false);
-const containerRowKey = ref("id");
-const iconStatusProps = ref<GridIconStatus[]>([
-  { isCustom: true, icon: 'block', color: 'green', tooltip: 'Dịch vụ đi kèm', visible: (row: any) => {
-      return row.extraMovement === '1' || row.cutSeal === '1' || row.barge === '1' || row.weighing === '1' || row.mtDeliveryBack === '1';
+const hallSeatIds = ref(<any>[]);
+const hallSeatList = ref<any[]>([]);
+const hallSeatLoading = ref(false);
+const hallSeatRowKey = ref("id");
+const seatTypeSelect = ref<SelectProp>({
+  dataSource: seatTypeList,
+  key: 'id',
+  value: 'id',
+  label: 'seatTypeName',
+  selectFunc: (rowIndex: number, value: SeatTypeVO) => {
+    if (value) {
+      hallSeatList.value[rowIndex].seatTypeId = value.id;
+    } else {
+      hallSeatList.value[rowIndex].seatTypeId = '';
     }
-  },
-  { prop: 'orderFlag', dictData: lg_hall_detail_order, icon: 'window' },
-  { prop: 'paymentFlag', dictData: lg_hall_detail_payment, icon: 'wallet' },
-  { prop: 'lopStatus', dictData: lg_lop_status, icon: 'lop' },
-  { prop: 'customsFlag', dictData: lg_hall_detail_customs, icon: 'customs' },
-  { prop: 'finishFlag', dictData: lg_hall_detail_finish, icon: 'truck' },
-]);
-const containerColumns = ref<GridColumn[]>([
-  { prop: "iconStatus", name: 'Trạng thái', size: 150, readonly: true, pin: 'colPinStart', iconStatusProps: iconStatusProps.value },
-  { prop: "containerNo", name: 'pickupFull.containerColumns.containerNoLb', size: 130, readonly: true },
-  { prop: "consignee", name: 'edo.containerColumns.consigneeLb', sortable: true, size: 200, readonly: true, align: 'left' },
-  { prop: "expiredDem", name: 'edo.containerColumns.expiredDemLb', sortable: true, size: 160, readonly: true, formatter: 'date' },
-  { prop: "detFreeTime", name: 'edo.containerColumns.detFreeTimeLb', sortable: true, size: 130, readonly: true, align: 'left' },
-  { prop: "emptyContainerDepot", name: 'edo.containerColumns.emptyContainerDepotLb', sortable: true, size: 185, readonly: true, align: 'left' },
-  { prop: "vesselName", name: 'edo.containerColumns.vesselNameLb', sortable: true, size: 120, readonly: true, align: 'left' },
-  { prop: "voyNo", name: 'edo.containerColumns.voyNoLb', sortable: true, size: 120, readonly: true, align: 'left' },
-  { prop: "pol", name: 'edo.containerColumns.polLb', sortable: true, size: 140, readonly: true, align: 'left' },
-  { prop: "pod", name: 'edo.containerColumns.podLb', sortable: true, size: 160, readonly: true, align: 'left' },
-  { prop: "extraMovement", name: 'Kiểm hoá', sortable: true, size: 160, readonly: true, dictData: lg_extra_service },
-  { prop: "cutSeal", name: 'Cắt seal', sortable: true, size: 160, readonly: true, dictData: lg_extra_service },
-  { prop: "barge", name: 'Sà lan', sortable: true, size: 160, readonly: true, dictData: lg_extra_service },
-  { prop: "weighing", name: 'Cân', sortable: true, size: 160, readonly: true, dictData: lg_extra_service },
-  { prop: "mtBackDate", name: 'Ngày trả rỗng', sortable: true, size: 160, readonly: true, formatter: 'date' },
-  { prop: "deliveryPlan", name: 'Ngày rút điện', sortable: true, size: 200, editor: 'datetime', datePickerProps: {
-      pickerType: 'datetime',
-      valueFormat: 'YYYY-MM-DD HH:mm:ss',
-      format: 'DD/MM/YYYY HH:mm',
-      placeholder: 'DD/MM/YYYY HH:mm',
-    },
-  },
-  { prop: "remark", name: 'pickupFull.containerColumns.remarkLb', size: 200, align: 'left' }
+  }
+});
+const hallSeatColumns = ref<GridColumn[]>([
+  { prop: "rowCode", name: 'hallManagement.hallSeatColumns.rowCodeLb', sortable: true, size: 100, align: 'center' },
+  { prop: "rowSeatNumber", name: 'hallManagement.hallSeatColumns.rowSeatNumberLb', sortable: true, size: 150, align: 'left' },
+  { prop: "seatTypeId", name: 'hallManagement.hallSeatColumns.seatTypeIdLb', sortable: true, size: 150, editor: 'select', selectProps: seatTypeSelect.value },
+  { prop: "remark", name: 'hallManagement.hallSeatColumns.remarkLb', size: 150, align: 'left' }
 ]);
 const hallQueryParams = reactive<HallQuery>({
   pageNum: 1,
   pageSize: 20,
-  billBooking1: '',
-  containerNo: '',
-  status: '',
+  cinemaId: '',
+  cinemaName: '',
+  hallName: '',
   orderByColumn: 'createTime',
-  isAsc: 'descending'
+  isAsc: 'descending',
 });
-const containerQueryParams = reactive<HallDetailQuery>({
+const hallSeatQueryParams = reactive<HallSeatQuery>({
   hallId: undefined
 });
-const customsList = ref<CustomsVO[]>([])
-const customsRef = ref();
-const extraServiceRef = ref();
-const confirmPaymentRef = ref();
-const lops = ref<LopVO[]>([]);
-const confirmOrderRef = ref();
-const confirmLopExtendRef = ref();
-const confirmOtpRef = ref();
 const hallFormRef = ref(ElForm);
 const initHallFormData: HallForm = {
   id: undefined,
@@ -243,10 +215,9 @@ const hallDialog = reactive<DialogOption>({
 });
 const hallForm = ref<HallForm>({...initHallFormData});
 const hallFormRules: FormRules = {
-  billBooking1: [{required: true, trigger: "blur", message: "B/L no không được trống", }],
-  orderNumber: [{ required: true, trigger: "blur", message: "Mã nhận container không được trống" }]
+  cinemaId: [{required: true, trigger: "blur", message: "Rạp chiếu không được trống", }],
+  hallName: [{ required: true, trigger: "blur", message: "Tên phòng chiếu không được trống" }]
 };
-const orderForm = ref<HallDetailForm>({});
 ///////////////////////////////////////////////////////////////////////////////
 // METHOD SECTION
 ///////////////////////////////////////////////////////////////////////////////
@@ -254,15 +225,25 @@ const handleSelectHallRows = (selectedIds: { value: (string | number)[]; }) => {
   hallIds.value = selectedIds.value;
 }
 const handleSelectContainerRows = (selectedIds: { value: (string | number)[]; }) => {
-  containerIds.value = selectedIds.value;
+  hallSeatIds.value = selectedIds.value;
 }
 const handleSelectCellHall = (modal: any) => {
-  containerIds.value = [];
-  resetContainerList();
-  containerQueryParams.hallId = hallList.value[modal.rowIndex].id;
+  hallSeatIds.value = [];
+  resetHallSeatList();
+  hallSeatQueryParams.hallId = hallList.value[modal.rowIndex].id;
+  hallSelected.value = hallList.value[modal.rowIndex];
   hallId.value = hallList.value[modal.rowIndex].id;
-  billBooking.value = hallList.value[modal.rowIndex].billBooking1;
-  getContainerList();
+  getHallSeatList();
+}
+/** Query category vessel voyage pod */
+const getSeatTypeList =async () => {
+  const res = await listSeatType({
+    pageNum: 1,
+    pageSize: 20,
+    orderByColumn: 'createTime',
+    isAsc: 'descending'
+  });
+  seatTypeList.value = res.rows;
 }
 /** Query hall list */
 const getHallList = async () => {
@@ -271,28 +252,49 @@ const getHallList = async () => {
   hallList.value = res.rows;
   hallTotal.value = res.total;
   hallLoading.value = false;
-  resetContainerList();
+  resetHallSeatList();
   if (hallList.value.length > 0) {
-    containerQueryParams.hallId = hallList.value[0].id;
+    hallSeatQueryParams.hallId = hallList.value[0].id;
+    hallSelected.value = hallList.value[0];
     hallId.value = hallList.value[0].id;
-    billBooking.value = hallList.value[0].billBooking1;
-    getContainerList();
+    getHallSeatList();
   }
 }
 /** Query hall detail list */
-const getContainerList = async () => {
-  containerLoading.value = true;
-  const res = await listHallDetail(containerQueryParams);
-  containerList.value = res.data;
-  containerLoading.value = false;
+const getHallSeatList = async () => {
+  hallSeatLoading.value = true;
+  const res = await listHallSeat(hallSeatQueryParams);
+  hallSeatList.value = res.rows;
+  const diff = hallSelected.value.rowNumber - hallSeatList.value.length;
+  if (diff > 0) {
+    for (let i = 0; i < diff; i++) {
+      hallSeatList.value.push({ key: i });
+    }
+  }
+  for (let i = 0; i < hallSeatList.value.length; i++) {
+    if (hallSeatList.value[i].id) {
+      hallSeatList.value[i].key = hallSeatList.value[i].id;
+    }
+  }
+  hallSeatLoading.value = false;
 }
 /** Reset container list */
-const resetContainerList = () => {
+const resetHallSeatList = () => {
+  hallSelected.value = {};
   hallId.value = '';
-  billBooking.value = '';
-  containerList.value = [];
+  hallSeatList.value = [];
   hallIds.value = [];
-  containerQueryParams.hallId = undefined;
+  hallSeatQueryParams.hallId = undefined;
+}
+/** Cancel button */
+const cancel = () => {
+  reset();
+  hallDialog.visible = false;
+}
+/** Form reset */
+const reset = () => {
+  hallForm.value = {...initHallFormData};
+  hallFormRef.value.resetFields();
 }
 /** Search button action */
 const handleQuery = () => {
@@ -306,20 +308,32 @@ const resetQuery = () => {
 /** Add button action */
 const handleHallAdd = () => {
   hallDialog.visible = true;
-  hallDialog.title = 'Tạo lô';
+  hallDialog.title = 'Tạo phòng chiếu';
   nextTick(() => {
     resetHallForm();
+    fetchCinema1();
   })
 }
+const fetchCinema1 = async () => {
+  const { data } = await getCinemas();
+  cinemaOptions.value = data;
+}
+
+const fetchCinema2 = async (cinemaId: string | number) => {
+  const { data } = await getCinemas(cinemaId);
+  cinemaOptions.value = data;
+}
 /** Edit button action */
-const handleHallUpdate = () => {
+const handleHallUpdate = (row?: HallForm | HallVO) => {
   hallDialog.visible = true;
-  hallDialog.title = 'Sửa lô';
+  hallDialog.title = 'Cập nhật thông tin phòng chiếu';
   nextTick(async () => {
     resetHallForm();
+    const cinemaId = row?.cinemaId || hallIds.value[0];
     const _id = hallIds.value[0]
     const res = await getHall(_id);
     Object.assign(hallForm.value, res.data);
+    fetchCinema2(cinemaId);
   })
 }
 /** Form reset */
@@ -329,10 +343,6 @@ const resetHallForm = () => {
 }
 /** Submit button */
 const submitHallForm = () => {
-    if (hallForm.value.id && isProcessingHall(hallList.value, hallIds.value)) {
-      proxy?.$modal.msgError(`Lô ${containerList.value[0].billBooking1} đã khai hải quan hoặc đã làm lệnh, không thể cập nhật thông tin`);
-      return;
-    }
   hallFormRef.value.validate(async (valid: boolean) => {
     if (valid && (fileUploadRef.value ? fileUploadRef.value.submitFile() : true)) {
       layoutHallFormLoading.value = true;
@@ -347,30 +357,22 @@ const submitHallForm = () => {
     }
   });
 }
-/** Save list container */
-const handleContainerUpdate = async () => {
-  if (!isOrderReadyProcess(containerList.value, containerIds.value)) {
-    proxy?.$modal.alertWarning('Không thể cập nhật thông tin, container đã làm lệnh!', 'Cảnh báo');
-    return;
-  }
+/** Save list hall seat */
+const handleHallSeatUpdate = async () => {
   layoutLoading.value = true;
-  let listShipmenDetail = containerList.value.filter((contaner) => containerIds.value.includes(parseInt(contaner.id + '')))
-  await updateHallDetails(listShipmenDetail).finally(() => layoutLoading.value = false);
-  getContainerList();
+  //let listHallSeatData = hallSeatList.value.filter((hallSeat) => hallSeatIds.value.includes(parseInt(hallSeat.id + '')))
+  let listHallSeatData = hallSeatList.value;
+  await updateHallSeats(listHallSeatData, hallSelected.value.id).finally(() => layoutLoading.value = false);
+  getHallSeatList();
 }
-
 
 /** Validate delete */
 const handleDeleteHall = async () => {
-  if (isProcessingHall(hallList.value, hallIds.value)) {
-    proxy?.$modal.msgError("Lô đã hoặc đang được xử lý");
-    return
-  }
   const ids = hallIds.value
-  await proxy?.$modal.confirmDelete("Xác nhận xóa lô?").then(action => {
+  await proxy?.$modal.confirmDelete("Xác nhận xóa phòng?").then(action => {
     layoutLoading.value = true;
     if (action === 'cancel') return;
-    deleteContainer(ids).finally(() => layoutLoading.value = false);
+    delHall(ids).finally(() => layoutLoading.value = false);
   })
   getHallList();
 }
@@ -379,5 +381,6 @@ const handleDeleteHall = async () => {
 ///////////////////////////////////////////////////////////////////////////////
 onMounted(() => {
   getHallList();
+  getSeatTypeList();
 });
 </script>

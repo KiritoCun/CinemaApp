@@ -466,7 +466,7 @@ CREATE TABLE hall
 	hall_name           nvarchar(50)                        NOT NULL,
 	cinema_id           bigint                              NOT NULL,
 	capacity            bigint                              NULL,
-	seat_number         bigint                              NULL,
+	row_number          bigint                              NULL,
   create_dept         bigint                              NULL,
   create_by           bigint                              NULL,
   create_time         datetime2(7)                        NULL,
@@ -488,8 +488,9 @@ CREATE TABLE hall_seat
 	id                  bigint                              NOT NULL,
   tenant_id           nvarchar(20)    DEFAULT ('000000')  NULL,
 	hall_id             bigint                              NOT NULL,
+  seat_type_id        bigint                              NOT NULL,
   row_code            char(1)                             NOT NULL,
-	column_code         tinyint                             NOT NULL,
+	row_seat_number     tinyint                             NOT NULL,
 	CONSTRAINT PK__hall_seat__3E82A5DB0EC94801 PRIMARY KEY CLUSTERED (id)
         WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
         ON [PRIMARY]
@@ -544,6 +545,13 @@ CREATE TABLE seat_type
 ON [PRIMARY]
 GO
 
+INSERT seat_type VALUES (1, N'000000', N'Normal', 50000, 103, 1, getdate(), NULL, NULL, 'TEST')
+GO
+INSERT seat_type VALUES (2, N'000000', N'Vip', 65000, 103, 1, getdate(), NULL, NULL, 'TEST')
+GO
+INSERT seat_type VALUES (3, N'000000', N'Couple', 90000, 103, 1, getdate(), NULL, NULL, 'TEST')
+GO
+
 IF OBJECT_ID('seat', 'U') IS NOT NULL
   DROP TABLE seat;
 GO
@@ -553,7 +561,8 @@ CREATE TABLE seat
   tenant_id           nvarchar(20)    DEFAULT ('000000')  NULL,
 	hall_id             bigint                              NOT NULL,
   showtime_id         bigint                              NOT NULL,
-	seat_code           nvarchar(10)                        NOT NULL,
+	row_code            char(1)                             NOT NULL,
+	column_code         tinyint                             NOT NULL,
 	seat_type_id        bigint                              NOT NULL,
   status              char(1)                             NOT NULL,
   create_dept         bigint                              NULL,

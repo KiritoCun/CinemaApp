@@ -10,6 +10,11 @@ export interface HallVO {
   cinemaId: string | number;
 
   /**
+   * Cinema name
+   */
+  cinemaName: string;
+
+  /**
    *
    */
   hallName: string;
@@ -22,7 +27,7 @@ export interface HallVO {
   /**
    *
    */
-  seatNumber: string;
+  rowNumber: string | number;
 
   /**
    * Remark
@@ -54,7 +59,7 @@ export interface HallForm extends BaseEntity {
   /**
    *
    */
-  seatNumber?: string;
+  rowNumber?: string | number;
 
   /**
    * Remark
@@ -63,18 +68,86 @@ export interface HallForm extends BaseEntity {
 }
 
 export interface HallQuery extends PageQuery {
+  
+  /**
+   *
+   */
+  cinemaId: string | number;
+
+  /**
+   *
+   */
+  cinemaName: string;
+
   /**
    *
    */
   hallName: string;
+}
+
+export interface HallSeatVO {
+  /**
+   * Hall id
+   */
+  hallId: string | number;
+
+  /**
+   * Seat type id
+   */
+  seatTypeId: string | number;
+
+  /**
+   * Id
+   */
+  id: string | number;
 
   /**
    *
    */
-  capacity: Boolean;
+  rowCode: string;
 
   /**
    *
    */
-  seatNumber: string;
+  columCode: string | number;
+
+  /**
+   *
+   */
+  createTime: string;
+}
+
+export interface HallSeatForm extends BaseEntity {
+  /**
+   * Hall id
+   */
+  id?: string | number;
+
+  /**
+   * Cinema id
+   */
+  hallId?: string | number;
+
+  /**
+   * Seat type id
+   */
+  seatTypeId?: string | number;
+
+  /**
+   *
+   */
+  rowCode?: string | number;
+
+  /**
+   *
+   */
+  rowSeatNumber?: string;
+}
+
+export interface HallSeatQuery {
+  
+  /**
+   *
+   */
+  hallId?: string | number;
 }

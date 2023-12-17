@@ -30,7 +30,9 @@ public class Seat extends TenantEntity {
 
 	private Long hallId;
 
-	private String seatCode;
+    private String rowCode;
+    
+    private Integer columnCode;
 	
 	private String status;
 

@@ -32,7 +32,9 @@ public class SeatVo implements Serializable {
 
 	private Long hallId;
 
-	private String seatCode;
+    private String rowCode;
+    
+    private Integer columnCode;
 	
 	private String status;
 

@@ -7,6 +7,7 @@ import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
 import vn.udn.dut.cinema.port.domain.bo.HallSeatBo;
 import vn.udn.dut.cinema.port.domain.vo.HallSeatVo;
+import vn.udn.dut.cinema.port.domain.vo.HallVo;
 
 /**
  * HallSeat service interface
@@ -45,5 +46,7 @@ public interface IHallSeatService {
 	 * Verify and delete HallSeat information in batches
 	 */
 	Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+
+	Boolean updateHallSeatListBo(List<HallSeatBo> hallSeats, HallVo hall);
 
 }

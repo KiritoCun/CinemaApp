@@ -20,8 +20,10 @@ public class HallSeatVo implements Serializable {
 	private Long id;
 
 	private Long hallId;
+	
+	private Long seatTypeId;
 
 	private String rowCode;
 
-	private Integer columnCode;
+	private Integer rowSeatNumber;
 }

@@ -9,6 +9,8 @@ import vn.udn.dut.cinema.common.core.validate.EditGroup;
 import vn.udn.dut.cinema.common.tenant.core.TenantEntity;
 import vn.udn.dut.cinema.port.domain.SeatType;
 
+import java.util.Date;
+
 /**
  * Seat type business object
  *
@@ -33,6 +35,8 @@ public class SeatTypeBo extends TenantEntity {
 
 	@NotNull(message = "Price cannot be empty", groups = { AddGroup.class, EditGroup.class })
 	private Long price;
+
+	private Date createTime;
 
 	private String remark;
 }

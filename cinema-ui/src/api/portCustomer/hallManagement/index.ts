@@ -1,63 +1,88 @@
 import request from '@/utils/request';
 import { AxiosPromise } from 'axios';
-import { CinemaVO, CinemaForm, CinemaQuery } from '@/api/portCustomer/cinemaManagement/types';
+import { HallVO, HallSeatVO, HallForm, HallSeatForm, HallQuery, HallSeatQuery } from '@/api/portCustomer/hallManagement/types';
 import { parseStrEmpty } from '@/utils/starcinema';
 
 /**
- * Query Cinema list
+ * Query Hall list
  * @param query
  * @returns {*}
  */
-export const listCinema = (query?: CinemaQuery): AxiosPromise<CinemaVO[]> => {
+export const listHall = (query?: HallQuery): AxiosPromise<HallVO[]> => {
   return request({
-    url: '/portCustomer/cinema/list',
+    url: '/portCustomer/hall/list',
     method: 'get',
     params: query
   });
 };
 
 /**
- * Query detail of Cinema
+ * Query detail of Hall
  * @param id
  */
-export const getCinema = (id?: string | number): AxiosPromise<CinemaVO> => {
+export const getHall = (id?: string | number): AxiosPromise<HallVO> => {
   return request({
-    url: '/portCustomer/cinema/' + parseStrEmpty(id),
+    url: '/portCustomer/hall/' + parseStrEmpty(id),
     method: 'get'
   });
 };
 
 /**
- * Add Cinema
+ * Add Hall
  * @param data
  */
-export const addCinema = (data: CinemaForm) => {
+export const addHall = (data: HallForm) => {
   return request({
-    url: '/portCustomer/cinema',
+    url: '/portCustomer/hall',
     method: 'post',
     data: data
   });
 };
 
 /**
- * Edit Cinema
+ * Edit Hall
  * @param data
  */
-export const updateCinema = (data: CinemaForm) => {
+export const updateHall = (data: HallForm) => {
   return request({
-    url: '/portCustomer/cinema',
+    url: '/portCustomer/hall',
     method: 'put',
     data: data
   });
 };
 
 /**
- * Delete Cinema
+ * Delete Hall
  * @param id
  */
-export const delCinema = (id: string | number | Array<string | number>) => {
+export const delHall = (id: string | number | Array<string | number>) => {
   return request({
-    url: '/portCustomer/cinema/' + id,
+    url: '/portCustomer/hall/' + id,
     method: 'delete'
+  });
+};
+
+/**
+ * Query Hall list
+ * @param query
+ * @returns {*}
+ */
+export const listHallSeat = (query?: HallSeatQuery): AxiosPromise<HallSeatVO[]> => {
+  return request({
+    url: '/portCustomer/hallSeat/list',
+    method: 'get',
+    params: query
+  });
+};
+
+/**
+ * Edit Hall
+ * @param data
+ */
+export const updateHallSeats = (hallSeats: HallSeatVO[], hallId: string | number) => {
+  return request({
+    url: '/portCustomer/hallSeat/hall/' + hallId,
+    method: 'put',
+    data: hallSeats
   });
 };

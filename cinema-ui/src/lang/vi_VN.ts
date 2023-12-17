@@ -1393,8 +1393,8 @@ export default {
   // Seat type menu internationalization
   seatTypeManagement: {
     searchInput: {
-      titleLb: 'Tên loại ghế',
-      titlePh: 'Nhập'
+      seatTypeNameLb: 'Tên loại ghế',
+      seatTypeNamePh: 'Nhập'
     },
     headerButton: {
       addTt: 'Thêm',
@@ -1406,7 +1406,7 @@ export default {
       editTt: 'Sửa thông tin loại ghế',
       seatTypeNameTt: 'Tên loại ghế',
       seatTypeNamePh: 'Nhập',
-      priceTt: 'Đơn giá',
+      priceTt: 'Đơn giá (VND)',
       pricePh: 'Nhập',
       remarkTt: 'Ghi chú',
       remarkPh: 'Nhập',
@@ -1420,7 +1420,7 @@ export default {
     columns: {
       idLb: 'ID',
       seatTypeNameLb: 'Tên loại ghế',
-      priceLb: 'Đơn giá',
+      priceLb: 'Đơn giá (VND)',
       createTimeLb: 'Ngày tạo',
       remarkLb: 'Ghi chú',
       operateLb: 'Thao tác',
@@ -1431,6 +1431,44 @@ export default {
       submitSuccess: 'Lưu thành công',
       deleteSuccess: 'Xoá thành công',
       deleteCf: 'Xác nhận xoá loại ghế?'
+    }
+  },
+  // Hall menu internationalization
+  hallManagement: {
+    searchInput: {
+      hallNameLb: 'Tên phòng',
+      hallNamePh: 'Nhập',
+      cinemaIdLb: 'Rạp chiếu',
+      cinemaIdPh: 'Chọn',
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    columns: {
+      hallNameLb: 'Tên phòng',
+      cinemaNameLb: 'Rạp chiếu',
+      rowNumberLb: 'Số hàng ghế',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    hallSeatColumns: {
+      rowCodeLb: 'Mã hàng',
+      rowSeatNumberLb: 'Số ghế của hàng',
+      seatTypeIdLb: 'Loại ghế',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá phòng?'
     }
   }
 };
