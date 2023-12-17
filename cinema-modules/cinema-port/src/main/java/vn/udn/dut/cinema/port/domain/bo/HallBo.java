@@ -1,5 +1,7 @@
 package vn.udn.dut.cinema.port.domain.bo;
 
+import java.util.Date;
+
 import io.github.linpeilie.annotations.AutoMapper;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -33,7 +35,9 @@ public class HallBo extends TenantEntity {
 
 	private Boolean capacity;
 
-	private Long setNumber;
+	private Long rowNumber;
+	
+	private Date createTime;
 
 	private String remark;
 }
