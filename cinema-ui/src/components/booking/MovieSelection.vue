@@ -25,10 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineEmits} from 'vue';
+import { ref} from 'vue';
 import MovieCarousel from '@/components/ExpansionPanels/MovieCarousel.vue';
 import ShowTime from '@/components/ExpansionPanels/ShowTime.vue';
 import CardDetails from '@/components/ExpansionPanels/CardDetails.vue';
+import { saveToLocalStorage, removeFromLocalStorage } from '@/utils/localStorage';
 
 const panel=ref<string[]>([]);
 
@@ -68,6 +69,8 @@ const currentDate = ref<Date>(new Date());
 const handleSelectMovie = (movie: Movie) => {
   selectedMovie.value = movie;
   selectedShowTime.value = null;
+  saveToLocalStorage('selectedMovie', movie);
+  removeFromLocalStorage('selectedShowTime');
   currentDate.value = new Date();
 };
 
@@ -77,13 +80,12 @@ const togglePanelMovie = () => {
 
 const handleSelectShowTime = (showTime: ShowTimeInfo) => {
   selectedShowTime.value = showTime;
+  saveToLocalStorage('selectedShowTime', showTime);
 };
 
 const togglePanelShowTime = () => {
   panel.value = [''];
 }
-onMounted(() => {
-});
 </script>
 
 <style lang="scss" scoped>
