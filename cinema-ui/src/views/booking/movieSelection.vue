@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import MovieSelection from '@/components/booking/MovieSelection.vue';
+import { removeFromLocalStorage } from '@/utils/localStorage';
 
 const step = ref(1);
 
@@ -29,4 +30,8 @@ const decrementStep = () => {
   step.value -= 1;
   return `/homepage`;
 }
+onMounted(() => {
+  removeFromLocalStorage('selectedMovie');
+  removeFromLocalStorage('selectedShowTime');
+});
 </script>

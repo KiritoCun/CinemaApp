@@ -4,18 +4,22 @@
       <img
         style="height:150px;width: 100px;border-radius: 0.25rem; margin-right: 12px"
         class="card-img-top"
-        :src="selectedMovie?.posterUrl"
+        :src="processedMovie?.posterUrl"
         alt="Image"
       />
       <div>
-        <b-card-text class="text-start"><strong>{{ selectedMovie?.title }}</strong></b-card-text>
-        <b-card-text class="text-start">{{ selectedMovie?.genre }}</b-card-text>
+        <b-card-text class="text-start"
+          ><strong>{{ processedMovie?.title }}</strong></b-card-text
+        >
+        <b-card-text class="text-start">{{ processedMovie?.genre }}</b-card-text>
       </div>
     </div>
 
     <div class="text-justify ">
-      <b-card-text class="mb-2"><strong>{{ selectedShowTime?.cinemaName }}</strong> - RAP 5</b-card-text>
-      <b-card-text v-html="showDate(selectedShowTime?.startTime || '')"></b-card-text>
+      <b-card-text class="mb-2"
+        ><strong>{{ processedShowTime?.cinemaName }}</strong> - RAP 5</b-card-text
+      >
+      <b-card-text v-html="showDate(processedShowTime?.startTime || '')"></b-card-text>
     </div>
     <hr class="hr" />
     <div class="row" style="font-size: 14px;">
@@ -41,6 +45,7 @@
 
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue';
+import { getFromLocalStorage } from '@/utils/localStorage';
 
 interface Movie {
     id: number;
@@ -80,6 +85,10 @@ const props = defineProps({
   }
 });
 
+const retrievedMovie = getFromLocalStorage<Movie>('selectedMovie');
+
+const retrievedShowTime = getFromLocalStorage<ShowTimeInfo>('selectedShowTime');
+
 const showDate = (startTime?: string) => {
   if (!startTime) return '';
 
@@ -92,6 +101,22 @@ const showDate = (startTime?: string) => {
   const [hours, minutes] = timeStringHours.split(':');
 
   return `Suất: <strong>${hours}:${minutes}</strong> - Ngày: <strong>${day}/${month}/${year}</strong>`;
-
 };
+
+const processedMovie = computed(() => {
+  if (props.selectedMovie) {
+    return props.selectedMovie;
+  }
+  return retrievedMovie;
+});
+
+const processedShowTime = computed(() => {
+  if (props.selectedShowTime) {
+    return props.selectedShowTime;
+  }
+  return retrievedShowTime;
+});
+
+onMounted(() => {
+});
 </script>
