@@ -146,8 +146,6 @@ const selectedShowTimes = computed(() => {
 
 const emit = defineEmits(['selectShowTime','panel-toggle']);
 
-const selectedShowTimeId = ref<number | null>(null);
-
 interface CardDetailInfo {
   uniqueId: string;
   id: number;
@@ -158,7 +156,6 @@ interface CardDetailInfo {
 }
 
 const handleSelectShowTime = (cinema: CardDetailInfo) => {
-  selectedShowTimeId.value = cinema.id;
   emit('selectShowTime', cinema);
   emit('panel-toggle');
 };
