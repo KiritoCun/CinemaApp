@@ -3,34 +3,18 @@
     <div class="expansion-panels">
       <v-expansion-panels v-model="panel" multiple>
         <v-expansion-panel>
-          <div class="px-4 py-2" style="width: 100%;">
-            <div class="mx-2 d-flex align-items-center row">
-              <h5 class="col-3 col">Đổi suất chiếu</h5>
-              <div class="mx-1 row col col-8">
-                <el-card
-                  v-for="showtime in showtimes"
-                  :key="showtime.id"
-                  class="my-1 mx-2 col col-2 btn btn-primary"
-                  @click="selectShowtime(showtime)"
-                  >{{ showtime.time }}</el-card
-                >
-              </div>
-            </div>
-          </div>
-        </v-expansion-panel>
-        <v-expansion-panel>
           <div class="my-4" style="width:100%;">
             <div class="seat-map mb-5">
-              <div v-for="rowNumber in 12" :key="rowNumber" class="seat-row">
-                <h5 class="row-letter">{{ String.fromCharCode(77 - rowNumber) }}</h5>
+              <div v-for="rowNumber in seatData" :key="rowNumber.id" class="seat-row">
+                <h5 class="row-letter">{{ rowNumber.rowCode }}</h5>
                 <div
-                  v-for="seatNumber in 12"
-                  :key="seatNumber"
+                  v-for="seatNumber in rowNumber.seatLists"
+                  :key="seatNumber.columnCode"
                   class="seat"
-                  :class="{ selected: isSelected(rowNumber, seatNumber) }"
+                  :class="{ selected: isSelected(rowNumber, seatNumber), sold : isSold(rowNumber, seatNumber), readonly: isSold(rowNumber, seatNumber)}"
                   @click="toggleSeat(rowNumber, seatNumber)"
                 >
-                  {{ seatNumber }}
+                  {{ rowNumber.rowCode }}{{ seatNumber.id }}
                 </div>
               </div>
             </div>
@@ -51,69 +35,135 @@
       </v-expansion-panels>
     </div>
     <div class="card-container">
-      <CardDetails></CardDetails>
+      <CardDetails :selectedSeat="seats"></CardDetails>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-const panel = ref([1])
-const selectedShowtime = ref('');
+import axios from 'axios';
+import { saveToLocalStorage, getFromLocalStorage, removeAllFromLocalStorage} from '@/utils/localStorage';
 
-const selectShowtime = (showtime) => {
-  selectedShowtime.value = showtime;
+const panel = ref([1])
+
+interface Column {
+  id: number;
+  columnCode: number;
+  status : number;
+}
+
+interface HallMap {
+  id: number;
+  rowCode: string;
+  price: number;
+  seatLists: Column[];
+}
+
+interface SeatProp {
+  uniqueId : string;
+  id: number;
+  columnCode: number;
+  rowCode : string;
+  price: number;
+  status : number;
+}
+
+const hallMap = ref<HallMap[]>([]);
+
+const seats = ref<SeatProp[]>([]);
+
+const fetchData = async () => {
+  try {
+    const response = await axios.get('https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/seatOrderList');
+    hallMap.value = response.data;
+    const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
+    seats.value = localStorageSeats as SeatProp[];
+    hallMap.value.map(row => {
+      row.seatLists.map(seat => {
+      if (seat.status === 1) {
+            // Check against Local Storage for selected seats
+            if (seats.value.find(seatProp =>
+              seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
+            ))
+            {
+              selectedSeats.value.push([row.id, seat.columnCode]);
+            }
+          else {
+            soldSeats.value.push([row.id, seat.columnCode]);
+          }
+        }
+      });
+  });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+const soldSeats = ref<number[][]>([]);
+
+const isSold = (rowNumber: HallMap, seatNumber: Column): boolean => {
+  return soldSeats.value.some(
+    seat => seat[0] === rowNumber.id && seat[1] === seatNumber.columnCode
+  );
 };
 
 const selectedSeats = ref<number[][]>([]);
 
-const isSelected = (rowNumber: number, seatNumber: number): boolean => {
+const isSelected = (rowNumber: HallMap, seatNumber: SeatProp): boolean => {
   return selectedSeats.value.some(
-    seat => seat[0] === rowNumber && seat[1] === seatNumber
+    seat => seat[0] === rowNumber.id && seat[1] === seatNumber.columnCode
   );
 };
 
-const toggleSeat = (rowNumber: number, seatNumber: number): void => {
-  const index = selectedSeats.value.findIndex(
-    seat => seat[0] === rowNumber && seat[1] === seatNumber
-  );
+const seatData = computed(() => {
+  return hallMap.value.flatMap(hallMap => ({
+    ...hallMap,
+    seatLists: hallMap.seatLists
+      .map(column => ({
+        ...column,
+        uniqueId: `${hallMap.id}${column.columnCode}`,
+        rowCode : `${hallMap.id}`,
+        price : hallMap.price
+      }))
+  })).filter(hallMap => hallMap.seatLists.length > 0);
+});
 
-  if (index === -1) {
-    selectedSeats.value.push([rowNumber, seatNumber]);
+const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
+  const uniqueId = `${rowNumber.rowCode}${seatNumber.columnCode}`;
+  const rowCode= `${rowNumber.rowCode}`;
+
+  // Update status directly on the object
+  seatNumber.status = seatNumber.status === 0 ? 1 : 0;
+
+  // Update selection lists based on new status
+  if (seatNumber.status === 1) {
+    selectedSeats.value.push([rowNumber.id, seatNumber.columnCode]);
+    seats.value = [...(seats.value || []), {
+      uniqueId: uniqueId,
+      id: seatNumber.id,
+      rowCode : rowCode,
+      columnCode: seatNumber.columnCode,
+      status: seatNumber.status,
+      price: rowNumber.price
+    }];
+    saveToLocalStorage('selectedSeat', seats.value);
   } else {
-    selectedSeats.value.splice(index, 1);
+    const index = selectedSeats.value.findIndex(
+      seat => seat[0] === rowNumber.id && seat[1] === seatNumber.columnCode
+    );
+    if (index !== -1) {
+      selectedSeats.value.splice(index, 1);
+    }
+    if (seats.value) {
+      seats.value = seats.value.filter(seat => seat.uniqueId !== uniqueId);
+      saveToLocalStorage('selectedSeat', seats.value);
+    }
   }
 };
-const hallMaps = [
-{
-  seat_code:1,
-},]
 
-const showtimes = [
-  {
-    id:1,
-    time: '20:15'
-  },
-  {
-    id:2,
-    time: '20:15'
-  },
-  {
-    id:3,
-    time: '20:15'
-  },
-  {
-    id:4,
-    time: '20:15'
-  },
-  {
-    id:5,
-    time: '20:15'
-  },
-  {
-    id:6,
-    time: '20:15'
-  },
-]
+onMounted(() => {
+  fetchData();
+});
 </script>
 <style lang="scss" scoped>
 .seat-map {
@@ -123,7 +173,7 @@ const showtimes = [
   margin-right: 40px;
   margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 80px;
+  margin-left: 120px;
 }
 
 .seat-row {
@@ -135,25 +185,32 @@ const showtimes = [
 .seat {
   width: 10px;
   height: 10px;
-  padding: 10px;
+  padding: 14px;
   border-radius: 4px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   color:#fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   cursor: pointer;
+  box-shadow: 0 0 4px 0 sloid #000;
 }
 
 .seat.selected,
 .seat:hover {
-  background-color: #ff5e19;
+  background-color: #87f079;
   color: #fff;
 }
+.seat.sold {
+  background-color: #ccc; /* color for sold seat */
+  color: #fff;
+  pointer-events: none; /* disables click events */
+}
+
 .row-letter{
-  margin-left: -120px;
+  margin-left: -200px;
   font-size: 20px;
 }
 .note,.note-details{
@@ -177,8 +234,8 @@ const showtimes = [
   padding: 10px;
   border-radius: 4px;
   margin-right: 4px;
-  background-color: #ff5e19;
-  border: 1px solid #ff5e19;
+  background-color: #87f079;
+  border: 1px solid #87f079;
   cursor: default;
 }
 .btn{
