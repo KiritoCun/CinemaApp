@@ -1,11 +1,12 @@
 package vn.udn.dut.cinema.customer.service;
 
+import org.springframework.stereotype.Service;
+
 import cn.dev33.satoken.secure.BCrypt;
 import lombok.RequiredArgsConstructor;
 import vn.udn.dut.cinema.common.core.constant.Constants;
 import vn.udn.dut.cinema.common.core.constant.GlobalConstants;
 import vn.udn.dut.cinema.common.core.domain.model.RegisterBody;
-import vn.udn.dut.cinema.common.core.enums.UserType;
 import vn.udn.dut.cinema.common.core.exception.user.CaptchaException;
 import vn.udn.dut.cinema.common.core.exception.user.CaptchaExpireException;
 import vn.udn.dut.cinema.common.core.exception.user.UserException;
@@ -15,11 +16,8 @@ import vn.udn.dut.cinema.common.core.utils.SpringUtils;
 import vn.udn.dut.cinema.common.core.utils.StringUtils;
 import vn.udn.dut.cinema.common.log.event.LogininforEvent;
 import vn.udn.dut.cinema.common.redis.utils.RedisUtils;
-import vn.udn.dut.cinema.common.web.config.properties.CaptchaProperties;
-import vn.udn.dut.cinema.system.domain.bo.SysUserBo;
-import vn.udn.dut.cinema.system.service.ISysUserService;
-
-import org.springframework.stereotype.Service;
+import vn.udn.dut.cinema.port.domain.bo.CustomerBo;
+import vn.udn.dut.cinema.port.service.ICustomerService;
 
 /**
  * Registration verification method
@@ -30,38 +28,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerRegisterService {
 
-    private final ISysUserService userService;
-    private final CaptchaProperties captchaProperties;
+    private final ICustomerService customerService;
 
     /**
      * register
      */
     public void register(RegisterBody registerBody) {
-        String tenantId = registerBody.getTenantId();
         String username = registerBody.getUsername();
         String password = registerBody.getPassword();
-        // Check if the user type exists
-        String userType = UserType.getUserType(registerBody.getUserType()).getUserType();
+        CustomerBo customerUser = new CustomerBo();
+        customerUser.setUserName(username);
+        customerUser.setNickName(username);
+        customerUser.setPassword(BCrypt.hashpw(password));
 
-        boolean captchaEnabled = captchaProperties.getEnable();
-        // Captcha switch
-        if (captchaEnabled) {
-            validateCaptcha(tenantId, username, registerBody.getCode(), registerBody.getUuid());
-        }
-        SysUserBo sysUser = new SysUserBo();
-        sysUser.setUserName(username);
-        sysUser.setNickName(username);
-        sysUser.setPassword(BCrypt.hashpw(password));
-        sysUser.setUserType(userType);
-
-        if (!userService.checkUserNameUnique(sysUser)) {
+        if (!customerService.checkUserNameUnique(customerUser)) {
             throw new UserException("user.register.save.error", username);
         }
-        boolean regFlag = userService.registerUser(sysUser, tenantId);
+        boolean regFlag = customerService.registerUser(customerUser);
         if (!regFlag) {
             throw new UserException("user.register.error");
         }
-        recordLogininfor(tenantId, username, Constants.REGISTER, MessageUtils.message("user.register.success"));
     }
 
     /**

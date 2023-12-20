@@ -117,6 +117,20 @@
           <!-- Add or Modify Post Dialog -->
           <el-form ref="userFormRef" :model="form" :rules="rules" label-width="120px" class="common-form">
             <el-row>
+              <el-col :span="24">
+                <el-form-item :label="$t('user.dialog.cinemaLb')" prop="cinemaId" class="form-item-row">
+                  <el-select v-model="form.cinemaId" :placeholder="$t('user.dialog.cinemaPh')">
+                    <el-option
+                      v-for="item in cinemaOptions"
+                      :key="item.id"
+                      :label="item.cinemaName"
+                      :value="item.id"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
               <el-col :span="11">
                 <el-form-item :label="$t('user.dialog.nickNameLb')" prop="nickName" class="form-item-row">
                   <el-input v-model="form.nickName" :placeholder="$t('user.dialog.nickNamePh')" maxlength="255" />
@@ -256,6 +270,7 @@ import {
   resetUserPwd,
   delUser,
   getUser,
+  getCinemas,
   updateUser,
   addUser,
   deptTreeSelect
@@ -266,6 +281,7 @@ import { UserForm, UserQuery, UserVO } from '@/api/system/user/types';
 import { DeptVO } from "@/api/system/dept/types";
 import { RoleVO } from "@/api/system/role/types";
 import { PostVO } from "@/api/system/post/types";
+import { CinemaVO } from "@/api/portCustomer/cinemaManagement/types";
 // IMPORT GLOBAL TOOL (PROXY)
 import i18n from '@/lang';
 import { ComponentInternalInstance } from "vue";
@@ -288,6 +304,7 @@ const deptName = ref('');
 const deptOptions = ref<DeptVO[]>([]);
 const initPassword = ref('123456');
 const postOptions = ref<PostVO[]>([]);
+const cinemaOptions = ref<CinemaVO[]>([]);
 const roleOptions = ref<RoleVO[]>([]);
 const deptTreeRef = ref(ElTree);
 const userFormRef = ref(ElForm);
@@ -314,7 +331,8 @@ const initFormData: UserForm = {
   status: "0",
   remark: '',
   postIds: [],
-  roleIds: []
+  roleIds: [],
+  cinemaId: undefined
 }
 // eslint-disable-next-line no-undef
 const columns = ref<GridColumn[]>([
@@ -366,6 +384,7 @@ const data = reactive<PageData<UserForm, UserQuery>>({
     isAsc: 'descending'
   },
   rules: {
+    cinemaId: [{ required: true, message: i18n.global.t('user.dialog.rules.cinemaRqMsg'), trigger: "blur" }],
     userName: [{ required: true, message: i18n.global.t('user.dialog.rules.userNameRqMsg'), trigger: "blur" }, { min: 2, max: 40, message: i18n.global.t('user.dialog.rules.userNameMinMaxMsg', { min: 2, max: 40 }), trigger: "blur" }],
     nickName: [{ required: true, message: i18n.global.t('user.dialog.rules.nickNameRqMsg'), trigger: "blur" }],
     password: [{ required: true, message: i18n.global.t('user.dialog.rules.passwordRqMsg'), trigger: "blur" }, { min: 5, max: 255, message: i18n.global.t('user.dialog.rules.passwordMinMaxMsg', { min: 5, max: 255 }), trigger: "blur" }],
@@ -449,9 +468,23 @@ const handleAdd = () => {
     const { data } = await getUser();
     postOptions.value = data.posts;
     roleOptions.value = data.roles;
+    
+    fetchCinema1();
+    
     form.value.password = initPassword.value;
   });
 }
+
+const fetchCinema1 = async () => {
+  const { data } = await getCinemas();
+  cinemaOptions.value = data;
+}
+
+const fetchCinema2 = async (cinemaId: string | number) => {
+  const { data } = await getCinemas(cinemaId);
+  cinemaOptions.value = data;
+}
+
 /** Edit button action */
 const handleUpdate = (row?: UserForm | UserVO) => {
   dialog.visible = true;
@@ -459,11 +492,13 @@ const handleUpdate = (row?: UserForm | UserVO) => {
   nextTick(async () => {
     reset();
     await initTreeData();
-    const userId = row?.userId || ids.value[0]
+    const userId = row?.userId || ids.value[0];
+    const cinemaId = row?.cinemaId || ids.value[0];
     const { data } = await getUser(userId)
     Object.assign(form.value, data.user);
     postOptions.value = data.posts;
     roleOptions.value = data.roles;
+    fetchCinema2(cinemaId);
     form.value.postIds = data.postIds;
     form.value.roleIds = data.roleIds;
     form.value.password = "";

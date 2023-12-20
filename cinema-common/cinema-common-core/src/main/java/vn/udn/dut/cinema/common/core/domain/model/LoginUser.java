@@ -111,9 +111,6 @@ public class LoginUser implements Serializable {
      * get login id
      */
     public String getLoginId() {
-        if (userType == null) {
-            throw new IllegalArgumentException("User type cannot be empty");
-        }
         if (userId == null) {
             throw new IllegalArgumentException("User ID cannot be empty");
         }

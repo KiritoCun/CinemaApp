@@ -1,6 +1,7 @@
 package vn.udn.dut.cinema.port.domain;
 
 import java.io.Serial;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -26,9 +27,11 @@ public class SeatType extends TenantEntity {
 	@TableId(value = "id")
 	private Long id;
 
-	private String seatName;
+	private String seatTypeName;
 
 	private Long price;
+
+	private Date createTime;
 
 	private String remark;
 }

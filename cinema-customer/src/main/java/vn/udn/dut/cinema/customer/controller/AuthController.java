@@ -1,15 +1,23 @@
 package vn.udn.dut.cinema.customer.controller;
 
+import java.net.URL;
+import java.util.List;
+
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hutool.core.collection.CollUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import vn.udn.dut.cinema.common.core.domain.R;
-import vn.udn.dut.cinema.common.core.domain.model.EmailLoginBody;
 import vn.udn.dut.cinema.common.core.domain.model.LoginBody;
 import vn.udn.dut.cinema.common.core.domain.model.RegisterBody;
-import vn.udn.dut.cinema.common.core.domain.model.SmsLoginBody;
 import vn.udn.dut.cinema.common.core.utils.MapstructUtils;
 import vn.udn.dut.cinema.common.core.utils.StreamUtils;
 import vn.udn.dut.cinema.common.core.utils.StringUtils;
@@ -21,14 +29,7 @@ import vn.udn.dut.cinema.customer.service.CustomerLoginService;
 import vn.udn.dut.cinema.customer.service.CustomerRegisterService;
 import vn.udn.dut.cinema.system.domain.bo.SysTenantBo;
 import vn.udn.dut.cinema.system.domain.vo.SysTenantVo;
-import vn.udn.dut.cinema.system.service.ISysConfigService;
 import vn.udn.dut.cinema.system.service.ISysTenantService;
-
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URL;
-import java.util.List;
 
 /**
  * Certified
@@ -44,7 +45,6 @@ public class AuthController {
 
     private final CustomerLoginService loginService;
     private final CustomerRegisterService registerService;
-    private final ISysConfigService configService;
     private final ISysTenantService tenantService;
 
     /**
@@ -61,36 +61,6 @@ public class AuthController {
                 body.getTenantId(),
                 body.getUsername(), body.getPassword(),
                 body.getCode(), body.getUuid());
-        loginVo.setToken(token);
-        return R.ok(loginVo);
-    }
-
-    /**
-     * SMS login
-     *
-     * @param body login information
-     * @return result
-     */
-    @PostMapping("/smsLogin")
-    public R<LoginVo> smsLogin(@Validated @RequestBody SmsLoginBody body) {
-        LoginVo loginVo = new LoginVo();
-        // generate token
-        String token = loginService.smsLogin(body.getTenantId(), body.getPhonenumber(), body.getSmsCode());
-        loginVo.setToken(token);
-        return R.ok(loginVo);
-    }
-
-    /**
-     * email login
-     *
-     * @param body login information
-     * @return result
-     */
-    @PostMapping("/emailLogin")
-    public R<LoginVo> emailLogin(@Validated @RequestBody EmailLoginBody body) {
-        LoginVo loginVo = new LoginVo();
-        // generate token
-        String token = loginService.emailLogin(body.getTenantId(), body.getEmail(), body.getEmailCode());
         loginVo.setToken(token);
         return R.ok(loginVo);
     }
@@ -124,9 +94,6 @@ public class AuthController {
      */
     @PostMapping("/register")
     public R<Void> register(@Validated @RequestBody RegisterBody user) {
-        if (!configService.selectRegisterEnabled(user.getTenantId())) {
-            return R.fail("The current system does not open the registration function!");
-        }
         registerService.register(user);
         return R.ok();
     }

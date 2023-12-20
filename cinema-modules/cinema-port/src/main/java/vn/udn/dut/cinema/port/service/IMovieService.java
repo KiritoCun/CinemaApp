@@ -30,7 +30,9 @@ public interface IMovieService {
 	 * Query Movie list
 	 */
 	List<MovieVo> queryList(MovieBo bo);
-
+	
+	List<MovieVo> getNowPlayingMovies();
+	List<MovieVo> getUpcomingMovies();
 	/**
 	 * Add Movie
 	 */

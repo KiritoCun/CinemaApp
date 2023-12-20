@@ -6,6 +6,7 @@ import { getToken } from '@/utils/auth';
 import { isHttp } from '@/utils/validate';
 import { isRelogin } from '@/utils/request';
 import useUserStore from '@/store/modules/user';
+import useCustomerUserStore from '@/store/modules/customer';
 import useSettingsStore from '@/store/modules/settings';
 import usePermissionStore from '@/store/modules/permission';
 
@@ -13,7 +14,7 @@ NProgress.configure({ showSpinner: false });
 const whiteList = [
   '/login',
   '/register',
-  '/homepage/profile',
+  '/profile',
   '/homepage/movie-detail',
   '/homepage/customer-login',
   '/homepage/customer-register',
@@ -49,6 +50,9 @@ router.beforeEach(async (to, from, next) => {
           });
           next({ ...to, replace: true }); // The hack method ensures that addRoutes has completed
         }
+      } else  if  (useCustomerUserStore()) {
+        const [err] = await tos(useCustomerUserStore().getInfo());
+        next();
       } else {
         next();
       }

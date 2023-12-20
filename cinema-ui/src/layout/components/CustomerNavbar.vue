@@ -4,7 +4,7 @@
     <div class="left-menu flex align-center">
       <img :src="logo" class="navbar-logo" />
       <el-menu :default-active="activeIndex" class="nav-header" mode="horizontal" @select="handleNavigate">
-        <router-link to="/">
+        <router-link to="/homepage">
           <el-menu-item index="showtime">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
         </router-link>
         <router-link to="/homepage/movie-category">
@@ -30,7 +30,7 @@
         <template #prefix><svg-icon icon-class="company" class="el-input__icon input-icon" /></template>
       </el-select>
 
-      <div class="avatar-container" v-if="userStore.avatar">
+      <div class="avatar-container" v-if="userStore.token">
         <el-dropdown @command="handleCommand" trigger="click">
           <div class="avatar-wrapper">
             <img :src="userStore.avatar" class="user-avatar" />
@@ -39,7 +39,7 @@
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <router-link to="/user/profile" v-if="!dynamic">
+              <router-link to="/profile" v-if="!dynamic">
                 <el-dropdown-item>{{ $t('navbar.personalCenter') }}</el-dropdown-item>
               </router-link>
               <el-dropdown-item command="logout">
@@ -50,7 +50,7 @@
         </el-dropdown>
       </div>
       <div class="header-top-account">
-        <div class="account-header-wrapper mn-login">
+        <div class="account-header-wrapper mn-login" v-if="!userStore.token">
           <a @click.stop="goToLogin()" class="topskip-link skip-account">
             <span class="">Đăng nhập/</span>
           </a>
@@ -69,7 +69,7 @@
 <script setup lang="ts">
 // import useAppStore from '@/store/modules/app'
 import logo from '@/assets/logo/logo.png'
-import useUserStore from '@/store/modules/user'
+import useCustomerUserStore from '@/store/modules/customer'
 import useSettingsStore from '@/store/modules/settings'
 import { getTenantList } from "@/api/login";
 import { dynamicClear, dynamicTenant } from "@/api/system/tenant";
@@ -82,8 +82,8 @@ const activeIndex = ref('login');
 const activeLogin = ref('');
 
 // const appStore = useAppStore()
-const userStore = useUserStore()
-const settingsStore = useSettingsStore()
+const userStore = useCustomerUserStore();
+const settingsStore = useSettingsStore();
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 

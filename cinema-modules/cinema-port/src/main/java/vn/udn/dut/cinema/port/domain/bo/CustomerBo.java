@@ -1,8 +1,11 @@
 package vn.udn.dut.cinema.port.domain.bo;
 
 import io.github.linpeilie.annotations.AutoMapper;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import vn.udn.dut.cinema.common.core.xss.Xss;
 import vn.udn.dut.cinema.common.tenant.core.TenantEntity;
 import vn.udn.dut.cinema.port.domain.Customer;
 
@@ -24,6 +27,9 @@ public class CustomerBo extends TenantEntity {
 	 */
 	private Long userId;
 
+    @Xss(message = "User account cannot contain script characters")
+    @NotBlank(message = "User account cannot be empty")
+    @Size(min = 0, max = 30, message = "User account cannot be empty")
 	private String userName;
 
 	private String nickName;

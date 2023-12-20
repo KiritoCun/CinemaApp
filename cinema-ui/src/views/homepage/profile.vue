@@ -3,13 +3,7 @@
     <template v-slot:content>
       <b-container justify-content="space-between" fluid class="h-100 d-flex flex-row" :style="{ backgroundColor: '#F9F9F9', padding: '10%' }">
         <b-card style="flex: 1; max-width: 30%; margin-right: 10%; margin-bottom: 35px; height: 100%; display: flex">
-          <div class="d-flex flex-row justify-content-center">
-            <i class="bi bi-camera p-2 border p-1" style="font-size: 2rem; border-radius: 100%;"></i>
-            <div>
-              <b-card-text class="bold-font">{{ userInfoData[0].user_name }}</b-card-text>
-              <b-card-text>6 Stars</b-card-text>
-            </div>
-          </div>
+          <div class="basic-avatar"><userAvatar :user="state.user" /></div>
           <hr class="hr" />
           <div style="padding-bottom: 110px;">
             <p class="bold-font" style="margin-bottom: 80px;">Tổng chi tiêu năm 2023</p>
@@ -47,7 +41,28 @@
 
 <script setup name="Profile" lang="ts">
 import { VNode,h,ref } from 'vue';
+import useCustomerUserStore from '@/store/modules/customer';
+import userAvatar from "../system/user/profile/userAvatar.vue";
+import { getUserProfile } from "@/api/system/user";
 
+const state = ref<{ user: any; roleGroup: string;  postGroup: string}>({
+    user: {},
+    roleGroup: '',
+    postGroup: ''
+});
+
+const userForm = ref({});
+
+const getUser = async () => {
+    const res = await getUserProfile();
+    state.value.user = res.data.user;
+    userForm.value = { ...res.data.user }
+    state.value.roleGroup = res.data.roleGroup;
+    state.value.postGroup = res.data.postGroup;
+};
+
+// const appStore = useAppStore()
+const userStore = useCustomerUserStore();
 const value = ref<number[]>([0, 100]);
 
 const marks= {
@@ -128,6 +143,9 @@ const billHistoryData = [
     start_time: new Date(2023, 2, 7, 8, 0, 0)
   },
 ]
+onMounted(() => {
+  getUser();
+})
 </script>
 
 <style lang="scss" scoped>
@@ -144,5 +162,12 @@ const billHistoryData = [
 .bold-font {
  font-weight:700 ;
  font-size: 1rem;
+}
+
+
+.basic-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

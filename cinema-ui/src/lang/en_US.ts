@@ -233,6 +233,8 @@ export default {
     dialog: {
       addTt: 'Add user',
       editTt: 'Edit user',
+      cinemaLb: 'Cinema',
+      cinemaPh: 'Select',
       nickNameLb: 'Personal name',
       nickNamePh: 'Input',
       deptIdLb: 'Department',
@@ -257,6 +259,7 @@ export default {
       footerCancelTt: 'Close',
       footerSubmitTt: 'Save',
       rules: {
+        cinemaRqMsg: 'Cinema cannot be empty',
         userNameRqMsg: 'Username cannot be empty',
         userNameMinMaxMsg: 'Length of username must be from %{min} to %{max} characters',
         nickNameRqMsg: 'Personal name cannot be empty',
@@ -1180,4 +1183,353 @@ export default {
       deleteCf: 'Are you sure to delete history%{id}?'
     }
   },
+  // Cinema menu internationalization
+  cinemaManagement: {
+    searchInput: {
+      cinemaNameLb: 'Cinema name',
+      cinemaNamePh: 'Input',
+      cinemaAddressLb: 'Address',
+      cinemaAddressPh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add cinema',
+      editTt: 'Edit cinema',
+      cinemaNameTt: 'Cinema name',
+      cinemaNamePh: 'Input',
+      cinemaAddressTt: 'Address',
+      cinemaAddressPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        cinemaNameRqMsg: 'Cinema name cannot be empty',
+        cinemaAddressRqMsg: 'Cinema address cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      cinemaNameLb: 'Cinema name',
+      cinemaAddressLb: 'Address',
+      createTimeLb: 'Create time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete cinema?'
+    }
+  },
+  // Movie menu internationalization
+  movieManagement: {
+    searchInput: {
+      titleLb: 'Title Movie',
+      titlePh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add Movie',
+      editTt: 'Edit Movie',
+      titleTt: 'Title Movie',
+      titlePh: 'Input',
+      movieDescriptionTt: 'Movie Description',
+      movieDescriptionPh: 'Input',
+      releaseDateTt: 'Release Date',
+      releaseDatePh: 'Input',
+      endDateTt: 'End Date',
+      endDatePh: 'Input',
+      durationTt: 'Duration',
+      durationPh: 'Input',
+      languageTt: 'Language',
+      languagePh: 'Input',
+      ratedTt: 'Rated',
+      ratedPh: 'Input',
+      genreTt: 'Genre',
+      genrePh: 'Input',
+      directorTt: 'Director',
+      directorPh: 'Input',
+      actorTt: 'Actor',
+      actorPh: 'Input',
+      ratingTt: 'Rating',
+      ratingPh: 'Input',
+      posterUrlTt: 'Poster',
+      posterUrlPh: 'Input',
+      trailerUrlTt: 'Trailer',
+      trailerUrlPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        titleRqMsg: 'Title movie cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Title Movie',
+      movieDescriptionLb: 'Movie Description',
+      releaseDateLb: 'Release Date',
+      endDateLb: 'End Date',
+      durationLb: 'Duration',
+      languageLb: 'Language',
+      ratedLb: 'Rated',
+      genreLb: 'Genre',
+      directorLb: 'Director',
+      actorLb: 'Actor',
+      ratingLb: 'Rating',
+      posterUrlLb: 'Poster',
+      trailerUrlLb: 'Trailer',
+      createTimeLb: 'Create Time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete movie?'
+    }
+  },
+  // Promotion menu internationalization
+  promotionManagement: {
+    searchInput: {
+      titleLb: 'Promotion Title',
+      titlePh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add Promotion',
+      editTt: 'Edit Promotion',
+      titleTt: 'Promotion Title',
+      titlePh: 'Input',
+      promotionDescriptionTt: 'Promotion Description',
+      promotionDescriptionPh: 'Input',
+      discountTt: 'Discount (%)',
+      discountPh: 'Input',
+      imageUrlTt: 'Image URL',
+      imageUrlPh: 'Input',
+      fromDateTt: 'From Date',
+      fromDatePh: 'Input',
+      toDateeTt: 'To Date',
+      toDatePh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        titleRqMsg: 'Promotion Title cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Promotion Title',
+      promotionDescriptionLb: 'Promotion Description',
+      discountLb: 'Discount (%)',
+      imageUrlLb: 'Image URL',
+      fromDateLb: 'From Date',
+      toDateLb: 'To Date',
+      createTimeLb: 'Create Time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete promotion?'
+    }
+  },
+  // Slide menu internationalization
+  slideManagement: {
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add slide',
+      editTt: 'Edit slide',
+      slideUrlTt: 'Slide URL',
+      slideUrlPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        slideRqMsg: 'Slide URL cannot be empty'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      slideUrlLb: 'Slide URL',
+      createTimeLb: 'Create Time',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete slide?'
+    }
+  },
+  // Account menu internationalization
+  account: {
+    searchInput: {
+      nickNameLb: 'Nick Name',
+      nickNamePh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add account',
+      editTt: 'Edit account',
+      userNameTt: 'User Name',
+      userNamePh: 'Input',
+      nickNameTt: 'Nick Name',
+      nickNamePh: 'Input',
+      customerTypeTt: 'Customer Type',
+      customerTypePh: 'Input',
+      emailTt: 'Emaik',
+      emailPh: 'Input',
+      phonenumberTt: 'Phonenumber',
+      phonenumberPh: 'Input',
+      sexTt: 'Sex',
+      sexPh: 'Input',
+      avatarTt: 'Avatar',
+      avatarPh: 'Input',
+      passwordTt: 'Password',
+      passwordPh: 'Input',
+      statusTt: 'Status',
+      statusPh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save'
+    },
+    columns: {
+      userIdLb: 'ID',
+      userNameLb: 'User Name',
+      nickNameLb: 'Nick Name',
+      customerTypeLb: 'Customer Type',
+      emailLb: 'Email',
+      phonenumberLb: 'PhoneNumber', 
+      sexLb: 'Sex',
+      avatarLb: 'Avatar',
+      passwordLb: 'Password',
+      statusLb: 'Status',
+      remarkLb: 'Remark',
+      operateLb: 'Operator',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Save successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete account?'
+    }
+  },
+  // Seat type menu internationalization
+  seatTypeManagement: {
+    searchInput: {
+      seatTypeNameLb: 'Seat type name',
+      seatTypeNamePh: 'Input'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    dialog: {
+      addTt: 'Add seat type',
+      editTt: 'Edit seat type information',
+      seatTypeNameTt: 'Seat type name',
+      seatTypeNamePh: 'Input',
+      priceTt: 'Unit price (VND)',
+      pricePh: 'Input',
+      remarkTt: 'Remark',
+      remarkPh: 'Input',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save',
+      rules: {
+        seatTypeNameRqMsg: 'Seat type name cannot be empty',
+        priceRqMsg: 'Unit price cannot be empty',
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      seatTypeNameLb: 'Seat type name',
+      priceLb: 'Unit price (VND)',
+      createTimeLb: 'Create time',
+      remarkLb: 'Remark',
+      operateLb: 'Operate',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Edit successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete seat type?'
+    }
+  },
+  // Hall menu internationalization
+  hallManagement: {
+    searchInput: {
+      hallNameLb: 'Hall name',
+      hallNamePh: 'Input',
+      cinemaIdLb: 'Cinema',
+      cinemaIdPh: 'Select',
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    columns: {
+      hallNameLb: 'Hall name',
+      cinemaNameLb: 'Cinema',
+      rowNumberLb: 'Seat quantity row',
+      createTimeLb: 'Create time',
+      remarkLb: 'Remark',
+      operateLb: 'Operate',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    hallSeatColumns: {
+      rowCodeLb: 'Row code',
+      rowSeatNumberLb: 'Seat number',
+      seatTypeIdLb: 'Seat type',
+      remarkLb: 'Remark',
+      operateLb: 'Operate',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Edit successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete hall?'
+    }
+  }
 };

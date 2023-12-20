@@ -45,9 +45,8 @@ public class TranslationHandler extends JsonSerializer<Object> implements Contex
                 gen.writeNull();
                 return;
             }
-            //Object result = trans.translation(value, translation.other());
-            //gen.writeObject(result);
-            gen.writeObject(value);
+            Object result = trans.translation(value, translation.other());
+            gen.writeObject(result);
         } else {
             gen.writeObject(value);
         }

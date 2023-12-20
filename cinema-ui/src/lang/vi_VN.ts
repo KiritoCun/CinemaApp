@@ -161,7 +161,7 @@ export default {
       guideTt: 'Khuyến mãi',
       documentTt: 'Tải biểu mẫu',
       documentDownloadBtn: 'Tải về',
-      showAllBtn: 'Xem tất cả',
+      showAllBtn: 'Xem tất cả'
     },
     contactInfo: {
       contactAddrLb: 'Địa chỉ liên hệ',
@@ -232,6 +232,8 @@ export default {
     dialog: {
       addTt: 'Thêm tài khoản',
       editTt: 'Sửa tài khoản',
+      cinemaLb: 'Rạp chiếu',
+      cinemaPh: 'Chọn',
       nickNameLb: 'Tên cá nhân',
       nickNamePh: 'Nhập',
       deptIdLb: 'Phòng ban',
@@ -256,6 +258,7 @@ export default {
       footerCancelTt: 'Đóng',
       footerSubmitTt: 'Lưu',
       rules: {
+        cinemaRqMsg: 'Rạp chiếu không được trống',
         userNameRqMsg: 'Tên tài khoản không được trống',
         userNameMinMaxMsg: 'Độ dài tên tài khoản phải từ %{min} đến %{max} ký tự',
         nickNameRqMsg: 'Tên cá nhân không được trống',
@@ -1178,4 +1181,353 @@ export default {
       deleteCf: 'Xác nhận xoá lịch sử%{id}?'
     }
   },
+  // Cinema menu internationalization
+  cinemaManagement: {
+    searchInput: {
+      cinemaNameLb: 'Tên rạp chiếu',
+      cinemaNamePh: 'Nhập',
+      cinemaAddressLb: 'Địa chỉ',
+      cinemaAddressPh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm rạp chiếu',
+      editTt: 'Sửa thông tin rạp chiếu',
+      cinemaNameTt: 'Tên rạp chiếu',
+      cinemaNamePh: 'Nhập',
+      cinemaAddressTt: 'Địa chỉ',
+      cinemaAddressPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        cinemaNameRqMsg: 'Tên rạp chiếu không được trống',
+        cinemaAddressRqMsg: 'Địa chỉ không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      cinemaNameLb: 'Tên rạp chiếu',
+      cinemaAddressLb: 'Địa chỉ',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá rạp chiếu?'
+    }
+  },
+  // Movie menu internationalization
+  movieManagement: {
+    searchInput: {
+      titleLb: 'Tên phim',
+      titlePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm phim',
+      editTt: 'Sửa thông tin phim',
+      titleTt: 'Tên phim',
+      titlePh: 'Nhập',
+      movieDescriptionTt: 'Mô tả',
+      movieDescriptionPh: 'Nhập',
+      releaseDateTt: 'Ngày khởi chiếu',
+      releaseDatePh: 'Nhập',
+      endDateTt: 'Ngày kết thúc',
+      endDatePh: 'Nhập',
+      durationTt: 'Thời lượng',
+      durationPh: 'Nhập',
+      languageTt: 'Ngôn ngữ',
+      languagePh: 'Nhập',
+      ratedTt: 'Độ tuổi',
+      ratedPh: 'Nhập',
+      genreTt: 'Thể loại',
+      genrePh: 'Nhập',
+      directorTt: 'Đạo diễn',
+      directorPh: 'Nhập',
+      actorTt: 'Diễn viên',
+      actorPh: 'Nhập',
+      ratingTt: 'Rating',
+      ratingPh: 'Nhập',
+      posterUrlTt: 'Poster',
+      posterUrlPh: 'Nhập',
+      trailerUrlTt: 'Trailer',
+      trailerUrlPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        titleRqMsg: 'Tên phim không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Tên phim',
+      movieDescriptionLb: 'Mô tả',
+      releaseDateLb: 'Ngày khởi chiếu',
+      endDateLb: 'Ngày kết thúc',
+      durationLb: 'Thời lượng',
+      languageLb: 'Ngôn ngữ',
+      ratedLb: 'Độ tuổi',
+      genreLb: 'Thể loại',
+      directorLb: 'Đạo diễn',
+      actorLb: 'Diễn viên',
+      ratingLb: 'Rating',
+      posterUrlLb: 'Poster',
+      trailerUrlLb: 'Trailer',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá phim?'
+    }
+  },
+  // Promotion menu internationalization
+  promotionManagement: {
+    searchInput: {
+      titleLb: 'Tên khuyến mãi',
+      titlePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm khuyến mãi',
+      editTt: 'Sửa thông tin khuyến mãi',
+      titleTt: 'Tên khuyến mãi',
+      titlePh: 'Nhập',
+      promotionDescriptionTt: 'Mô tả',
+      promotionDescriptionPh: 'Nhập',
+      discountTt: 'Discount (%)',
+      discountPh: 'Nhập',
+      imageUrlTt: 'Image URL',
+      imageUrlPh: 'Nhập',
+      fromDateTt: 'Ngày bắt đầu',
+      fromDatePh: 'Nhập',
+      toDateTt: 'Ngày kết thúc',
+      toDatePh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        titleRqMsg: 'Tên khuyến mãi không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      titleLb: 'Tên khuyến mãi',
+      promotionDescriptionLb: 'Mô tả',
+      discountLb: 'Discount (%)',
+      imageUrlLb: 'Image URL',
+      fromDateLb: 'Ngày bắt đầu',
+      toDateLb: 'Ngày kết thúc',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá khuyến mãi?'
+    }
+  },
+  // Slide menu internationalization
+  slideManagement: {
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm slide',
+      editTt: 'Sửa slide',
+      slideUrlTt: 'Slide URL',
+      slideUrlPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        slideRqMsg: 'Slide URL không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      slideUrlLb: 'Slide URL',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá slide?'
+    }
+  },
+  // Account menu internationalization
+  account: {
+    searchInput: {
+      nickNameLb: 'Họ tên khách hàng',
+      nickNamePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xóa'
+    },
+    dialog: {
+      addTt: 'Thêm tài khoản khách hàng',
+      editTt: 'Chỉnh sửa',
+      userNameTt: 'Tên tài khoản ',
+      userNamePh: 'Nhập',
+      nickNameTt: 'Họ tên',
+      nickNamePh: 'Nhập',
+      customerTypeTt: 'Loại tài khoản',
+      customerTypePh: 'Nhập',
+      emailTt: 'Email',
+      emailPh: 'Nhập',
+      phonenumberTt: 'Số điện thoại',
+      phonenumberPh: 'Nhập',
+      sexTt: 'Giới tính',
+      sexPh: 'Nhập',
+      avatarTt: 'Ảnh đại diện',
+      avatarPh: 'Nhập',
+      passwordTt: 'Mật khẩu',
+      passwordPh: 'Nhập',
+      statusTt: 'Trạng thái',
+      statusPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu'
+    },
+    columns: {
+      userIdLb: 'ID',
+      userNameLb: 'Tên tài khoản',
+      nickNameLb: 'Họ Tên',
+      customerTypeLb: 'Loại tài khoản',
+      emailLb: 'Email',
+      phonenumberLb: 'Số điện thoại', 
+      sexLb: 'Giới tính',
+      avatarLb: 'Ảnh đại diện',
+      passwordLb: 'Mật khẩu',
+      statusLb: 'Trạng thái',
+      remarkLb: 'Chú thích',
+      operateLb: 'Thao tác',
+      editLb: 'Chỉnh sửa',
+      deleteLb: 'Xóa'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưa thành công',
+      deleteSuccess: 'Xóa thành công',
+      deleteCf: 'Bạn có muốn xóa tài khoản này không?'
+    }
+  },
+  // Seat type menu internationalization
+  seatTypeManagement: {
+    searchInput: {
+      seatTypeNameLb: 'Tên loại ghế',
+      seatTypeNamePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm loại ghế',
+      editTt: 'Sửa thông tin loại ghế',
+      seatTypeNameTt: 'Tên loại ghế',
+      seatTypeNamePh: 'Nhập',
+      priceTt: 'Đơn giá (VND)',
+      pricePh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        seatTypeNameRqMsg: 'Tên loại ghế không được trống',
+        priceRqMsg: 'Đơn giá không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      seatTypeNameLb: 'Tên loại ghế',
+      priceLb: 'Đơn giá (VND)',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá loại ghế?'
+    }
+  },
+  // Hall menu internationalization
+  hallManagement: {
+    searchInput: {
+      hallNameLb: 'Tên phòng',
+      hallNamePh: 'Nhập',
+      cinemaIdLb: 'Rạp chiếu',
+      cinemaIdPh: 'Chọn',
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    columns: {
+      hallNameLb: 'Tên phòng',
+      cinemaNameLb: 'Rạp chiếu',
+      rowNumberLb: 'Số hàng ghế',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    hallSeatColumns: {
+      rowCodeLb: 'Mã hàng',
+      rowSeatNumberLb: 'Số ghế của hàng',
+      seatTypeIdLb: 'Loại ghế',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá phòng?'
+    }
+  }
 };

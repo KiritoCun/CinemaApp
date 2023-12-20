@@ -4,6 +4,7 @@ import request from '@/utils/request';
 import { AxiosPromise } from 'axios';
 import { UserForm, UserQuery, UserVO, UserInfoVO } from './types';
 import { parseStrEmpty } from '@/utils/starcinema';
+import { CinemaVO } from "@/api/portCustomer/cinemaManagement/types";
 
 /**
  * Query user list
@@ -24,6 +25,17 @@ export function listUser(query: UserQuery): AxiosPromise<UserVO[]> {
 export function getUser(userId?: string | number): AxiosPromise<UserInfoVO> {
   return request({
     url: '/system/user/' + parseStrEmpty(userId),
+    method: 'get'
+  });
+}
+
+/**
+ * Get cinema
+ * @param cinemaId
+ */
+export function getCinemas(cinemaId?: string | number): AxiosPromise<CinemaVO[]> {
+  return request({
+    url: '/portCustomer/cinema/support/' + parseStrEmpty(cinemaId),
     method: 'get'
   });
 }

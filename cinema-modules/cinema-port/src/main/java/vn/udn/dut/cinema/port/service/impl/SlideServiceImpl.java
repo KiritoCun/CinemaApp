@@ -30,7 +30,7 @@ public class SlideServiceImpl implements ISlideService {
 	}
 
 	/**
-	 * Query Promotion list
+	 * Query Slide list
 	 */
 	@Override
 	public TableDataInfo<SlideVo> queryPageList(SlideBo bo, PageQuery pageQuery) {
@@ -40,7 +40,7 @@ public class SlideServiceImpl implements ISlideService {
 	}
 
 	/**
-	 * Query Promotion list
+	 * Query Slide list
 	 */
 	@Override
 	public List<SlideVo> queryList(SlideBo bo) {
@@ -57,7 +57,7 @@ public class SlideServiceImpl implements ISlideService {
 	}
 
 	/**
-	 * Add Promotion
+	 * Add Slide
 	 */
 	@Override
 	public Boolean insertByBo(SlideBo bo) {
@@ -71,7 +71,7 @@ public class SlideServiceImpl implements ISlideService {
 	}
 
 	/**
-	 * Edit Promotion
+	 * Edit Slide
 	 */
 	@Override
 	public Boolean updateByBo(SlideBo bo) {
@@ -88,7 +88,7 @@ public class SlideServiceImpl implements ISlideService {
 	}
 
 	/**
-	 * Batch delete Promotion
+	 * Batch delete Slide
 	 */
 	@Override
 	public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {

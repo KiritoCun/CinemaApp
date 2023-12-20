@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div v-for="movie in movies" :key="movie.id" class="col-md-3 mb-4">
+      <div v-for="movie in nowPlayingMovies" :key="movie.id" class="col-md-3 mb-4">
         <div class="card">
           <img class="card-img-top" :src="movie.posterUrl" alt="Image" />
           <div class="votes">
@@ -10,10 +10,7 @@
                 d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
               />
             </svg>
-            {{ movie.vote }}
-          </div>
-          <div class="age__limit">
-            <span>{{ movie.age_limit }}</span>
+            {{ movie.rating }}
           </div>
           <div class="card-overlay d-flex flex-column">
             <button class="overlay-button btn btn-buy my-2">
@@ -32,7 +29,7 @@
             </button>
           </div>
         </div>
-        <h6 class="my-2 d-flex justify-content-center">{{ movie.title }}</h6>
+        <h6 class="card-title mt-2 ml-3">{{ movie.title }}</h6>
       </div>
     </div>
     <IrDialog :dialog="dialog">
@@ -45,8 +42,10 @@
 
 <script setup lang="ts">
 import YouTube from 'vue3-youtube';
+import { getDocuments } from '@/api/homepage';
 const youtube = ref();
 const youtubeSrc = ref('');
+const nowPlayingMovies = ref([]);
 const dialog = reactive<DialogOption>({
   visible: false,
   title: '',
@@ -55,84 +54,20 @@ const dialog = reactive<DialogOption>({
   footer: false
 });
 const onReady = () => {
-  console.log('1111');
   youtube.value.playVideo();
 }
+const getDocumentList = async () => {
+  const res = await getDocuments();
+  nowPlayingMovies.value = res.data.nowplayingmovies;
+}
+onMounted(() => {
+  getDocumentList();
+})
 
 const playYoutube = (url: string) => {
-  console.log(url)
   youtubeSrc.value = `https://www.youtube.com/watch?v=${url}`;
   dialog.visible = true;
 }
-
-const movies = ref<any[]>(
-    [
-    {
-        id: '1', title: 'Biệt Đội Marvels',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F10%2Fthe-marvels-3_1699586058577.jpg&w=384&q=75',
-        vote: '7.8',
-        age_limit: 'T13',
-        trailerUrl: '8pW1P8ddqOo&t=14s'
-    },
-    {
-        id: '2', title: 'Nguời Vợ Cuối Cùng',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F3%2F500x750-nvcc_1698985267862.jpg&w=384&q=75',
-        vote: '8.4',
-        age_limit: 'T18',
-        trailerUrl: 'iTJ-N32o2cI&t=6s'
-    },
-    {
-        id: '3', title: 'Yêu Lại Vợ Ngầu',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F6%2Flr-500_1699256438199.jpg&w=384&q=75',
-        vote: '9.4',
-        age_limit: 'T16',
-        trailerUrl: 'P9qbkVSA8jo&t=17s'
-    },
-    {
-        id: '4', title: 'Quỷ Lùn Tinh Nghịch: Đồng Tâm Hiệp Nhạc',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F3%2Ftrolls-500_1699000954176.jpg&w=384&q=75',
-        vote: '7.8',
-        age_limit: 'K',
-        trailerUrl: 'dvGFh-XdDgQ&t=3s'
-    },
-    {
-        id: '5', title: 'Chiếm Đoạt',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F13%2Fcd-500_1699867731720.jpg&w=384&q=75',
-        vote: '7.4',
-        age_limit: 'T18'
-    },
-    {
-        id: '6', title: 'Đấu Trường Sinh Tử: Khúc Hát Của Chim Ca Và Rắn Độc',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F1%2Fthg-500_1698821052668.jpg&w=640&q=75',
-        vote: '7.8',
-        age_limit: 'T16'
-    },
-    {
-        id: '7', title: 'Đường Cùng',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F27%2Fduong-cung-500_1698390217836.jpg&w=640&q=75',
-        vote: '7.8',
-        age_limit: 'T18'
-    },
-    {
-        id: '8', title: 'Đêm Hẹn Hò Đẫm Máu',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F15%2Fchabak-500_1700043810696.jpg&w=640&q=75',
-        vote: '7.9',
-        age_limit: 'T18'
-    },
-    {
-        id: '9', title: 'Những Kỷ Nguyên Của Taylor Swift',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F27%2Ftaylor-500_1698380431175.jpg&w=640&q=75',
-        vote: '9.5',
-        age_limit: 'T13'
-    },
-    {
-        id: '10', title: 'Đất Rừng Phương Nam',
-        posterUrl: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F16%2Fdatrungpn-3_1697433762119.jpg&w=640&q=75',
-        vote: '8.3',
-        age_limit: 'K'
-    },
-]
-)
 </script>
 
 <style lang="scss" scoped>
@@ -150,11 +85,17 @@ const movies = ref<any[]>(
     width: 260px;
 }
 
-.card-image {
+.card-img-top {
     width: 100%;
-    height: auto;
+    height: 372px;
     display: block;
     transition: transform 0.3s ease-in-out;
+}
+
+.card-title{
+  justify-content: flex-start;
+  display: flex;
+  width: 100%;
 }
 
 .card-overlay {

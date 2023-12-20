@@ -295,11 +295,11 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
 		// Added user and role management
 		insertUserRole(user, false);
 
-		SysNotificationBo noti = new SysNotificationBo();
-		noti.setUserId(user.getUserId());
-		noti.setTitle("Tài khoản kích hoạt thành công!");
-		noti.setContent("Chào mừng bạn đến với hệ thống Eport - VICT dành cho nhân viên nội bộ Cảng VICT.");
-		notificationService.insertByBo(noti);
+//		SysNotificationBo noti = new SysNotificationBo();
+//		noti.setUserId(user.getUserId());
+//		noti.setTitle("Tài khoản kích hoạt thành công!");
+//		noti.setContent("Chào mừng bạn đến với hệ thống Eport - VICT dành cho nhân viên nội bộ Cảng VICT.");
+//		notificationService.insertByBo(noti);
 		return rows;
 	}
 

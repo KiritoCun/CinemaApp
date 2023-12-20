@@ -32,6 +32,10 @@ export const constantRoutes: RouteOption[] = [
     hidden: true,
     children: [
       {
+        path: '/redirect/homepage',
+        component: () => import('@/views/homepage/index.vue')
+      },
+      {
         path: '/redirect/:path(.*)',
         component: () => import('@/views/redirect/index.vue')
       }
@@ -40,6 +44,11 @@ export const constantRoutes: RouteOption[] = [
   {
     path: '/login:active(\\d+)?',
     component: () => import('@/views/login.vue'),
+    hidden: true
+  },
+  {
+    path: '/homepage',
+    component: () => import('@/views/homepage/index.vue'),
     hidden: true
   },
   {
@@ -77,7 +86,7 @@ export const constantRoutes: RouteOption[] = [
     hidden: true
   },
   {
-    path: '/homepage/profile',
+    path: '/profile',
     component: () => import('@/views/homepage/profile.vue'),
     hidden: true
   },

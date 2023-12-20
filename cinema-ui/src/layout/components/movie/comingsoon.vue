@@ -1,19 +1,16 @@
 <template>
   <div class="container">
     <div class="row">
-      <div v-for="movie in movies" :key="movie.id" class="col-md-3 mb-4">
+      <div v-for="movie in upcomingMovies" :key="movie.id" class="col-md-3 mb-4 w-100">
         <div class="card">
-          <img class="card-img-top" :src="movie.img" alt="Image" />
+          <img class="card-img-top" :src="movie.posterUrl" alt="Image" />
           <div class="votes">
             <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px;" fill="#fde047" height="1em" viewBox="0 0 576 512">
               <path
                 d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"
               />
             </svg>
-            {{ movie.vote }}
-          </div>
-          <div class="age__limit">
-            <span>{{ movie.age_limit }}</span>
+            {{ movie.rating }}
           </div>
           <div class="card-overlay d-flex align-items-center flex-column">
             <button class="overlay-button btn btn-buy my-2">
@@ -32,7 +29,7 @@
             </button>
           </div>
         </div>
-        <h6 class="my-2 d-flex justify-content-center">{{ movie.title }}</h6>
+        <h6 class="card-title mt-2 ml-3">{{ movie.title }}</h6>
       </div>
     </div>
     <IrDialog :dialog="dialog">
@@ -45,8 +42,10 @@
 
 <script setup lang="ts">
 import YouTube from 'vue3-youtube';
+import { getDocuments } from '@/api/homepage';
 const youtube = ref();
 const youtubeSrc = ref('');
+const upcomingMovies = ref([]);
 const dialog = reactive<DialogOption>({
   visible: false,
   title: '',
@@ -55,95 +54,21 @@ const dialog = reactive<DialogOption>({
   footer: false
 });
 const onReady = () => {
-  console.log('1111');
   youtube.value.playVideo();
 }
 
+const getDocumentList = async () => {
+  const res = await getDocuments();
+  upcomingMovies.value = res.data.upcommingmovies;
+}
+onMounted(() => {
+  getDocumentList();
+})
+
 const playYoutube = (url: string) => {
-  console.log(url)
   youtubeSrc.value = `https://www.youtube.com/watch?v=${url}`;
   dialog.visible = true;
 }
-    const movies = ref<any[]>(
-    [
-    {
-        id: '1', title: 'Cầu Hồn',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F17%2Fcau-hon-500_1700211553708.jpg&w=640&q=75',
-        vote: '8.2',
-        age_limit: 'T16',
-        docUrl: 'qz0_9ITGwws&t=3s'
-    },
-    {
-        id: '2', title: 'Cô Giáo Em Là Số 1',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F9%2F500x750_1699500910364.jpg&w=640&q=75',
-        vote: '9.7',
-        age_limit: 'T16',
-        docUrl: 'qz0_9ITGwws&t=3s'
-
-    },
-    {
-        id: '3', title: 'Oán Linh',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F13%2Fol-500_1699868096655.jpg&w=640&q=75',
-        vote: '8.2',
-        age_limit: 'T16',
-        docUrl: 'qz0_9ITGwws&t=3s'
-    },
-    {
-        id: '4', title: 'Điều Ước',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F10%2F30%2Fwish-500_1698658410148.jpg&w=640&q=75',
-        vote: '9',
-        age_limit: 'K'
-    },
-    {
-        id: '5', title: 'Vòng Tròn Đỏ',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F6%2Fthe-red-circle-500_1699257489571.jpg&w=640&q=75',
-        vote: '7.8',
-        age_limit: 'T16'
-    },
-    {
-        id: '6', title: 'Thiếu Niên Và Chim Diệc',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F20%2Fposter-thieu-nen--chim-diec-500_1700475993619.jpg&w=640&q=75',
-        vote: '10',
-        age_limit: 'K'
-    },
-    {
-        id: '7', title: 'Bạn Không Thân',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F17%2Fbkt-500_1700212659518.jpg&w=640&q=75',
-        vote: '10',
-        age_limit: 'K'
-    },
-    {
-        id: '8', title: 'Nước Xuôi Biển Lớn',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F16%2Fthe-water-flows-to-the-sea_1700115775892.jpg&w=640&q=75',
-        vote: '0',
-        age_limit: 'T16'
-    },
-    {
-        id: '9', title: 'Bỗng Dưng Trúng Mánh',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F16%2Fgj-500_1700106291302.jpg&w=640&q=75',
-        vote: '7',
-        age_limit: 'K'
-    },
-    {
-        id: '10', title: 'Napoleon',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F16%2Fnapoleon-500_1700127400263.jpg&w=640&q=75',
-        vote: '8.5',
-        age_limit: 'K'
-    },
-    {
-        id: '11', title: 'Những Nét Bút Diệu Kỳ',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F16%2Fthe-lines-that-define-me_1700127827774.jpg&w=640&q=75',
-        vote: '0',
-        age_limit: 'K'
-    },
-    {
-        id: '12', title: 'Người Cha Của Xe Lửa Dải Ngân Hà',
-        img: 'https://www.galaxycine.vn/_next/image/?url=https%3A%2F%2Fcdn.galaxycine.vn%2Fmedia%2F2023%2F11%2F16%2Ffather-of-the-milky-way-railroad_1700126212349.jpg&w=640&q=75',
-        vote: '0',
-        age_limit: 'K'
-    },
-]
-)
 </script>
 
 <style lang="scss" scoped>
@@ -161,11 +86,17 @@ const playYoutube = (url: string) => {
     width: 260px;
 }
 
-.card-image {
+.card-img-top {
     width: 100%;
-    height: auto;
+    height: 372px;
     display: block;
     transition: transform 0.3s ease-in-out;
+}
+
+.card-title{
+  justify-content: flex-start;
+  display: flex;
+  width: 100%;
 }
 
 .card-overlay {

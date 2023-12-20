@@ -44,14 +44,12 @@
   </LayoutCustomerHomepage>
 </template>
 
-<script setup name="SearchEdo" lang="ts">
+<script setup name="LoginCustomer" lang="ts">
 import { FormRules } from 'element-plus';
-import {searchEdo} from '@/api/homepage'
-import {EdoSearchParam, Edo} from '@/api/homepage/type'
 import { ComponentInternalInstance } from "vue";
 import Cookies from 'js-cookie';
 import { encrypt, decrypt } from '@/utils/jsencrypt';
-import { useUserStore } from '@/store/modules/user';
+import { useCustomerUserStore } from '@/store/modules/customer';
 import { LoginData, TenantVO } from '@/api/types';
 import { getCodeImg, getTenantList } from '@/api/login';
 import { to } from 'await-to-js';
@@ -60,14 +58,20 @@ import i18n from '@/lang';
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 const route = useRoute()
 const router = useRouter();
-const userStore = useUserStore();
+const userStore = useCustomerUserStore();
 
 const activeLogin = ref('')
 const codeUrl = ref('customer');
 // Captcha switch
 const captchaEnabled = ref(true);
+// tenant switch
+const tenantEnabled = ref(true);
 // registration switch
 const register = ref(false);
+const redirect = ref(undefined);
+const loginRef = ref(ElForm);
+// tenant list
+const tenantList = ref<TenantVO[]>([]);
 
 const loginForm = ref<LoginData>({
   tenantId: "000000",
@@ -84,25 +88,6 @@ const loginRules: FormRules = {
   password: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.passwordRqMsg') }],
   code: [{ required: true, trigger: 'change', message: 'Please enter verification code' }]
 };
-
-const columns = ref([
-{ prop: "blNo", name: 'Bill No', sortable: false, size: 150, show: true, readonly: true, align: 'left' },
-{ prop: "containerNo", name: 'Container No', sortable: false, size: 150, show: true, readonly: true, align: 'left' },
-{ prop: "oprCode", name: 'OPR', sortable: false, size: 50, show: true, readonly: true, align: 'left' },
-{ prop: "gateInDate", name: 'In Date', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "gateOutDate", name: 'Out Date', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "expiredDem", name: 'Expired Day', sortable: false, size: 180, show: true, readonly: true, align: 'left' },
-{ prop: "detFreeTime", name: 'Detention Day', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "emptyContainerDepot", name: 'Empty Return Place', sortable: false, show: true, size: 250, readonly: true, align: 'left' },
-{ prop: "status", name: 'Status', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "location", name: 'Location', sortable: false, show: true, size: 150, readonly: true, align: 'left' },
-{ prop: "remark", name: 'Remark', sortable: false, show: true, size: 250, readonly: true, align: 'left' },
-]);
-const edoList = ref<Edo[]>([]);
-const rowKey = ref('etb');
-const total = ref(0);
-const loginRef = ref(ElForm);
-const redirect = ref(undefined);
 
 const handleLogin = () => {
   loginRef.value.validate(async (valid:boolean, fields: any) => {
@@ -125,7 +110,7 @@ const handleLogin = () => {
       // prittier-ignore
       const [err] = await to(userStore.login(loginForm.value));
       if (!err) {
-        await router.push({ path: redirect.value || '/' });
+        await router.push({ path: redirect.value || '/homepage' });
       } else {
         loading.value = false;
         // Get verification code again
@@ -165,52 +150,34 @@ const getCookie = () => {
   };
 }
 
+/**
+ * Get a list of tenants
+ */
+ const initTenantList = async () => {
+  const { data } = await getTenantList();
+  tenantEnabled.value = data.tenantEnabled === undefined ? true : data.tenantEnabled;
+  if (tenantEnabled.value) {
+    tenantList.value = data.voList;
+    if (tenantList.value != null && tenantList.value.length !== 0) {
+      loginForm.value.tenantId = tenantList.value[0].tenantId;
+    }
+  }
+}
+
 const handleNavigateLogin = (key: string) => {
   localStorage.setItem('system-type', key);
   activeLogin.value = key;
 }
 
-const edoSearchForm = ref<EdoSearchParam>({
-  containerNo: '',
-  blNo: '',
-  pageNum: 1,
-  pageSize: 50,
-});
-const validateAtLeastOneField = (_rule: any, _value: any, callback: any) => {
-  if (!edoSearchForm.value.containerNo && !edoSearchForm.value.blNo) {
-    console.log("Please");
-    callback(new Error('Vui lòng nhập ít nhất một trong hai trường'));
-  } else {
-    callback();
-  }
-};
-
-const rules = {
-  containerNo: [
-    { required: false, trigger: 'change', message: 'Vui lòng nhập số container' },
-    { validator: validateAtLeastOneField, trigger: 'change' }
-  ],
-  blNo: [
-    { required: false, trigger: 'change', message: 'Vui lòng nhập số bill' },
-    { validator: validateAtLeastOneField, trigger: 'change' }
-  ],
-};
-const edoSearchRef = ref(ElForm);
 const loading = ref(false);
 
 onMounted(() => {
-  const containerNo = route.query.containerNo as string;
-  const blNo = route.query.blNo as string;
-  edoSearchForm.value.containerNo = containerNo ?? '';
-  edoSearchForm.value.blNo = blNo ?? '';
+  localStorage.setItem('system-type', 'customer');
+  activeLogin.value = 'customer';
+  getCode();
+  initTenantList();
+  getCookie();
 });
-
-/** Export button action */
-const handleExport = () => {
-  proxy?.download('homepage/search/edo/export', {
-    ...edoSearchForm.value
-  }, `edo_${new Date().getTime()}.xlsx`);
-}
 </script>
 
 <style lang="scss" scoped>

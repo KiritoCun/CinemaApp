@@ -11,5 +11,5 @@ import vn.udn.dut.cinema.port.domain.vo.MovieVo;
  * @date 2023-11-07
  */
 public interface MovieMapper extends BaseMapperPlus<Movie, MovieVo> {
-
+	
 }

@@ -19,7 +19,6 @@ public class LoginBody {
     /**
      * tenant ID
      */
-    @NotBlank(message = "{tenant.number.not.blank}")
     private String tenantId;
 
     /**

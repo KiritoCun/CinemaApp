@@ -328,7 +328,6 @@ const handleSpliceRowDataRight = (rowIndex: number) => {
     newRowData.push(mRowDataRight.value[i]);
   }
   mRowDataRight.value = newRowData;
-  console.log(mRowDataRight.value);
   mRowTotalRight.value = mRowTotalRight.value - 1;
 }
 const handleSpliceRowDataLeft = async (rowIndex: number) => {
