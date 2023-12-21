@@ -77,7 +77,7 @@ const fetchData = async () => {
     const response = await axios.get('https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/seatOrderList');
     hallMap.value = response.data;
     const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
-    seats.value = localStorageSeats as SeatProp[];
+    seats.value = localStorageSeats;
     hallMap.value.map(row => {
       row.seatLists.map(seat => {
       if (seat.status === 1) {

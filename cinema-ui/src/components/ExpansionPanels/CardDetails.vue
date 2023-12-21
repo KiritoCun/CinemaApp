@@ -36,7 +36,22 @@
           </div>
         </div>
         <div class="col-sm-6 align-self-end text-end">
-          <b-card-text class="bold-font">{{ totalPrice }}đ</b-card-text>
+          <b-card-text class="bold-font">{{ seatPrice }}đ</b-card-text>
+        </div>
+      </div>
+    </div>
+    <div v-if="processedPromotion">
+      <hr class="hr" />
+      <div class="row" style="font-size: 14px;">
+        <div class="col-sm-6 align-self-start text-start">
+          <strong>Mã Khuyến Mãi</strong>
+
+          <div class="d-flex">
+            <b-card-text>{{ processedPromotion?.title }}</b-card-text>
+          </div>
+        </div>
+        <div class="col-sm-6 align-self-end text-end">
+          <b-card-text>-{{discountPrice}}đ</b-card-text>
         </div>
       </div>
     </div>
@@ -76,7 +91,7 @@ interface Movie {
     remark: string
 }
 
-interface ShowTimeInfo {
+interface ShowTime {
   uniqueId: string;
   id: number;
   hallId : string;
@@ -86,7 +101,7 @@ interface ShowTimeInfo {
   endTime: string;
 }
 
-interface SeatProp{
+interface Seat {
   uniqueId : string;
   id: number;
   columnCode: number;
@@ -95,26 +110,38 @@ interface SeatProp{
   status : number;
 }
 
+interface Promotion {
+	id: number;
+	title: string;
+  discount: number
+}
+
 const props = defineProps({
   selectedMovie: {
     type: Object as PropType<Movie | null>,
     default:null
   },
   selectedShowTime: {
-    type: Object as PropType<ShowTimeInfo | null>,
+    type: Object as PropType<ShowTime | null | undefined>,
     default:null
   },
   selectedSeat: {
-    type: Array as PropType<SeatProp[] |null>,
+    type: Array as PropType<Seat[] |null>,
+    default: () => null
+  },
+  selectedPromotion: {
+    type: Object as PropType<Promotion | null>,
     default: () => null
   }
 });
 
-const retrievedMovie = getFromLocalStorage<Movie>('selectedMovie');
+const retrievedMovie = getFromLocalStorage<Movie>('selectedMovie') || null;
 
-const retrievedShowTime = getFromLocalStorage<ShowTimeInfo>('selectedShowTime');
+const retrievedShowTime = getFromLocalStorage<ShowTime>('selectedShowTime') || null;
 
-const retrievedSeatsArray = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
+const retrievedSeatsArray = getFromLocalStorage<Seat[]>('selectedSeat') || [];
+
+const retrievedPromotion = getFromLocalStorage<Promotion>('selectedPromotion') || null;
 
 const showDate = (startTime?: string) => {
   if (!startTime) return '';
@@ -160,7 +187,14 @@ const processedSeat = computed(() => {
   return retrievedSeatsArray || [];
 });
 
-const totalPrice = computed(() => {
+const processedPromotion = computed(() => {
+  if (props.selectedPromotion) {
+    return props.selectedPromotion;
+  }
+  return retrievedPromotion;
+});
+
+const seatPrice = computed(() => {
   return processedSeat.value.reduce((acc, seat) => acc + seat.price, 0);
 });
 
@@ -170,6 +204,20 @@ const getNumberOfSelectedSeat = () => {
   }
   return processedSeat.value.length;
 };
+
+const discountPrice = computed(() => {
+  const rawDiscount = seatPrice.value * (processedPromotion.value?.discount || 0) / 100;
+  const roundedDiscount = parseFloat(rawDiscount.toFixed(2));
+
+  return roundedDiscount;
+});
+
+const totalPrice = computed(() => {
+  const rawTotal = seatPrice.value - discountPrice.value;
+  const roundedTotal = parseFloat(rawTotal.toFixed(2));
+
+  return roundedTotal;
+});
 
 onMounted(() => {
 });

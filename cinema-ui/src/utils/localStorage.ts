@@ -45,4 +45,5 @@ export function removeAllFromLocalStorage() : void {
   removeFromLocalStorage('selectedShowTime');
   removeFromLocalStorage('selectedSeat');
   removeFromLocalStorage('selectedMovie');
+  removeFromLocalStorage('selectedPromotion');
 }

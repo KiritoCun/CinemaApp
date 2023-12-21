@@ -6,7 +6,7 @@
           <SeatSelection></SeatSelection>
         </template>
         <template v-slot:btn-group>
-          <router-link class="btn" @click="handlePrevNavigation" :to="decrementStep()" :disabled="step === 1">Quay lại</router-link>
+          <router-link class="btn" @click="removeAllFromLocalStorage" :to="decrementStep()" :disabled="step === 1">Quay lại</router-link>
           <router-link class="btn btn--blue-1"  :to="incrementStep()" :disabled="step === 4">Tiếp tục</router-link>
         </template>
       </LayoutBooking>
@@ -31,8 +31,4 @@ const decrementStep = () => {
     step.value -= 1;
     return `/booking/movieSelection`;
   }
-
-const handlePrevNavigation = () => {
-  removeAllFromLocalStorage();
-};
 </script>
