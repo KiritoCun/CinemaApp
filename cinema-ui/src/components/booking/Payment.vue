@@ -5,46 +5,49 @@
         <v-expansion-panel>
           <div class="px-4 py-2" style="width: 100%;">
             <div class="card-body">
-              <h4 class="card-title">Khuyến mãi</h4>
+              <div class="my-4 d-flex justify-content-center">
+                <h5 v-if="remainingTime > 0">
+                  Thời gian giữ ghế : <strong class="time-out">{{ formatTime((remainingTime)) }}</strong>
+                </h5>
+                <div v-else-ife="modalVisible" class="modal" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <v-select :items="[ 'VNPAY','Thanh toán bằng tiền mặt']" label="Phương Thức Thanh Toán "></v-select>
               <div class="card-subtitle text-muted my-4">
                 <h6 class="d-flex flex-start">Mã khuyến mãi</h6>
                 <div class="d-flex mb-1">
-                  <input type="text" class="form-control me-4" style="width: 60%;" />
-                  <button class="btn-promotion btn btn-outline">Áp Dụng</button>
+                  <input type="text" class="form-control me-4" style="width: 60%;" v-model="selectedTitle" readonly />
+                  <button @click="handleUploadCardDetail(selectedPromotionId, selectedTitle, selectedDiscount)" class="btn-promotion btn btn-outline">
+                    Áp Dụng
+                  </button>
                 </div>
                 <span class="d-flex flex-start" style="font-size: 14px;color: #ccc;">Lưu ý : Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</span>
               </div>
               <div class="card-subtitle text-muted my-4 container">
                 <h6 class="d-flex flex-start my-3">Khuyến mãi của bạn</h6>
-                <div v-for="code in codes" :key="code.id" class="card my-1" style="width: 100%;">
-                  <img :src="code.img" class="card-img-top image" alt="..." style="width: 20%;" />
+                <div v-for="code in promotionLists" :key="code.id" class="card my-1" style="width: 100%;">
+                  <img :src="code.imageUrl" class="card-img-top image" alt="..." style="width: 20%;" />
                   <div class="card-body d-flex justify-content-between align-items-center" style="100%">
-                    <h6 class="card-title">{{code.title}}</h6>
-                    <p class="card-title ml-1">Hạn sử dụng : {{code.expiry}}</p>
-                    <a href="#" class="btn btn-outline btn-apply">Dùng ngay</a>
+                    <h6 class="card-title w-30">{{code.title}}</h6>
+                    <p class="card-title ml-1">Hạn sử dụng : {{code.toDate}}</p>
+                    <button @click="handleUploadInput(code.id,code.title,code.discount)" class="btn btn-outline btn-apply">Dùng ngay</button>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <div class="px-4 py-2 my-4" style="width: 100%;">
-            <div class="card-body">
-              <!-- <h4 class="card-title">Phương thức thanh toán</h4> -->
-
-              <v-select :items="[ 'VNPAY','Thanh toán bằng tiền mặt']" label="Phương Thức Thanh Toán "></v-select>
-              <div class="card-subtitle text-muted my-4">
-                <h6 class="d-flex flex-start">Mã khuyến mãi</h6>
-                <div class="d-flex mb-4">
-                  <input type="text" class="form-control me-4" style="width: 60%;" />
-                  <button class="btn-promotion btn btn-outline">Áp Dụng</button>
-                </div>
-                <span style="display: flex; font-size: 14px;color: #000; align-items: center;">
-                  <p class="flex-start" style="margin-right: 4px;color: #ff646e;">(*)</p>
-                  Bằng việc click/chạm vào THANH TOÁN bên phải, bạn đã xác nhận hiểu rõ các Quy Định Giao Dịch Trực Tuyến của Galaxy Cinema. Xem thêm
-                  tại:
-                </span>
               </div>
             </div>
           </div>
@@ -52,37 +55,111 @@
       </v-expansion-panels>
     </div>
     <div class="card-container">
-      <CardDetails></CardDetails>
+      <CardDetails :selectedPromotion="selectedPromotion"></CardDetails>
     </div>
   </div>
 </template>
 
 <script setup name="pay" lang="ts">
-import { ref } from 'vue';
+import { ref,watch , onMounted } from 'vue';
+import { saveToLocalStorage, getFromLocalStorage } from '@/utils/localStorage';
+import axios from 'axios'
+
+interface Promotion {
+	id: number;
+	title: string;
+	imageUrl: string;
+	discount: number;
+	toDate: string;
+}
+
+interface PromotionProp {
+	id: number;
+	title: string;
+  discount: number
+}
+
 const panel = ref([2])
 
+//giu ghe
+const remainingTime = ref(10);
+const modalVisible = ref(false);
+
+const formatTime = (seconds : number) => {
+  const minutes = Math.floor(seconds / 60);
+  const secondsLeft = seconds % 60;
+  return `${minutes}:${String(secondsLeft).padStart(2, '0')}`;
+};
+
+const showModal = () => {
+  modalVisible.value = true;
+};
+const countDown = () => {
+  if (remainingTime.value > 0) {
+    remainingTime.value -= 1;
+  } else {
+    showModal();
+  }
+};
+
 const currentDate = new Date()
-const codes = [
-{
-  id: 1,
-  title: 'Giáng sinh an lành',
-  img: 'https://www.gocbao.com/wp-content/uploads/2020/04/thiep-chuc-giang-sinh_092358931.jpg',
-  expiry: '13/12/2023'
-},
-{
-  id: 2,
-  title: 'Phim mới',
-  img: 'https://www.gocbao.com/wp-content/uploads/2020/04/thiep-chuc-giang-sinh_092358931.jpg',
-  expiry: '13/12/2023'
-},
-{
-  id: 3,
-  title: 'Giáng sinh an lành',
-  img: 'https://www.gocbao.com/wp-content/uploads/2020/04/thiep-chuc-giang-sinh_092358931.jpg',
-  expiry: '13/12/2023'
-},
-]
+
+const promotionLists = ref<Promotion[]>([]);
+
+const selectedTitle = ref<string |undefined>("");
+
+const selectedPromotionId = ref<number |undefined>(0);
+
+const selectedDiscount = ref<number |undefined>(0);
+
+const handleUploadInput = (id:number, title : string, discount: number) => {
+  selectedPromotionId.value = id;
+  selectedTitle.value = title;
+  selectedDiscount.value = discount;
+}
+
+const selectedPromotion = ref<PromotionProp | null>(null)
+
+const handleUploadCardDetail = (id: number , title : string, discount: number) => {
+  selectedPromotion.value = {
+    id: id,
+    title: title,
+    discount: discount
+  }
+  saveToLocalStorage('selectedPromotion', selectedPromotion.value)
+}
+
+const fetchData = async () => {
+  try {
+    const response = await axios.get('https://90e3-2001-ee0-4b4c-7840-bd92-c5fd-572e-33dc.ngrok-free.app/dev-api/customer/homepage/search/promotions', {
+      headers: {
+        'ngrok-skip-browser-warning': 'any'
+      }
+    });
+    promotionLists.value = response.data;
+    const localStoragePromotion = getFromLocalStorage<PromotionProp>('selectedPromotion') || null;
+    selectedPromotion.value = localStoragePromotion;
+    selectedPromotionId.value = selectedPromotion.value?.id;
+    selectedTitle.value = selectedPromotion.value?.title;
+    selectedDiscount.value = selectedPromotion.value?.discount;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+onMounted(() => {
+  fetchData();
+  const intervalId = setInterval(countDown, 1000);
+
+  watch(() => modalVisible.value, (newValue) => {
+    if (newValue) {
+      clearInterval(intervalId);
+    }
+  });
+  })
+
 </script>
+
 <style lang="scss" scoped>
 .btn-promotion{
   width: 15%;
@@ -123,6 +200,7 @@ const codes = [
   .image {
     width: 10%;
     display: block;
+    border-radius: 4px;
   }
 
   .clearfix:before,
@@ -180,5 +258,8 @@ const codes = [
   display:flex-column;
   justify-content: start;
   font-family: sans-serif
+}
+.time-out{
+  color: #ff5e19;
 }
 </style>
