@@ -2,55 +2,88 @@
   <div class="main-container">
     <div class="expansion-panels">
       <v-expansion-panels v-model="panel" multiple>
-        <v-expansion-panel>
-          <v-expansion-panel-title>Chọn vị trí</v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <div class="text-wrapper">
-              <button class="py-2 px-3 border rounded text-[14px] font-normal text-black-10 transition-all duration-500 ease-in-out position-btn">
-                TP Hồ Chí Minh
-              </button>
-              <button class="py-2 px-3 border rounded text-[14px] font-normal text-black-10 transition-all duration-500 ease-in-out position-btn">
-                TP Đà Nẵng
-              </button>
-              <button class="py-2 px-3 border rounded text-[14px] font-normal text-black-10 transition-all duration-500 ease-in-out position-btn">
-                TP Hải Phòng
-              </button>
-              <button class="py-2 px-3 border rounded text-[14px] font-normal text-black-10 transition-all duration-500 ease-in-out position-btn">
-                TP Hà Nội
-              </button>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-        <v-expansion-panel>
+        <v-expansion-panel value="MovieCarousel">
           <v-expansion-panel-title>Chọn phim</v-expansion-panel-title>
           <v-expansion-panel-text>
             <div>
-              <MovieCarousel></MovieCarousel>
+              <MovieCarousel @selectMovie="handleSelectMovie" @panel-toggle="togglePanelMovie"></MovieCarousel>
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
-        <v-expansion-panel>
+        <v-expansion-panel value="ShowTime">
           <v-expansion-panel-title>Chọn suất</v-expansion-panel-title>
           <v-expansion-panel-text>
-            <div>
-              <ShowTime></ShowTime>
-            </div>
+              <ShowTime v-if="selectedMovie" :currentDate = "currentDate" @selectShowTime="handleSelectShowTime" @panel-toggle="togglePanelShowTime"></ShowTime>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
     <div class="card-container">
-      <CardDetails></CardDetails>
+      <CardDetails :selectedMovie="selectedMovie" :selectedShowTime="selectedShowTime"></CardDetails>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, defineEmits} from 'vue';
 import MovieCarousel from '@/components/ExpansionPanels/MovieCarousel.vue';
 import ShowTime from '@/components/ExpansionPanels/ShowTime.vue';
 import CardDetails from '@/components/ExpansionPanels/CardDetails.vue';
-const panel=ref([0]);
+
+const panel=ref<string[]>([]);
+
+interface Movie {
+    id: number;
+    title: string;
+    movieDescription: string;
+    releaseDate: string;
+    endDate: string;
+    duration: number;
+    language: string;
+    rated: string;
+    genre: string;
+    director: string;
+    actor: string;
+    rating: string;
+    posterUrl: string;
+    trailerUrl: string;
+    remark: string
+}
+
+interface ShowTimeInfo {
+  uniqueId: string;
+  id: number;
+  cinemaName: string;
+  cinemaAddress: string;
+  startTime: string;
+  endTime: string;
+}
+
+const selectedMovie = ref<Movie | null>(null);
+
+const selectedShowTime = ref<ShowTimeInfo | null>(null);
+
+const currentDate = ref<Date>(new Date());
+
+const handleSelectMovie = (movie: Movie) => {
+  selectedMovie.value = movie;
+  selectedShowTime.value = null;
+  currentDate.value = new Date();
+};
+
+const togglePanelMovie = () => {
+  panel.value = ['ShowTime'];
+}
+
+const handleSelectShowTime = (showTime: ShowTimeInfo) => {
+  selectedShowTime.value = showTime;
+};
+
+const togglePanelShowTime = () => {
+  panel.value = [''];
+}
+onMounted(() => {
+});
 </script>
 
 <style lang="scss" scoped>
@@ -92,6 +125,5 @@ const panel=ref([0]);
   padding-left:1rem;
   display:flex-column;
   justify-content: start;
-  font-family: sans-serif
 }
 </style>

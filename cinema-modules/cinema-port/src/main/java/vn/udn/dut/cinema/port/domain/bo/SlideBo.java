@@ -14,12 +14,13 @@ import vn.udn.dut.cinema.port.domain.Slide;
 @EqualsAndHashCode(callSuper = true)
 @AutoMapper(target = Slide.class, reverseConvertGenerate = false)
 public class SlideBo extends TenantEntity {
-    private static final long serialVersionUID = -2323039814896662171L;
+	private static final long serialVersionUID = -2323039814896662171L;
 
-    @NotNull(message = "Id cannot be empty", groups = { EditGroup.class })
-    private Long id;
-    
-    @NotBlank(message = "Slide URL cannot be empty", groups = { AddGroup.class, EditGroup.class })
-    private String slideUrl;
-    private String remark;
+	@NotNull(message = "Id cannot be empty", groups = { EditGroup.class })
+	private Long id;
+
+	@NotBlank(message = "Slide URL cannot be empty", groups = { AddGroup.class, EditGroup.class })
+	private String slideUrl;
+	
+	private String remark;
 }

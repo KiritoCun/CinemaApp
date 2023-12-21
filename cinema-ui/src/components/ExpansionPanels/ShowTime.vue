@@ -2,8 +2,8 @@
   <div class="mt-4">
     <div class="input-group d-flex align-items-center mt-3 mb-1 w-80 row text-capitalize">
       <div class="col-sm-6 justify-content-center d-flex" style="width: 500px">
-        <el-radio-group v-for="tab in tabs" :key="tab.id" v-model="activeName" size="small">
-          <el-radio-button class="btn-showtime mx-4" :label="tab.id">
+        <el-radio-group v-model="activeName" size="small">
+          <el-radio-button v-for="tab in tabs" :key="tab.id" class="btn-showtime mx-4" :label="tab.id">
             <div style="white-space: pre-line;width: 80px;height: 34px; font-size: 16px; font-weight: 400;line-height: 20px;">
               {{ tab.label }}
             </div>
@@ -12,130 +12,174 @@
       </div>
 
       <div class="col-sm-4 d-flex" style="width: 350px;">
-        <select class="form-select  rounded d-flex flex-end ms-2 fs-sm text-center" id="inputGroupSelect01">
+        <select class="form-select  rounded d-flex flex-end ms-2 fs-sm text-center" id="inputGroupSelect01" v-model="selectedCinema">
           <option selected>Tất cả rạp</option>
-          <option v-for="(cinema) in cinemas" :key="cinema.id" :value="cinema.label">{{cinema.label}}</option>
+          <option v-for="(cinema) in showTimeInfo" :key="cinema.id" :value="cinema.cinema.cinemaName">{{cinema.cinema.cinemaName}}</option>
         </select>
       </div>
     </div>
     <el-divider style="width:840px;height: 4px;background-color: #034ea2;"></el-divider>
-    <ul v-for="cinema in cinemas" :key="cinema.id" class="list-group container d-flex flex-start m-3" style="width: 720px; margin-left: 0;">
+    <ul v-for="cinema in selectedCinemas" :key="cinema.id" class="list-group container d-flex flex-start m-3" style="width: 720px; margin-left: 0;">
       <li class="list-group-item row d-flex my-2">
         <div class="col col-sm-3">
-          <h6>{{ cinema.label }}</h6>
-          <span>2D Phụ Đề</span>
+          <h6>{{ cinema.cinema.cinemaName }}</h6>
+          <span>{{ cinema.cinema.cinemaAddress }}</span>
         </div>
         <div class="col col-sm-9 row">
+<<<<<<< HEAD
           <el-card v-for="item in itemData" :key="item.id" class="col-2 mx-2 my-3 btn btn-primary ">{{ item.title }}</el-card>
+=======
+          <el-card
+            v-for="item in cinema.showTimeList"
+            :key="item.uniqueId"
+            class="col-2 mx-2 my-1 btn btn-primary "
+            @click="handleSelectShowTime(item)"
+            >{{ cinemaHours(item.startTime) }}</el-card
+          >
+>>>>>>> 8bd76de480fd300d304480000189c3e9c343897f
         </div>
       </li>
     </ul>
   </div>
 </template>
 
-<script setup name="MovieDetail" lang="ts">
+<script setup lang="ts">
+import { ref, Ref, computed } from 'vue';
+import axios from 'axios';
 
-const cinemas = [
-  {
-    id:1,
-    label: "Galaxy Trần Phú "
-  },
-  { id:2 ,
-    label: "Galaxy Đà Nẵng"
-  },
-  { id: 3,
-    label: "Galaxy Hà Đông"
-  },
-  {
-    id:4,
-    label: "Galaxy Hà Nội"
+interface ShowTime {
+  id: number;
+  startTime: string;
+  endTime: string;
+}
+
+interface ShowTimeInfo {
+  showTimeList: ShowTime[];
+  cinema: {
+    cinemaName: string;
+    cinemaAddress: string;
   }
-];
+  id: number;
+}
 
-const itemData = [
-  {
-    id: "1",
-    title: "20:15",
-  },
-  {
-    id: "2",
-    title: "20:15",
-  },
-  {
-    id: "3",
-    title: "20:15",
-  },
-  {
-    id: "4",
-    title: "20:15",
-  },
-  {
-    id: "5",
-    title: "20:15",
-  },
-  {
-    id: "6",
-    title: "20:15",
-  },
-  {
-    id: "7",
-    title: "20:15",
-  },
-  {
-    id: "1",
-    title: "20:15",
-  },
-  {
-    id: "2",
-    title: "20:15",
-  },
-  {
-    id: "3",
-    title: "20:15",
-  },
-  {
-    id: "4",
-    title: "20:15",
-  },
-  {
-    id: "5",
-    title: "20:15",
-  },
-  {
-    id: "6",
-    title: "20:15",
-  },
-  {
-    id: "7",
-    title: "20:15",
-  },
-];
+const showTimeInfo = ref<ShowTimeInfo[]>([]);
 
+interface Tab {
+  id: number;
+  label: string;
+}
 
-onMounted(() => {
+const activeName = ref(0);
 
+const props = defineProps({
+  currentDate: {
+    type: Date,
+    required: true
+  }
 });
 
-const activeName = ref("1")
+const tabs= ref<Tab[]>([]);
 
-const tabs = [
-  { id:1,label: 'Hôm nay 05/11' },
-  { id:2,label: 'Thứ Hai 06/11' },
-  { id:3,label: 'Thứ Ba 07/11' },
-  { id:4,label: 'Thứ Tư 08/11' },
-];
+const createTabs = (date: Date) => {
+  const newTabs : Tab[] = [];
+  for (let i = 0; i < 4; i++) {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + i);
+    const day = newDate.getDate().toString().padStart(2, '0');
+    const month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = newDate.getFullYear();
+    newTabs.push({
+      id : i,
+      label : `${day}/${month}/${year}`,
+    });
+  }
+  tabs.value = newTabs;
+};
 
-onMounted(() => {
+watchEffect(() => {
+  createTabs(props.currentDate);
+});
+
+const cinemaHours = (startTime: string) => {
+  const timeString = startTime.split(' ')[1];
+
+  const [hours, minutes] = timeString.split(':');
+
+  return `${hours}:${minutes}`;
+
+};
+
+const cinemaDays = (startTime: string) => {
+  const timeString = startTime.split(' ')[0];
+
+  const [day, month, year] = timeString.split('/');
+
+  return `${day}/${month}`;
+
+};
+
+const selectedCinema = ref("Tất cả rạp");
+
+const selectedCinemas = computed(() => {
+  if (selectedCinema.value === "Tất cả rạp") {
+      return selectedShowTimes.value;
+  }
+  else {
+      return selectedShowTimes.value.filter(cinema => cinema.cinema.cinemaName === selectedCinema.value);
+    }
+  });
+
+
+const selectedShowTimes = computed(() => {
+  const activeTab = tabs.value.find(tab => tab.id === activeName.value);
+  if (!activeTab) return [];
+  const activeTabDayMonth = cinemaDays(activeTab.label);
+
+  return showTimeInfo.value.flatMap(cinema => ({
+    ...cinema,
+    showTimeList: cinema.showTimeList
+      .filter(showTime => cinemaDays(showTime.startTime) === activeTabDayMonth)
+      .map(showTime => ({
+        ...showTime,
+        uniqueId: `${cinema.id}-${showTime.id}`,
+        cinemaName: cinema.cinema.cinemaName,
+        cinemaAddress: cinema.cinema.cinemaAddress
+      }))
+  })).filter(cinema => cinema.showTimeList.length > 0);
+});
+
+const emit = defineEmits(['selectShowTime','panel-toggle']);
+
+const selectedShowTimeId = ref<number | null>(null);
+
+interface CardDetailInfo {
+  uniqueId: string;
+  id: number;
+  cinemaName: string;
+  cinemaAddress: string;
+  startTime: string;
+  endTime: string;
+}
+
+const handleSelectShowTime = (cinema: CardDetailInfo) => {
+  selectedShowTimeId.value = cinema.id;
+  emit('selectShowTime', cinema);
+  emit('panel-toggle');
+};
+
+onMounted(async () => {
+  try {
+    const response = await axios.get('https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList ');
+    showTimeInfo.value = response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 });
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/styles/mixin.scss";
 @import "@/assets/styles/variables.module.scss";
-
-
-
-
 .button {
   text-transform: uppercase;
   padding: 6px 2px 6px 2px;

@@ -51,7 +51,7 @@
     "vue3-carousel": "0.3.1",
     "vue3-youtube": "^0.1.9",
     "vueify": "^9.4.1",
-    "vuetify": "^3.0.0-beta.0",
+    "vuetify": "npm:@vuetify/nightly@next",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {

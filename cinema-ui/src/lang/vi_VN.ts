@@ -1389,5 +1389,145 @@ export default {
       deleteSuccess: 'Xoá thành công',
       deleteCf: 'Xác nhận xoá slide?'
     }
+  },
+  // Account menu internationalization
+  account: {
+    searchInput: {
+      nickNameLb: 'Họ tên khách hàng',
+      nickNamePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xóa'
+    },
+    dialog: {
+      addTt: 'Thêm tài khoản khách hàng',
+      editTt: 'Chỉnh sửa',
+      userNameTt: 'Tên tài khoản ',
+      userNamePh: 'Nhập',
+      nickNameTt: 'Họ tên',
+      nickNamePh: 'Nhập',
+      customerTypeTt: 'Loại tài khoản',
+      customerTypePh: 'Nhập',
+      emailTt: 'Email',
+      emailPh: 'Nhập',
+      phonenumberTt: 'Số điện thoại',
+      phonenumberPh: 'Nhập',
+      sexTt: 'Giới tính',
+      sexPh: 'Nhập',
+      avatarTt: 'Ảnh đại diện',
+      avatarPh: 'Nhập',
+      passwordTt: 'Mật khẩu',
+      passwordPh: 'Nhập',
+      statusTt: 'Trạng thái',
+      statusPh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu'
+    },
+    columns: {
+      userIdLb: 'ID',
+      userNameLb: 'Tên tài khoản',
+      nickNameLb: 'Họ Tên',
+      customerTypeLb: 'Loại tài khoản',
+      emailLb: 'Email',
+      phonenumberLb: 'Số điện thoại', 
+      sexLb: 'Giới tính',
+      avatarLb: 'Ảnh đại diện',
+      passwordLb: 'Mật khẩu',
+      statusLb: 'Trạng thái',
+      remarkLb: 'Chú thích',
+      operateLb: 'Thao tác',
+      editLb: 'Chỉnh sửa',
+      deleteLb: 'Xóa'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưa thành công',
+      deleteSuccess: 'Xóa thành công',
+      deleteCf: 'Bạn có muốn xóa tài khoản này không?'
+    }
+  },
+  // Seat type menu internationalization
+  seatTypeManagement: {
+    searchInput: {
+      seatTypeNameLb: 'Tên loại ghế',
+      seatTypeNamePh: 'Nhập'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    dialog: {
+      addTt: 'Thêm loại ghế',
+      editTt: 'Sửa thông tin loại ghế',
+      seatTypeNameTt: 'Tên loại ghế',
+      seatTypeNamePh: 'Nhập',
+      priceTt: 'Đơn giá (VND)',
+      pricePh: 'Nhập',
+      remarkTt: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu',
+      rules: {
+        seatTypeNameRqMsg: 'Tên loại ghế không được trống',
+        priceRqMsg: 'Đơn giá không được trống'
+      }
+    },
+    columns: {
+      idLb: 'ID',
+      seatTypeNameLb: 'Tên loại ghế',
+      priceLb: 'Đơn giá (VND)',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá loại ghế?'
+    }
+  },
+  // Hall menu internationalization
+  hallManagement: {
+    searchInput: {
+      hallNameLb: 'Tên phòng',
+      hallNamePh: 'Nhập',
+      cinemaIdLb: 'Rạp chiếu',
+      cinemaIdPh: 'Chọn',
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xoá'
+    },
+    columns: {
+      hallNameLb: 'Tên phòng',
+      cinemaNameLb: 'Rạp chiếu',
+      rowNumberLb: 'Số hàng ghế',
+      createTimeLb: 'Ngày tạo',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    hallSeatColumns: {
+      rowCodeLb: 'Mã hàng',
+      rowSeatNumberLb: 'Số ghế của hàng',
+      seatTypeIdLb: 'Loại ghế',
+      remarkLb: 'Ghi chú',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xoá'
+    },
+    operationMsg: {
+      submitSuccess: 'Lưu thành công',
+      deleteSuccess: 'Xoá thành công',
+      deleteCf: 'Xác nhận xoá phòng?'
+    }
   }
 };

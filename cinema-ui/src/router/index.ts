@@ -104,24 +104,40 @@ export const constantRoutes: RouteOption[] = [
     ]
   },
   {
-     path: '/user',
-     component: Layout,
-     hidden: true,
-     redirect: 'noredirect',
-     children: [
-       {
-         path: 'profile',
-         component: () => import('@/views/system/user/profile/index.vue'),
-         name: 'Profile',
-         meta: { title: '{"vi_VN":"Thông tin cá nhân","en_US":"Profile"}', icon: 'user' }
-       }
-     ]
-   },
-  {
-    path: '/homepage/booking',
-    component: () => import('@/views/homepage/booking.vue'),
-    hidden: true
+    path: '/user',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'profile',
+        component: () => import('@/views/system/user/profile/index.vue'),
+        name: 'Profile',
+        meta: { title: '{"vi_VN":"Thông tin cá nhân","en_US":"Profile"}', icon: 'user' }
+      }
+    ]
   },
+  {
+    path: '/booking',
+    component: () => Layout,
+    children: [
+      {
+        path: 'movieSelection',
+        component: () => import('@/views/booking/movieSelection.vue'),
+        props: { step: 1 }
+      },
+      {
+        path: 'seatSelection',
+        component: () => import('@/views/booking/seatSelection.vue'),
+        props: { step: 2 }
+      },
+      {
+        path: 'payment',
+        component: () => import('@/views/booking/payment.vue'),
+        props: { step: 3 }
+      },
+    ]
+  }
 ];
 
 // Dynamic routing, dynamically loaded based on user permissions
