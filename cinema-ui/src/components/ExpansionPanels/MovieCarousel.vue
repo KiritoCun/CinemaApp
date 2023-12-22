@@ -84,13 +84,16 @@ const handleSelectMovie = (movie: Movie) => {
 
 onMounted(async () => {
   try {
-    const response = await axios.get('https://9dfa-2001-ee0-4b7b-4950-45fe-2b36-fcc8-7224.ngrok-free.app/dev-api/customer/homepage/search/nowplayingmovies', {
+    const response = await axios.get('https://65742768f941bda3f2af6a27.mockapi.io/api/mq/movie', {
       headers: {
         'ngrok-skip-browser-warning': 'any'
       }
     });
+
     const movies: Movie[] = response.data;
+
     const rowCount = Math.ceil(movies.length / rowSize);
+    
     for (let i = 0; i < rowCount; i++) {
       movieRows.value.push(movies.slice(i * rowSize, (i + 1) * rowSize));
     }

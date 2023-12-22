@@ -45,6 +45,7 @@ import axios from 'axios';
 
 interface ShowTime {
   id: number;
+  hallId : number;
   startTime: string;
   endTime: string;
 }
@@ -149,7 +150,8 @@ const emit = defineEmits(['selectShowTime','panel-toggle']);
 interface CardDetailInfo {
   uniqueId: string;
   id: number;
-  cinemaName: string;
+  hallId : number | null;
+  cinemaName: string | null;
   cinemaAddress: string;
   startTime: string;
   endTime: string;
