@@ -2,10 +2,18 @@
   <b-card>
     <div class="d-flex flex-row" style="max-height: 600px ;padding-bottom: 20px;">
       <img
+        v-if="processedMovie && processedMovie.posterUrl"
         style="height:150px;width: 100px;border-radius: 0.25rem; margin-right: 12px"
         class="card-img-top"
         :src="processedMovie?.posterUrl"
         alt="Image"
+      />
+      <img
+        v-else
+        style="height:150px;width: 100px;border-radius: 0.25rem; margin-right: 12px"
+        class="card-img-top"
+        :src="defaulImageSvg"
+        alt="Default Image"
       />
       <div>
         <b-card-text class="text-start"
@@ -16,9 +24,7 @@
     </div>
 
     <div class="text-justify ">
-      <b-card-text class="mb-2"
-        ><strong>{{ processedShowTime?.cinemaName }}</strong> - RAP 5</b-card-text
-      >
+      <b-card-text class="mb-2" v-html="showMovieSelection(processedShowTime?.cinemaName, processedShowTime?.hallId ) || ''"></b-card-text>
       <b-card-text v-html="showDate(processedShowTime?.startTime || '')"></b-card-text>
     </div>
     <div v-if="processedSeat && processedSeat.length > 0">
@@ -72,6 +78,7 @@
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue';
 import { getFromLocalStorage } from '@/utils/localStorage';
+import defaulImageSvg from '@/assets/images/empty-img.svg'
 
 interface Movie {
     id: number;
@@ -94,7 +101,7 @@ interface Movie {
 interface ShowTime {
   uniqueId: string;
   id: number;
-  hallId : string;
+  hallId : number;
   cinemaName: string;
   cinemaAddress: string;
   startTime: string;
@@ -122,7 +129,7 @@ const props = defineProps({
     default:null
   },
   selectedShowTime: {
-    type: Object as PropType<ShowTime | null | undefined>,
+    type: Object as PropType<ShowTime | null>,
     default:null
   },
   selectedSeat: {
@@ -156,6 +163,13 @@ const showDate = (startTime?: string) => {
 
   return `Suất: <strong>${hours}:${minutes}</strong> - Ngày: <strong>${day}/${month}/${year}</strong>`;
 };
+
+const showMovieSelection = (cinemaName?: string, hallId?: number) => {
+  if(cinemaName === undefined || hallId === undefined ) {
+    return ``;
+  }
+  return `</strong>${cinemaName}<strong> - Rạp ${hallId}`;
+}
 
 const showSeat = (selectedSeat?: string, count?: number) => {
   if (count === 0) {
