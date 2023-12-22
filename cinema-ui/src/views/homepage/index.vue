@@ -23,7 +23,7 @@
                         <h3>{{ movie.title }}</h3>
                         <div class="film-content-action">
                           <a title="Xem chi tiết" class="btn btn-primary btn-sm" @click.stop="goToMovieDetail(movie)">Xem chi tiết</a>
-                          <button type="button" title="Mua vé" class="btn btn-sm btn-booking" onclick="Quickbooking('23020300');">
+                          <button type="button" title="Mua vé" class="btn btn-sm btn-booking" @click.stop="gotoBooking(movie.id)">
                             <span>Mua vé</span>
                           </button>
                         </div>
@@ -85,9 +85,11 @@ import { encrypt, decrypt } from '@/utils/jsencrypt';
 import { useUserStore } from '@/store/modules/user';
 import { LoginData, TenantVO } from '@/api/types';
 import { FormRules } from 'element-plus';
+
 import { to } from 'await-to-js';
 import i18n from '@/lang';
 import { DocumentVO } from '@/api/system/document/types';
+import axios from 'axios';
 
 const activeIndex = ref('login');
 const activeLogin = ref('');
@@ -328,6 +330,17 @@ const goToMovieDetail = (movie: any) => {
     posterUrl: movie.posterUrl,
   }});
 }
+
+const gotoBooking = async (movie: any):Promise<void> => {
+    try {
+      // const response = await axios.post('https://90b9-2001-ee0-4b4c-7840-a5fb-255d-ea41-361a.ngrok-free.app/dev-api/customer/homepage/search/nowplayingmovies', { movieId: movie.id });
+      // console.log(response.data);
+      router.push({ path: '/booking/movieSelection', params: {movie} });
+      console.log(movie)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

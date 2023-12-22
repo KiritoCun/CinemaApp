@@ -4,7 +4,17 @@
     <div class="left-menu flex align-center">
       <img :src="logo" class="navbar-logo" />
       <el-menu :default-active="activeIndex" class="nav-header" mode="horizontal" @select="handleNavigate">
-        <router-link to="/homepage">
+        <router-link class="btn-buytickets mx-5 my-3" @click="removeAllFromLocalStorage()" style="marginLeft: 30px" to="/booking/movieSelection">
+          <img
+            alt="Ticket"
+            width="112"
+            height="36"
+            decoding="async"
+            data-nimg="1"
+            src="https://www.galaxycine.vn/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fbtn-ticket.42d72c96.webp&amp;w=256&amp;q=100"
+          />
+        </router-link>
+        <router-link to="/">
           <el-menu-item index="showtime">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
         </router-link>
         <router-link to="/homepage/movie-category">
@@ -76,6 +86,8 @@ import { dynamicClear, dynamicTenant } from "@/api/system/tenant";
 import { ComponentInternalInstance } from "vue";
 import { TenantVO } from "@/api/types";
 import i18n from '@/lang';
+import { removeAllFromLocalStorage } from '@/utils/localStorage';
+
 const router = useRouter();
 
 const activeIndex = ref('login');
@@ -371,5 +383,12 @@ const handleNavigate = (key: string) => {
     left: -25px;
     // top: -4px;
     height: 25px;
+}
+
+.btn-buytickets:hover{
+    transform : translate(-2px,2px);
+    background-color: #f9f9f9;
+    color: #ff5e19;
+    opacity: 0.7;
 }
 </style>
