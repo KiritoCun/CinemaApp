@@ -37,14 +37,29 @@
     <div class="card-container">
       <CardDetails :selectedSeat="seats"></CardDetails>
     </div>
+    <v-dialog v-model="dialog" width="auto">
+      <v-card>
+        <img
+          style="height:40px;width: 40px"
+          class="align-self-center my-3"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_alert-yellow.svg/2048px-OOjs_UI_icon_alert-yellow.svg.png"
+        />
+        <p class="text-lg font-bold my-2">Thông báo</p>
+        <v-card-text> Số lượng ghế tối đa được đặt là 5 ghế </v-card-text>
+        <v-card-actions>
+          <v-btn block @click="dialog = false" color="orange darken-3">Đóng</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
-import { saveToLocalStorage, getFromLocalStorage, removeAllFromLocalStorage} from '@/utils/localStorage';
+import { saveToLocalStorage, getFromLocalStorage} from '@/utils/localStorage';
 
 const panel = ref([1])
+const dialog = ref(false);
 
 interface Column {
   id: number;
@@ -72,28 +87,32 @@ const hallMap = ref<HallMap[]>([]);
 
 const seats = ref<SeatProp[]>([]);
 
+const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
+
 const fetchData = async () => {
   try {
     const response = await axios.get('https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/seatOrderList');
     hallMap.value = response.data;
-    const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
     seats.value = localStorageSeats;
     hallMap.value.map(row => {
       row.seatLists.map(seat => {
-      if (seat.status === 1) {
+        if (seat.status === 1) {
             // Check against Local Storage for selected seats
-            if (seats.value.find(seatProp =>
-              seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
-            ))
-            {
-              selectedSeats.value.push([row.id, seat.columnCode]);
-            }
+          if (seats.value.find(seatProp =>
+            seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
+          ))
+          {
+            selectedSeats.value.push([row.id, seat.columnCode]);
+          }
           else {
             soldSeats.value.push([row.id, seat.columnCode]);
           }
         }
+        else if (seat.status === 2) {
+          soldSeats.value.push([row.id, seat.columnCode]);
+        }
       });
-  });
+    });
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -131,34 +150,41 @@ const seatData = computed(() => {
 const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
   const uniqueId = `${rowNumber.rowCode}${seatNumber.columnCode}`;
   const rowCode= `${rowNumber.rowCode}`;
+  const limitedClick = 5;
 
   // Update status directly on the object
   seatNumber.status = seatNumber.status === 0 ? 1 : 0;
 
   // Update selection lists based on new status
-  if (seatNumber.status === 1) {
-    selectedSeats.value.push([rowNumber.id, seatNumber.columnCode]);
-    seats.value = [...(seats.value || []), {
-      uniqueId: uniqueId,
-      id: seatNumber.id,
-      rowCode : rowCode,
-      columnCode: seatNumber.columnCode,
-      status: seatNumber.status,
-      price: rowNumber.price
-    }];
-    saveToLocalStorage('selectedSeat', seats.value);
-  } else {
+    if (seatNumber.status === 1) {
+      if (selectedSeats.value.length < limitedClick) {
+      selectedSeats.value.push([rowNumber.id, seatNumber.columnCode]);
+      seats.value = [...(seats.value || []), {
+        uniqueId: uniqueId,
+        id: seatNumber.id,
+        rowCode : rowCode,
+        columnCode: seatNumber.columnCode,
+        status: seatNumber.status,
+        price: rowNumber.price
+      }];
+      saveToLocalStorage('selectedSeat', seats.value);
+      }
+      else {
+        dialog.value = true;
+      }
+    }
+    else {
     const index = selectedSeats.value.findIndex(
       seat => seat[0] === rowNumber.id && seat[1] === seatNumber.columnCode
-    );
-    if (index !== -1) {
-      selectedSeats.value.splice(index, 1);
+      );
+      if (index !== -1) {
+        selectedSeats.value.splice(index, 1);
+      }
+      if (seats.value) {
+        seats.value = seats.value.filter(seat => seat.uniqueId !== uniqueId);
+        saveToLocalStorage('selectedSeat', seats.value);
+      }
     }
-    if (seats.value) {
-      seats.value = seats.value.filter(seat => seat.uniqueId !== uniqueId);
-      saveToLocalStorage('selectedSeat', seats.value);
-    }
-  }
 };
 
 onMounted(() => {
@@ -289,5 +315,8 @@ onMounted(() => {
   display:flex-column;
   justify-content: start;
   font-family: sans-serif
+}
+.v-card-text {
+  font-family: sans-serif;
 }
 </style>
