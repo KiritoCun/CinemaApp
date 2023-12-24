@@ -1,4 +1,5 @@
 import { getRouteTitle } from './i18n';
+import { SeatVO } from '@/api/portCustomer/seatManagement/types';
 // date formatting
 export function parseTime(time: any, pattern?: string) {
   if (arguments.length === 0 || !time) {
@@ -292,4 +293,14 @@ export const containerValidate = (containerNo: string) => {
 
 export const openLink = (link: string) => {
   window.open(link, '_blank');
+};
+
+//
+export const isFinishs = (seats: SeatVO[], ids: (string | number)[]) => {
+  const convertIds = typeof ids === 'string' ? [ids] : [...ids];
+  const tickets = seats.filter((seat) => seat.status === '1' && convertIds.includes(seat.id));
+  if (tickets.length === convertIds.length) {
+    return true;
+  }
+  return false;
 };

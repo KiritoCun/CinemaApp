@@ -2,6 +2,7 @@ package vn.udn.dut.cinema.port.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
@@ -45,5 +46,7 @@ public interface IHallService {
 	 * Verify and delete Hall information in batches
 	 */
 	Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+
+	Map<Long, List<HallVo>> getHallMap();
 
 }

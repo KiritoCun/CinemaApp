@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-button-container">
+  <div :class="'grid-button-container' + (props.data[props.rowIndex].selected ? props.data[props.rowIndex].selected : '') + rowColorStyle">
     <template v-for="(item) in buttonProps" :key="item.index">
       <IrButton
         v-if="item.permissionKey && (item.onlyKeys === null || item.onlyKeys === undefined || !item.onlyKeys.includes(data[rowIndex][item.key]))"
@@ -52,10 +52,29 @@ const props = defineProps({
     default() {
       return {};
     }
+  },
+  colorProp: {
+    type: String,
+    default: ''
+  },
+  colorDict: {
+    type: Object,
+    default: null
   }
 });
+const rowColorStyle = computed(() => {
+  if (!props.colorProp || !props.colorDict) {
+    return '';
+  }
+  for (let i = 0; i < props.colorDict.length; i++) {
+    if (props.data[props.rowIndex][props.colorProp] === props.colorDict[i].value) {
+      return ' ' + props.colorDict[i].elTagType;
+    }
+  }
+  return '';
+});
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/assets/styles/variables.module.scss";
 .grid-button-container {
   display: flex;
@@ -64,5 +83,48 @@ const props = defineProps({
   align-items: center;
   gap: 8px;
   height: 100%;
+  width: 100%;
+  &.selected {
+    background-color: $blue-200;
+  }
+  &.blue {
+    background-color: $blue-50;
+  }
+  &.blue.selected {
+    background-color: $blue-200;
+  }
+  &.gray {
+    background-color: $gray-50;
+  }
+  &.gray.selected {
+    background-color: $gray-200;
+  }
+  &.green {
+    background-color: $green-50;
+  }
+  &.green.selected {
+    background-color: $green-200;
+  }
+  &.red {
+    background-color: $red-50;
+  }
+  &.red.selected {
+    background-color: $red-200;
+  }
+  &.yellow {
+    background-color: $yellow-50;
+  }
+  &.yellow.selected {
+    background-color: $yellow-200;
+  }
+  &.violet {
+    background-color: $violet-50;
+  }
+  &.violet.selected {
+    background-color: $violet-200;
+  }
+}
+.grid-button-container > div {
+  margin-bottom: 2px;
 }
 </style>

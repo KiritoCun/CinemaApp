@@ -197,6 +197,20 @@ export const dynamicRoutes: RouteOption[] = [
         meta: { title: '{"vi_VN":"Cấu hình file","en_US":"File config"}', activeMenu: '/system/oss', icon: '' }
       }
     ]
+  },
+  {
+    path: '/portCustomer/showtime-seat',
+    component: Layout,
+    hidden: true,
+    permissions: ['portCustomer:showtimeManagement:list'],
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/portCustomer/showtimeManagement/release.vue'),
+        name: 'ShowtimeRelease',
+        meta: { title: '{"vi_VN":"Phát hành lịch chiếu","en_US":"Release showtime"}', activeMenu: '/portCustomer/showtime-seat', icon: '' }
+      }
+    ]
   }
 ];
 

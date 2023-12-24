@@ -32,8 +32,12 @@ public class ShowtimeBo extends TenantEntity {
 	private Long cinemaId;
 
 	private Long movieId;
+	
+	private String movieName;
 
 	private Long hallId;
+	
+	private String hallName;
 
 	private Date startTime;
 

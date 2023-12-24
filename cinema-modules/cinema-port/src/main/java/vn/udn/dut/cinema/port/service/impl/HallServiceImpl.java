@@ -3,6 +3,8 @@ package vn.udn.dut.cinema.port.service.impl;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -109,5 +111,12 @@ public class HallServiceImpl implements IHallService {
 			// required
 		}
 		return baseMapper.deleteBatchIds(ids) > 0;
+	}
+
+	@Override
+	public Map<Long, List<HallVo>> getHallMap() {
+		List<HallVo> hallList = queryList(new HallBo());
+		Map<Long, List<HallVo>> hallMap = hallList.stream().collect(Collectors.groupingBy(HallVo::getCinemaId));
+		return hallMap;
 	}
 }

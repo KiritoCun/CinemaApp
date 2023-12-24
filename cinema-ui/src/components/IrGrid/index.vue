@@ -1,5 +1,6 @@
 <template>
   <v-grid
+    ref="vgrid"
     v-if="gridRefresh"
     theme="default"
     :source="rowData"
@@ -9,10 +10,12 @@
     :resize="true"
     :range="true"
     :rowSize="32"
+    :frameSize="10"
     :columnTypes="columnTypes"
     @beforesortingapply="handleBeforesortingapply"
     @beforecellfocus="handleBeforecellfocus"
     @beforeeditstart="handleBeforeeditstart"
+    @focusout="onFocusOut"
   ></v-grid>
 </template>
 <script setup lang="ts">
@@ -21,11 +24,13 @@ import GridTag from '@/components/IrGrid/GridTag.vue';
 import RowCheckbox from '@/components/IrGrid/RowCheckbox.vue';
 import HeaderCheckbox from '@/components/IrGrid/HeaderCheckbox.vue';
 import GridButton from '@/components/IrGrid/GridButton.vue';
+import GridIconStatus from '@/components/IrGrid/GridIconStatus.vue';
 import GridSwitch from '@/components/IrGrid/GridSwitch.vue';
 import GridLink from '@/components/IrGrid/GridLink.vue';
 import DateTimeEditor from '@/components/IrGrid/DateTimeEditor.vue';
 import SelectEditor from '@/components/IrGrid/SelectEditor.vue';
 import Validate from '@/components/IrGrid/Validate.vue';
+import GridText from '@/components/IrGrid/GridText.vue';
 import i18n from "@/lang";
 import { VGridVueTemplate } from "@revolist/vue3-datagrid";
 import { h } from 'vue';
@@ -68,22 +73,29 @@ const props = defineProps({
     default: false
   }
 });
+const vgrid = ref();
+const gRowIndex = ref(0);
+const gColName = ref('');
+const colorProp = ref<string>('');
+const colorDict = ref<any>(null);
 const columnNames = ref<any>([]);
 const buttonNames = ref<any>([]);
 const preventEditCol = ref<any>([]);
+const ignoreFocusOut = ref<number>(0);
+const customEditorCol = ref<any>([]);
 const gridRefresh = ref(true);
 const ids = ref(<any>[]);
 const checkAll = ref(false);
 const emit = defineEmits(['update:rowData', 'update:columnSetting', 'onSelectedChange', 'onSorting', 'onSelectCell', 'spliceRowData']);
 const mRowData = computed({
   get: () => props.rowData,
-  set: (val) => {
+  set: (val: any) => {
     emit('update:rowData', val)
   }
 });
 const mColumnSetting = computed({
   get: () => getColumnSetting(),
-  set: (val) => {
+  set: (val: any) => {
     emit('update:columnSetting', val)
   }
 });
@@ -122,9 +134,23 @@ const handleBeforesortingapply = (e: any) => {
   emit('onSorting', {column, order});
 }
 const handleBeforecellfocus = (e: any) => {
+  if (customEditorCol.value.includes(e.detail.prop)) {
+    ignoreFocusOut.value = 2;
+  };
+  for (let i = 0; i < mRowData.value.length; i++) {
+    mRowData.value[i].selected = '';
+  }
+  const rowIndex = e.detail.rowIndex;
+  mRowData.value[rowIndex].selected = ' selected';
   emit('onSelectCell', e.detail);
 }
 const getColumnSetting = () => {
+  for (let index = 0; index < props.columnSetting.length; index++) {
+    if (props.columnSetting[index].changeRowColor) {
+      colorProp.value = props.columnSetting[index].prop;
+      colorDict.value = props.columnSetting[index].dictData;
+    }
+  }
   let columns: any = props.checkboxCol ? [{
     prop: "checkbox",
     name: '',
@@ -133,6 +159,8 @@ const getColumnSetting = () => {
       onChange: () => {
         checkRowCheckboxChange();
       },
+      colorProp: colorProp.value,
+      colorDict: colorDict.value,
       data: mRowData,
       checkAll: checkAll
     })),
@@ -140,6 +168,7 @@ const getColumnSetting = () => {
       onChange: () => {
         checkHeaderCheckboxChange();
       },
+      data: props.rowData,
       checkAll: checkAll,
     })),
     size: 33,
@@ -169,7 +198,7 @@ const getColumnSetting = () => {
         columns[i].columnTemplate = (createElement: any, column: any) => { return createElement('span', {innerHTML: column.name + '<span class="grid-label-req"> *</span>'}, ''); };
       }
       if (columns[i].dictData) {
-        columns[i].cellTemplate = VGridVueTemplate(h(GridTag, { dictData: ref(columns[i].dictData) }));
+        columns[i].cellTemplate = VGridVueTemplate(h(GridTag, { dictData: ref(columns[i].dictData), colorProp: colorProp.value, colorDict: colorDict.value }));
       } else if (columns[i].buttonProps) {
         if (!buttonNames.value.length) {
           columns[i].buttonProps.forEach((button: any) => {
@@ -179,11 +208,13 @@ const getColumnSetting = () => {
         columns[i].buttonProps.forEach((button: any, index: number) => {
           button.title = i18n.global.t(buttonNames.value[index]);
         });
-        columns[i].cellTemplate = VGridVueTemplate(h(GridButton, { buttonProps: columns[i].buttonProps }));
+        columns[i].cellTemplate = VGridVueTemplate(h(GridButton, { buttonProps: columns[i].buttonProps, colorProp: colorProp.value, colorDict: colorDict.value }));
+      } else if (columns[i].iconStatusProps) {
+        columns[i].cellTemplate = VGridVueTemplate(h(GridIconStatus, { iconStatusProps: columns[i].iconStatusProps, colorProp: colorProp.value, colorDict: colorDict.value }));
       } else if (columns[i].switchFunc) {
-        columns[i].cellTemplate = VGridVueTemplate(h(GridSwitch, { change: columns[i].switchFunc }));
+        columns[i].cellTemplate = VGridVueTemplate(h(GridSwitch, { change: columns[i].switchFunc, colorProp: colorProp.value, colorDict: colorDict.value }));
       } else if (columns[i].click) {
-        columns[i].cellTemplate = VGridVueTemplate(h(GridLink, { click: columns[i].click }));
+        columns[i].cellTemplate = VGridVueTemplate(h(GridLink, { click: columns[i].click, colorProp: colorProp.value, colorDict: colorDict.value }));
       } else if (columns[i].editor && columns[i].editor === 'datetime') {
         let props = {
           datePickerProps: {
@@ -191,7 +222,9 @@ const getColumnSetting = () => {
             valueFormat: 'YYYY-MM-DD HH:mm:ss',
             format: 'DD/MM/YYYY',
             placeholder: 'DD/MM/YYYY'
-          }
+          },
+          colorProp: colorProp.value,
+          colorDict: colorDict.value
         };
         if (columns[i].datePickerProps) {
           if (columns[i].datePickerProps.pickerType && columns[i].datePickerProps.pickerType !== '') {
@@ -211,14 +244,23 @@ const getColumnSetting = () => {
         preventEditCol.value.push(columns[i].prop);
       } else if (columns[i].editor && columns[i].editor === 'select') {
         let props = {
-          selectProps: columns[i].selectProps
+          selectProps: columns[i].selectProps,
+          colorProp: colorProp.value,
+          colorDict: colorDict.value
         }
         columns[i].cellTemplate = VGridVueTemplate(h(SelectEditor, props));
         preventEditCol.value.push(columns[i].prop);
+        customEditorCol.value.push(columns[i].prop);
       } else if (columns[i].validate) {
-        columns[i].cellTemplate = VGridVueTemplate(h(Validate, { validateProp: columns[i].validate }));
-      } else if ('checkbox' !== columns[i].prop && (columns[i].cellTemplate === undefined || columns[i].cellTemplate === null)) {
-        columns[i].cellTemplate = (createElement: any, props: any) => { return createElement('div', {class: 'grid-text-container'}, props.model[props.prop]); };
+        columns[i].cellTemplate = VGridVueTemplate(h(Validate, { validateProp: columns[i].validate, colorProp: colorProp.value, colorDict: colorDict.value, onChange: columns[i].onChange }));
+      } else if (columns[i].formatter === 'date') {
+        columns[i].cellTemplate = VGridVueTemplate(h(GridText, { isDate: true, pattern: '{d}/{m}/{y}', colorProp: colorProp.value, colorDict: colorDict.value }));
+      } else if (columns[i].formatter === 'datetime') {
+        columns[i].cellTemplate = VGridVueTemplate(h(GridText, { isDate: true, pattern: '', colorProp: colorProp.value, colorDict: colorDict.value }));
+      } else if (columns[i].formatter === 'money') {
+        columns[i].cellTemplate = VGridVueTemplate(h(GridText, { isMoney: true, pattern: '', colorProp: colorProp.value, colorDict: colorDict.value }));
+      } else if ('checkbox' !== columns[i].prop) {
+        columns[i].cellTemplate = VGridVueTemplate(h(GridText, { colorProp: colorProp.value, colorDict: colorDict.value }));
       }
     }
   }
@@ -231,7 +273,9 @@ const getColumnSetting = () => {
         buttonProps: [{
           index: 1, icon: 'delete', title: '', color: 'red',
           click: (rowIndex: number) => { emit('spliceRowData', rowIndex)}
-        }]
+        }],
+        colorProp: colorProp.value,
+        colorDict: colorDict.value
       })),
       size: 50,
       pin: 'colPinStart'
@@ -240,9 +284,27 @@ const getColumnSetting = () => {
   return columns;
 }
 const handleBeforeeditstart = (e: any) => {
+  if (ignoreFocusOut.value === 2) {
+    ignoreFocusOut.value--;
+  }
   if (preventEditCol.value.includes(e.detail.prop)) {
     e.preventDefault();
+    gRowIndex.value = 0;
+    gColName.value = '';
+  } else {
+    gRowIndex.value = e.detail.rowIndex
+    gColName.value = e.detail.prop
   }
+}
+const onFocusOut = async (e: any) => {
+  if (ignoreFocusOut.value === 1) {
+    ignoreFocusOut.value--;
+    return;
+  }
+  let viewData = await vgrid.value.$el.getVisibleSource();
+  viewData[gRowIndex.value][gColName.value] = e.target.value;
+  gRowIndex.value = 0;
+  gColName.value = '';
 }
 const validate = () => {
   if (!props.rowData.length) {
@@ -292,11 +354,6 @@ watch(() => locale.value, () => {
 </script>
 <style lang="scss">
 @import "@/assets/styles/variables.module.scss";
-.grid-text-container {
-  width: 100%;
-  height: 100%;
-  padding: 8px;
-}
 .grid-label-req {
   color: $red-500;
 }
