@@ -31,12 +31,18 @@ public class SeatVo implements Serializable {
 	private Long seatTypeId;
 
 	private Long hallId;
+	
+	private Long showtimeId;
 
     private String rowCode;
     
     private Integer columnCode;
 	
 	private String status;
+	
+	private Long price;
+	
+	private String seatTypeName;
 
 	private String remark;
 }

@@ -40,6 +40,8 @@ INSERT sys_dict_type VALUES (7, N'000000', N'Cấu hình thanh toán VNPAY', N'p
 GO
 INSERT sys_dict_type VALUES (8, N'000000', N'Không Có', N'sys_no_yes', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO
+INSERT sys_dict_type VALUES (9, N'000000', N'Trạng thái đặt vé', N'order_status', N'0', 103, 1, getdate(), NULL, NULL, N'')
+GO
 
 IF OBJECT_ID('sys_dict_data', 'U') IS NOT NULL
   DROP TABLE sys_dict_data;
@@ -100,4 +102,10 @@ GO
 INSERT sys_dict_data VALUES (15, N'000000', 1, N'Không', N'0', N'sys_no_yes', N'', N'yellow', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO
 INSERT sys_dict_data VALUES (16, N'000000', 2, N'Có', N'1', N'sys_no_yes', N'', N'green', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
+GO
+INSERT sys_dict_data VALUES (17, N'000000', 1, N'Chưa đặt vé', N'N', N'order_status', N'', N'gray', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
+GO
+INSERT sys_dict_data VALUES (18, N'000000', 2, N'Đã được chọn', N'P', N'order_status', N'', N'yellow', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
+GO
+INSERT sys_dict_data VALUES (19, N'000000', 3, N'Đã đặt vé', N'Y', N'order_status', N'', N'green', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO

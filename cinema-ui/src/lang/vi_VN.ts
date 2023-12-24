@@ -1529,5 +1529,64 @@ export default {
       deleteSuccess: 'Xoá thành công',
       deleteCf: 'Xác nhận xoá phòng?'
     }
-  }
+  },
+  // Showtime menu internationalization
+  showtime: {
+    searchInput: {
+      movieNameLb: 'Tên phim',
+      movieNamePh: 'Chọn',
+      cinemaNameLb: 'Rạp chiếu',
+      cinemaNamePh: 'Chọn',
+      hallNameLb: 'Phòng',
+      hallNamePh: 'Chọn',
+      releaseDateLb: 'Thời gian chiếu',
+      startTimePh: 'Từ',
+      endTimePh: 'Đến'
+    },
+    headerButtonLeft: {
+      releaseShowtimeTt: 'Phát hành lịch chiếu'
+    },
+    headerButtonRight: {
+      editTt: 'Sửa'
+    },
+    dialog: {
+      editSingleTt: 'Cập nhật lịch chiếu',
+      editMultiTt: 'Cập nhật lịch chiếu',
+      startTimeLb: 'Thời gian bắt đầu',
+      startTimePh: 'Chọn',
+      endTimeLb: 'Thời gian kết thúc',
+      endTimePh: 'Chọn',
+      remarkLb: 'Ghi chú',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Đóng',
+      footerSubmitTt: 'Lưu'
+    },
+    showtimeColumns: {
+      movieNameLb: 'Tên phim',
+      cinemaNameLb: 'Tên rạp',
+      hallNameLb: 'Tên phòng',
+      startTimeLb: 'Thời gian bắt đầu',
+      endTimeLb: 'Thời gian kết thúc'
+    },
+    seatColumns: {
+      iconStatusLb: 'Trạng thái',
+      rowCodeLb: 'Mã hàng',
+      columnCodeLb: 'Mã cột',
+      seatTypeNameLb: 'Loại ghế',
+      priceLb: 'Giá vé (VND)'
+    },
+    operationMsg: {
+      submitSuccess: 'Cập nhật lịch chiếu thành công'
+    },
+    release: {
+      movieNameLb: 'Tên phim',
+      cinemaNameLb: 'Tên rạp',
+      hallNameLb: 'Tên phòng',
+      startTimeLb: 'Thời gian bắt đầu',
+      releaseOffical: 'Phát hành',
+      closeBtn: 'Đóng',
+      releaseCf: 'Xác nhận phát hành lịch chiếu?',
+      releaseSuccess: 'Phát hành lịch chiếu thành công'
+    }
+  },
 };

@@ -86,3 +86,10 @@ export const updateHallSeats = (hallSeats: HallSeatVO[], hallId: string | number
     data: hallSeats
   });
 };
+
+export const getHallMap = (): AxiosPromise<any> => {
+  return request({
+    url: '/portCustomer/hall/map',
+    method: 'get'
+  });
+};

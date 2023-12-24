@@ -142,6 +142,9 @@ declare global {
     required?: boolean;
     click?: any;
     formatter?: string;
+    iconStatusProps?: GridIconStatus[];
+    changeRowColor?: boolean;
+    onChange?: any;
   }
 
   /**
@@ -151,6 +154,20 @@ declare global {
     validateCondition: function;
     validateText: string;
     color?: string;
+  }
+
+  /**
+   *
+   */
+  interface GridIconStatus {
+    prop?: string;
+    dictData?: any;
+    icon: string;
+    visible?: any;
+    tooltip?: string;
+    color?: string;
+    isCustom?: boolean;
+    onClick?: function;
   }
 }
 export {};
