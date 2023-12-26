@@ -19,7 +19,7 @@
         <b-card-text class="text-start"
           ><strong>{{ processedMovie?.title }}</strong></b-card-text
         >
-        <b-card-text class="text-start">{{ processedMovie?.genre }}</b-card-text>
+        <b-card-text class="text-start">{{ processedMovie?.genre }} - {{ processedMovie?.rated }}</b-card-text>
       </div>
     </div>
 
@@ -83,19 +83,9 @@ import defaulImageSvg from '@/assets/images/empty-img.svg'
 interface Movie {
     id: number;
     title: string;
-    movieDescription: string;
-    releaseDate: string;
-    endDate: string;
-    duration: number;
-    language: string;
     rated: string;
     genre: string;
-    director: string;
-    actor: string;
-    rating: string;
     posterUrl: string;
-    trailerUrl: string;
-    remark: string
 }
 
 interface Showtime {

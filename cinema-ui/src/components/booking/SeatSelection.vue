@@ -37,7 +37,7 @@
     <div class="card-container">
       <CardDetails :selectedSeat="seats"></CardDetails>
     </div>
-    <v-dialog v-model="dialog" width="auto">
+    <v-dialog v-model="dialogSeatLimitation" width="auto">
       <v-card>
         <img
           style="height:40px;width: 40px"
@@ -47,19 +47,42 @@
         <p class="text-lg font-bold my-2">Thông báo</p>
         <v-card-text> Số lượng ghế tối đa được đặt là 5 ghế </v-card-text>
         <v-card-actions>
-          <v-btn block @click="dialog = false" color="orange darken-3">Đóng</v-btn>
+          <v-btn block @click="dialogSeatLimitation = false" color="orange darken-3">Đóng</v-btn>
         </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="props.dialogAgeLimitation" width="auto">
+      <v-card style="padding:5px 15px">
+        <img
+          style="height:40px;width: 40px"
+          class="align-self-center my-3"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_alert-yellow.svg/2048px-OOjs_UI_icon_alert-yellow.svg.png"
+        />
+        <p class="text-lg font-bold my-2">Xác nhận mua vé cho người có độ tuổi phù hợp</p>
+        <v-card-text>Tôi xác nhận mua vé phim cho độ tuổi này</v-card-text>
+        <div class="d-flex flex-row justify-space-between">
+          <v-card-actions class="flex-grow-1">
+            <v-btn block @click="handleExit" color="orange darken-3">Từ chối</v-btn>
+          </v-card-actions>
+          <v-card-actions class="flex-grow-1">
+            <v-btn block @click="handleConfirm" color="orange darken-3">Xác nhận</v-btn>
+          </v-card-actions>
+        </div>
       </v-card>
     </v-dialog>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
 import { saveToLocalStorage, getFromLocalStorage} from '@/utils/localStorage';
+import { useRoute } from "vue-router";
+import { LocationQueryValue } from 'vue-router';
 import { ShowtimeVO } from '@/api/portCustomer/showtimeManagement/types';
 import { getSeatOrders } from '@/api/homepage';
 
+const route = useRoute();
 const panel = ref([1])
 const dialog = ref(false);
 
@@ -85,30 +108,63 @@ interface SeatProp {
   status : string | number;
 }
 
+const dialogSeatLimitation = ref(false);
+
+const props = defineProps({
+  dialogAgeLimitation: {
+    type: Boolean,
+    default:false
+  }
+});
+
+const emit = defineEmits(['exit','confirm']);
+
+const handleExit = () => {
+  emit('exit');
+}
+
+const handleConfirm = () => {
+  emit('confirm');
+}
+
 const hallMap = ref<HallMap[]>([]);
 
 const seats = ref<SeatProp[]>([]);
 
-const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
-
 const getSeatOrderList = async () => {
   const showtimeSelected = getFromLocalStorage<ShowtimeVO>('selectedShowtime');
-  console.log(showtimeSelected);
-  const res = await getSeatOrders(showtimeSelected?.id);
+  const res = (await getSeatOrders(showtimeSelected?.id)).data;
   hallMap.value = res;
-  seats.value = localStorageSeats;
+  const seatsParam = route.query.seats as string | LocationQueryValue[] | undefined;
+
+  let parsedSeats: SeatProp[] = [];
+
+  if(seatsParam)
+  {
+    const parsedSeats = Array.isArray(seatsParam)
+    ? JSON.parse(JSON.stringify(seatsParam))
+    : JSON.parse(seatsParam);
+  }
+
+  seats.value = parsedSeats;
+
   hallMap.value.map(row => {
     row.seatList.map(seat => {
       if (seat.status === 1) {
-          // Check against Local Storage for selected seats
-        if (seats.value.find(seatProp =>
-          seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
-        ))
-        {
-          selectedSeats.value.push([row.id, seat.columnCode]);
+        if(!seats.value.length) {
+          soldSeats.value.push([row.id, seat.columnCode]);
         }
         else {
-          soldSeats.value.push([row.id, seat.columnCode]);
+              // Check against Local Storage for selected seats
+          if (seats.value.find(seatProp =>
+            seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
+          ))
+          {
+            selectedSeats.value.push([row.id, seat.columnCode]);
+          }
+          else {
+            soldSeats.value.push([row.id, seat.columnCode]);
+          }
         }
       }
       else if (seat.status === 2) {
@@ -170,7 +226,7 @@ const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
       saveToLocalStorage('selectedSeat', seats.value);
       }
       else {
-        dialog.value = true;
+        dialogSeatLimitation.value = true;
       }
     }
     else {
@@ -191,6 +247,7 @@ onMounted(() => {
   getSeatOrderList();
 });
 </script>
+
 <style lang="scss" scoped>
 .seat-map {
   display: grid;

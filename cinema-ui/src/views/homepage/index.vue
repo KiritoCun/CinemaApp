@@ -23,7 +23,7 @@
                         <h3>{{ movie.title }}</h3>
                         <div class="film-content-action">
                           <a title="Xem chi tiết" class="btn btn-primary btn-sm" @click.stop="goToMovieDetail(movie)">Xem chi tiết</a>
-                          <button type="button" title="Mua vé" class="btn btn-sm btn-booking" @click.stop="gotoBooking(movie.id)">
+                          <button type="button" title="Mua vé" class="btn btn-sm btn-booking" @click.stop="gotoBooking(movie)">
                             <span>Mua vé</span>
                           </button>
                         </div>
@@ -85,7 +85,6 @@ import { encrypt, decrypt } from '@/utils/jsencrypt';
 import { useUserStore } from '@/store/modules/user';
 import { LoginData, TenantVO } from '@/api/types';
 import { FormRules } from 'element-plus';
-
 import { to } from 'await-to-js';
 import i18n from '@/lang';
 import { DocumentVO } from '@/api/system/document/types';
@@ -335,8 +334,13 @@ const gotoBooking = async (movie: any):Promise<void> => {
     try {
       // const response = await axios.post('https://90b9-2001-ee0-4b4c-7840-a5fb-255d-ea41-361a.ngrok-free.app/dev-api/customer/homepage/search/nowplayingmovies', { movieId: movie.id });
       // console.log(response.data);
-      router.push({ path: '/booking/movieSelection', params: {movie} });
-      console.log(movie)
+        router.push({ path: '/booking/movieSelection',query: {
+          id : movie.id,
+          title: movie.title,
+          rated: movie.rated,
+          genre: movie.genre,
+          posterUrl: movie.posterUrl,
+    }});
     } catch (error) {
       console.error('Error:', error);
     }

@@ -27,31 +27,24 @@
 <script setup lang="ts">
 import { ref} from 'vue';
 import MovieCarousel from '@/components/ExpansionPanels/MovieCarousel.vue';
-import Showtime from '@/components/ExpansionPanels/Showtime.vue';
+import Showtime from '@/components/ExpansionPanels/ShowTime.vue';
 import CardDetails from '@/components/ExpansionPanels/CardDetails.vue';
 import { saveToLocalStorage, removeFromLocalStorage } from '@/utils/localStorage';
-
-const panel=ref<string[]>([]);
+import { useRoute } from 'vue-router';
 
 interface Movie {
     id: number;
     title: string;
-    movieDescription: string;
-    releaseDate: string;
-    endDate: string;
-    duration: number;
-    language: string;
     rated: string;
     genre: string;
-    director: string;
-    actor: string;
-    rating: string;
     posterUrl: string;
-    trailerUrl: string;
-    remark: string
 }
 
-interface ShowtimeInfo {
+const route = useRoute();
+
+const panel=ref<string[]>([]);
+
+interface ShowTimeInfo {
   uniqueId: string;
   id: number;
   cinemaName: string;
@@ -60,7 +53,7 @@ interface ShowtimeInfo {
   endTime: string;
 }
 
-const selectedMovie = ref<Movie | null>(null);
+const selectedMovie = ref<Movie | null>();
 
 const selectedShowtime = ref<ShowtimeInfo | null>(null);
 
@@ -88,6 +81,22 @@ const handleSelectShowtime = (showtime: ShowtimeInfo) => {
 const togglePanelShowtime = () => {
   panel.value = [''];
 }
+
+onMounted(() => {
+    if (route.query.id) {
+      selectedMovie.value = {
+        id: Number(route.query.id) as number,
+        title: route.query.title as string,
+        rated: route.query.rated as string,
+        genre: route.query.genre as string,
+        posterUrl: route.query.posterUrl as string,
+      };
+
+      saveToLocalStorage('selectedMovie', selectedMovie);
+      panel.value = ['ShowTime'];
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>
