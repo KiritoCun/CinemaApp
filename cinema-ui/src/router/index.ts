@@ -136,6 +136,11 @@ export const constantRoutes: RouteOption[] = [
         component: () => import('@/views/booking/payment.vue'),
         props: { step: 3 }
       },
+      {
+        path: 'invoice',
+        component: () => import('@/views/booking/invoice.vue'),
+        props: { step: 3 }
+      },
     ]
   }
 ];

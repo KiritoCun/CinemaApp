@@ -57,6 +57,20 @@
     <div class="card-container">
       <CardDetails :selectedPromotion="selectedPromotion"></CardDetails>
     </div>
+    <v-dialog v-model="dialog" width="auto">
+      <v-card style="padding:10px 40px">
+        <img
+          style="height:40px;width: 40px"
+          class="align-self-center my-3"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_alert-yellow.svg/2048px-OOjs_UI_icon_alert-yellow.svg.png"
+        />
+        <p class="text-lg font-bold my-2">Thông báo</p>
+        <v-card-text>Hết thời gian giữ ghế</v-card-text>
+        <v-card-actions>
+          <v-btn block @click="handleCloseModal" color="orange darken-3">Đóng</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -64,6 +78,8 @@
 import { ref,watch , onMounted } from 'vue';
 import { saveToLocalStorage, getFromLocalStorage } from '@/utils/localStorage';
 import axios from 'axios'
+import router from '@/router';
+import { removeFromLocalStorage } from '@/utils/localStorage';
 
 interface Promotion {
 	id: number;
@@ -82,8 +98,8 @@ interface PromotionProp {
 const panel = ref([2])
 
 //giu ghe
-const remainingTime = ref(10);
-const modalVisible = ref(false);
+const remainingTime = ref(600);
+const dialog = ref(false);
 
 const formatTime = (seconds : number) => {
   const minutes = Math.floor(seconds / 60);
@@ -91,14 +107,11 @@ const formatTime = (seconds : number) => {
   return `${minutes}:${String(secondsLeft).padStart(2, '0')}`;
 };
 
-const showModal = () => {
-  modalVisible.value = true;
-};
 const countDown = () => {
   if (remainingTime.value > 0) {
     remainingTime.value -= 1;
   } else {
-    showModal();
+    dialog.value = true;
   }
 };
 
@@ -129,6 +142,12 @@ const handleUploadCardDetail = (id: number , title : string, discount: number) =
   saveToLocalStorage('selectedPromotion', selectedPromotion.value)
 }
 
+const handleCloseModal = () => {
+  removeFromLocalStorage('selectedSeat');
+  removeFromLocalStorage('selectedPromotion');
+  router.push({path:'/booking/seatSelection'});
+}
+
 const formatDate = (date: string) => {
   const timeString = date.split(' ')[0];
 
@@ -157,9 +176,9 @@ const fetchData = async () => {
 
 onMounted(() => {
   fetchData();
-  const intervalId = setInterval(countDown, 1000);
+  const intervalId = setInterval(countDown,850);
 
-  watch(() => modalVisible.value, (newValue) => {
+  watch(() => dialog.value, (newValue) => {
     if (newValue) {
       clearInterval(intervalId);
     }

@@ -13,7 +13,12 @@
         <v-expansion-panel value="ShowTime">
           <v-expansion-panel-title>Chọn suất</v-expansion-panel-title>
           <v-expansion-panel-text>
-              <ShowTime v-if="selectedMovie" :currentDate = "currentDate" @selectShowTime="handleSelectShowTime" @panel-toggle="togglePanelShowTime"></ShowTime>
+            <ShowTime
+              v-if="selectedMovie"
+              :currentDate="currentDate"
+              @selectShowTime="handleSelectShowTime"
+              @panel-toggle="togglePanelShowTime"
+            ></ShowTime>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -30,26 +35,19 @@ import MovieCarousel from '@/components/ExpansionPanels/MovieCarousel.vue';
 import ShowTime from '@/components/ExpansionPanels/ShowTime.vue';
 import CardDetails from '@/components/ExpansionPanels/CardDetails.vue';
 import { saveToLocalStorage, removeFromLocalStorage } from '@/utils/localStorage';
-
-const panel=ref<string[]>([]);
+import { useRoute } from 'vue-router';
 
 interface Movie {
     id: number;
     title: string;
-    movieDescription: string;
-    releaseDate: string;
-    endDate: string;
-    duration: number;
-    language: string;
     rated: string;
     genre: string;
-    director: string;
-    actor: string;
-    rating: string;
     posterUrl: string;
-    trailerUrl: string;
-    remark: string
 }
+
+const route = useRoute();
+
+const panel=ref<string[]>([]);
 
 interface ShowTimeInfo {
   uniqueId: string;
@@ -60,7 +58,7 @@ interface ShowTimeInfo {
   endTime: string;
 }
 
-const selectedMovie = ref<Movie | null>(null);
+const selectedMovie = ref<Movie | null>();
 
 const selectedShowTime = ref<ShowTimeInfo | null>(null);
 
@@ -86,6 +84,22 @@ const handleSelectShowTime = (showTime: ShowTimeInfo) => {
 const togglePanelShowTime = () => {
   panel.value = [''];
 }
+
+onMounted(() => {
+    if (route.query.id) {
+      selectedMovie.value = {
+        id: Number(route.query.id) as number,
+        title: route.query.title as string,
+        rated: route.query.rated as string,
+        genre: route.query.genre as string,
+        posterUrl: route.query.posterUrl as string,
+      };
+
+      saveToLocalStorage('selectedMovie', selectedMovie);
+      panel.value = ['ShowTime'];
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

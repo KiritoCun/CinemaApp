@@ -37,7 +37,7 @@
     <div class="card-container">
       <CardDetails :selectedSeat="seats"></CardDetails>
     </div>
-    <v-dialog v-model="dialog" width="auto">
+    <v-dialog v-model="dialogSeatLimitation" width="auto">
       <v-card>
         <img
           style="height:40px;width: 40px"
@@ -47,19 +47,39 @@
         <p class="text-lg font-bold my-2">Thông báo</p>
         <v-card-text> Số lượng ghế tối đa được đặt là 5 ghế </v-card-text>
         <v-card-actions>
-          <v-btn block @click="dialog = false" color="orange darken-3">Đóng</v-btn>
+          <v-btn block @click="dialogSeatLimitation = false" color="orange darken-3">Đóng</v-btn>
         </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="props.dialogAgeLimitation" width="auto">
+      <v-card style="padding:5px 15px">
+        <img
+          style="height:40px;width: 40px"
+          class="align-self-center my-3"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_alert-yellow.svg/2048px-OOjs_UI_icon_alert-yellow.svg.png"
+        />
+        <p class="text-lg font-bold my-2">Xác nhận mua vé cho người có độ tuổi phù hợp</p>
+        <v-card-text>Tôi xác nhận mua vé phim cho độ tuổi này</v-card-text>
+        <div class="d-flex flex-row justify-space-between">
+          <v-card-actions class="flex-grow-1">
+            <v-btn block @click="handleExit" color="orange darken-3">Từ chối</v-btn>
+          </v-card-actions>
+          <v-card-actions class="flex-grow-1">
+            <v-btn block @click="handleConfirm" color="orange darken-3">Xác nhận</v-btn>
+          </v-card-actions>
+        </div>
       </v-card>
     </v-dialog>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import axios from 'axios';
 import { saveToLocalStorage, getFromLocalStorage} from '@/utils/localStorage';
-
-const panel = ref([1])
-const dialog = ref(false);
+import { useRoute } from "vue-router";
+import { LocationQueryValue } from 'vue-router';
+const route = useRoute();
 
 interface Column {
   id: number;
@@ -83,30 +103,69 @@ interface SeatProp {
   status : number;
 }
 
+const panel = ref([1]);
+
+const dialogSeatLimitation = ref(false);
+
+const props = defineProps({
+  dialogAgeLimitation: {
+    type: Boolean,
+    default:false
+  }
+});
+
+const emit = defineEmits(['exit','confirm']);
+
+const handleExit = () => {
+  emit('exit');
+}
+
+const handleConfirm = () => {
+  emit('confirm');
+}
+
 const hallMap = ref<HallMap[]>([]);
 
 const seats = ref<SeatProp[]>([]);
-
-const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
 
 const fetchData = async () => {
   try {
     const response = await axios.get('https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/seatOrderList');
     hallMap.value = response.data;
-    seats.value = localStorageSeats;
+    const seatsParam = route.query.seats as string | LocationQueryValue[] | undefined;
+
+    let parsedSeats: SeatProp[] = [];
+    // If it's an array, stringify it before parsing
+    if(seatsParam)
+    {
+      const parsedSeats = Array.isArray(seatsParam)
+      ? JSON.parse(JSON.stringify(seatsParam))
+      : JSON.parse(seatsParam);
+    }
+
+    seats.value = parsedSeats;
+    console.log(parsedSeats);
+
     hallMap.value.map(row => {
       row.seatLists.map(seat => {
         if (seat.status === 1) {
-            // Check against Local Storage for selected seats
-          if (seats.value.find(seatProp =>
-            seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
-          ))
+          if(!seats.value.length)
           {
-            selectedSeats.value.push([row.id, seat.columnCode]);
-          }
-          else {
             soldSeats.value.push([row.id, seat.columnCode]);
           }
+          else {
+            if (seats.value.find(seatProp =>
+              seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
+            ))
+            {
+              selectedSeats.value.push([row.id, seat.columnCode]);
+            }
+            else {
+              soldSeats.value.push([row.id, seat.columnCode]);
+            }
+          }
+            // Check against Local Storage for selected seats
+
         }
         else if (seat.status === 2) {
           soldSeats.value.push([row.id, seat.columnCode]);
@@ -170,7 +229,7 @@ const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
       saveToLocalStorage('selectedSeat', seats.value);
       }
       else {
-        dialog.value = true;
+        dialogSeatLimitation.value = true;
       }
     }
     else {
@@ -191,6 +250,7 @@ onMounted(() => {
   fetchData();
 });
 </script>
+
 <style lang="scss" scoped>
 .seat-map {
   display: grid;
