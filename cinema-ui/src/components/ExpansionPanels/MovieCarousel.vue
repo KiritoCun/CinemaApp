@@ -93,7 +93,7 @@ onMounted(async () => {
     const movies: Movie[] = response.data;
 
     const rowCount = Math.ceil(movies.length / rowSize);
-    
+
     for (let i = 0; i < rowCount; i++) {
       movieRows.value.push(movies.slice(i * rowSize, (i + 1) * rowSize));
     }

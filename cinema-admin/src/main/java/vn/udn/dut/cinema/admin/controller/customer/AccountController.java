@@ -49,7 +49,7 @@ public class AccountController extends BaseController{
 	}
 	
 	@SaCheckPermission("customer:account:add")
-	@Log(title = "Movie", businessType = BusinessType.INSERT)
+	@Log(title = "Customer", businessType = BusinessType.INSERT)
 	@RepeatSubmit()
 	@PostMapping()
 	public R<Void> add(@Validated(AddGroup.class) @RequestBody CustomerBo bo) {
@@ -57,7 +57,7 @@ public class AccountController extends BaseController{
 	}
 	
 	@SaCheckPermission("customer:account:edit")
-	@Log(title = "Movie", businessType = BusinessType.UPDATE)
+	@Log(title = "Customer", businessType = BusinessType.UPDATE)
 	@RepeatSubmit()
 	@PutMapping()
 	public R<Void> edit(@Validated(EditGroup.class) @RequestBody CustomerBo bo) {
@@ -65,7 +65,7 @@ public class AccountController extends BaseController{
 	}
 	
 	@SaCheckPermission("customer:account:remove")
-	@Log(title = "Movie", businessType = BusinessType.DELETE)
+	@Log(title = "Customer", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
 	public R<Void> remove(@NotEmpty(message = "Primary key cannot be empty") @PathVariable Long[] ids) {
 		return toAjax(customerService.deleteWithValidByIds(List.of(ids), true));

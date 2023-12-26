@@ -19,6 +19,7 @@ const whiteList = [
   '/homepage/customer-login',
   '/homepage/customer-register',
   '/homepage/movie-category',
+  '/homepage/booking',
   '/booking/movieSelection',
   '/booking/seatSelection'
 ];

@@ -15,19 +15,13 @@
 </template>
 
 <script setup name="CategoryMovie" lang="ts">
-import { getDocuments } from '@/api/homepage';
+
 import ShowTime from "@/layout/components/movie/showtime.vue";
 import ComingSoon from "@/layout/components/movie/comingsoon.vue"
 const activeName = ref('1')
-const nowPlayingMovies = ref([]);
-const upcomingMovies = ref([]);
+
 const handleClick = (tab: any, event : Event) => {
     console.log(tab, event)
-}
-const getDocumentList = async () => {
-  const res = await getDocuments();
-  nowPlayingMovies.value = res.data.nowplayingmovies;
-  upcomingMovies.value = res.data.upcommingmovies;
 }
 </script>
 
