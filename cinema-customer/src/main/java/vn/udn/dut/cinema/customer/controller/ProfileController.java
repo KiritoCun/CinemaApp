@@ -43,7 +43,7 @@ public class ProfileController extends BaseController {
 
     private final ICustomerService customerUserService;
     private final ISysOssService ossService;
-
+    
     /**
      * personal information
      */

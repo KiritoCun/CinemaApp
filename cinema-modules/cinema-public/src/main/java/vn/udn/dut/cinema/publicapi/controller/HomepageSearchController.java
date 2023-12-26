@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import vn.udn.dut.cinema.common.core.domain.R;
 import vn.udn.dut.cinema.common.web.core.BaseController;
+import vn.udn.dut.cinema.port.domain.bo.CinemaBo;
 import vn.udn.dut.cinema.port.domain.bo.MovieBo;
 import vn.udn.dut.cinema.port.domain.bo.PromotionBo;
 import vn.udn.dut.cinema.port.domain.bo.SlideBo;
+import vn.udn.dut.cinema.port.domain.vo.CinemaVo;
 import vn.udn.dut.cinema.port.domain.vo.MovieVo;
+import vn.udn.dut.cinema.port.domain.vo.PromotionVo;
+import vn.udn.dut.cinema.port.service.ICinemaService;
 import vn.udn.dut.cinema.port.service.IMovieService;
 import vn.udn.dut.cinema.port.service.IPromotionService;
 import vn.udn.dut.cinema.port.service.ISlideService;
@@ -35,6 +39,7 @@ public class HomepageSearchController extends BaseController {
 	private final IPromotionService promotionService;
 	private final IMovieService movieService;
 	private final ISlideService slideService;
+	private final ICinemaService cinemaService;
 
 	@GetMapping("/documents")
 	public R<Map<String, Object>> getDocuments() {
@@ -56,5 +61,13 @@ public class HomepageSearchController extends BaseController {
 	@GetMapping("/upcommingmovies")
 	public List<MovieVo> getUpcommingMovies() {
 		return movieService.getUpcomingMovies();
+	}
+	@GetMapping("/promotions")
+	public List<PromotionVo> getPromotions() {
+		return promotionService.getNowPromotions();
+	}
+	@GetMapping("/cinemas")
+	public List<CinemaVo> getCinemaList(CinemaBo bo) {
+		return cinemaService.queryList(bo);
 	}
 }

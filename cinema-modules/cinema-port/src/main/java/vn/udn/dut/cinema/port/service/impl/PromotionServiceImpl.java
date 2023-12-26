@@ -1,5 +1,6 @@
 package vn.udn.dut.cinema.port.service.impl;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import lombok.RequiredArgsConstructor;
@@ -57,6 +59,16 @@ public class PromotionServiceImpl implements IPromotionService {
 	public List<PromotionVo> queryList(PromotionBo bo) {
 		LambdaQueryWrapper<Promotion> lqw = buildQueryWrapper(bo);
 		return baseMapper.selectVoList(lqw);
+	}
+	public List<PromotionVo> getNowPromotions() {
+		LocalDate currentDate = LocalDate.now();
+	    LambdaQueryWrapper<Promotion> nowPromotionsWrapper = Wrappers.lambdaQuery();
+	    
+	    nowPromotionsWrapper.le(Promotion::getFromDate, currentDate).ge(Promotion::getToDate, currentDate);
+	    
+	    List<PromotionVo> nowPromotions = baseMapper.selectVoList(nowPromotionsWrapper);
+
+	    return nowPromotions;
 	}
 
 	private LambdaQueryWrapper<Promotion> buildQueryWrapper(PromotionBo bo) {
