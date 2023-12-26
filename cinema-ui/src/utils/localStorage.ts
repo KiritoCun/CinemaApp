@@ -42,7 +42,7 @@ export function safeRemoveFromLocalStorageArray(key: string, element: any): void
 }
 
 export function removeAllFromLocalStorage() : void {
-  removeFromLocalStorage('selectedShowTime');
+  removeFromLocalStorage('selectedShowtime');
   removeFromLocalStorage('selectedSeat');
   removeFromLocalStorage('selectedMovie');
   removeFromLocalStorage('selectedPromotion');

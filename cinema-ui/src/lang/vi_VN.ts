@@ -155,7 +155,7 @@ export default {
       documentDownloadBtn: 'Tải về',
       showAllBtn: 'Xem tất cả',
       comingSoon: 'Sắp Chiếu',
-      showTime: 'Đang Chiếu '
+      showtime: 'Đang Chiếu '
     },
     document: {
       guideTt: 'Khuyến mãi',

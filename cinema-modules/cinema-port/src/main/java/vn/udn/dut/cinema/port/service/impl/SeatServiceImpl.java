@@ -1,8 +1,11 @@
 package vn.udn.dut.cinema.port.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
 import vn.udn.dut.cinema.port.domain.Seat;
 import vn.udn.dut.cinema.port.domain.bo.SeatBo;
+import vn.udn.dut.cinema.port.domain.vo.SeatOrderVo;
 import vn.udn.dut.cinema.port.domain.vo.SeatVo;
 import vn.udn.dut.cinema.port.mapper.SeatMapper;
 import vn.udn.dut.cinema.port.service.ISeatService;
@@ -107,6 +111,25 @@ public class SeatServiceImpl implements ISeatService {
 			// required
 		}
 		return baseMapper.deleteBatchIds(ids) > 0;
+	}
+
+	@Override
+	public List<SeatOrderVo> fetchSeatOrderList(Long showtimeId) {
+		SeatBo seatParam = new SeatBo();
+		seatParam.setShowtimeId(showtimeId);
+		List<SeatVo> seatList = queryList(seatParam);
+		List<SeatOrderVo> seatOrderList = new ArrayList<>();
+		Map<String, List<SeatVo>> seatMap = seatList.stream().collect(Collectors.groupingBy(SeatVo::getRowCode));
+		int index = 0;
+		for (var entry : seatMap.entrySet()) {
+			SeatOrderVo seatOrder = new SeatOrderVo();
+			seatOrder.setId((long) index++);
+			seatOrder.setRowCode(entry.getKey());
+			seatOrder.setPrice(entry.getValue().get(0).getPrice());
+			seatOrder.setSeatList(entry.getValue());
+			seatOrderList.add(seatOrder);
+		}
+		return seatOrderList;
 	}
 
 }

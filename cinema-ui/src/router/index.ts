@@ -119,7 +119,6 @@ export const constantRoutes: RouteOption[] = [
   },
   {
     path: '/booking',
-    component: () => Layout,
     children: [
       {
         path: 'movieSelection',

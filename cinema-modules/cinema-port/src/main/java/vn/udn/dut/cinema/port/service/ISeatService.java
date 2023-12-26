@@ -6,6 +6,7 @@ import java.util.List;
 import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
 import vn.udn.dut.cinema.port.domain.bo.SeatBo;
+import vn.udn.dut.cinema.port.domain.vo.SeatOrderVo;
 import vn.udn.dut.cinema.port.domain.vo.SeatVo;
 
 /**
@@ -45,5 +46,7 @@ public interface ISeatService {
 	 * Verify and delete Seat information in batches
 	 */
 	Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+
+	List<SeatOrderVo> fetchSeatOrderList(Long showtimeId);
 
 }

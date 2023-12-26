@@ -6,6 +6,7 @@ import java.util.List;
 import vn.udn.dut.cinema.common.mybatis.core.page.PageQuery;
 import vn.udn.dut.cinema.common.mybatis.core.page.TableDataInfo;
 import vn.udn.dut.cinema.port.domain.bo.ShowtimeBo;
+import vn.udn.dut.cinema.port.domain.vo.ShowtimeInfoVo;
 import vn.udn.dut.cinema.port.domain.vo.ShowtimeVo;
 
 /**
@@ -47,5 +48,7 @@ public interface IShowtimeService {
 	Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
 	void releaseShowtimes(List<ShowtimeBo> showtimes);
+
+	List<ShowtimeInfoVo> fetchShowtimeInfoList(Long movieId);
 
 }

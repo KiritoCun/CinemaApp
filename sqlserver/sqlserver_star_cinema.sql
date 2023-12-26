@@ -633,13 +633,13 @@ CREATE TABLE promotion
 ON [PRIMARY]
 GO
 
-INSERT promotion VALUES (1, N'000000', N'Ngày hội khuyến mãi ưu đãi thành viên', N'Diễn ra duy nhất ngày 11/11', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/4/240x201-uu.jpg', 0, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
+INSERT promotion VALUES (1, N'000000', N'Ngày hội khuyến mãi ưu đãi thành viên', N'Diễn ra duy nhất ngày 11/11', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/4/240x201-uu.jpg', 10, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
 GO
-INSERT promotion VALUES (2, N'000000', N'Ngày thứ tư vui vẻ', N'Diễn ra hàng tuần', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png', 0, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
+INSERT promotion VALUES (2, N'000000', N'Ngày thứ tư vui vẻ', N'Diễn ra hàng tuần', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png', 20, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
 GO
-INSERT promotion VALUES (3, N'000000', N'Sinh nhật Star Cinema', N'Diễn ra hàng năm vào ngày 09/11', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/b/i/birthday_popcorn_box_240x201.png', 0, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
+INSERT promotion VALUES (3, N'000000', N'Sinh nhật Star Cinema', N'Diễn ra hàng năm vào ngày 09/11', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/b/i/birthday_popcorn_box_240x201.png', 15, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
 GO
-INSERT promotion VALUES (4, N'000000', N'Nâng cấp dịch vụ phòng chiếu', N'Sự kiện hot', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/u/2/u22-102023-240x201.jpg', 0, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
+INSERT promotion VALUES (4, N'000000', N'Nâng cấp dịch vụ phòng chiếu', N'Sự kiện hot', N'https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/u/2/u22-102023-240x201.jpg', 10, getdate(), getdate(), 103, 1, getdate(), NULL, NULL, 'TEST')
 GO
 
 IF OBJECT_ID('booking', 'U') IS NOT NULL
