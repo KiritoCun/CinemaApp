@@ -45,6 +45,7 @@ import axios from 'axios';
 
 interface ShowTime {
   id: number;
+  hallId : number;
   startTime: string;
   endTime: string;
 }
@@ -146,19 +147,17 @@ const selectedShowTimes = computed(() => {
 
 const emit = defineEmits(['selectShowTime','panel-toggle']);
 
-const selectedShowTimeId = ref<number | null>(null);
-
 interface CardDetailInfo {
   uniqueId: string;
   id: number;
-  cinemaName: string;
+  hallId : number | null;
+  cinemaName: string | null;
   cinemaAddress: string;
   startTime: string;
   endTime: string;
 }
 
 const handleSelectShowTime = (cinema: CardDetailInfo) => {
-  selectedShowTimeId.value = cinema.id;
   emit('selectShowTime', cinema);
   emit('panel-toggle');
 };

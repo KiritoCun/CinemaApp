@@ -2,29 +2,63 @@
   <b-card>
     <div class="d-flex flex-row" style="max-height: 600px ;padding-bottom: 20px;">
       <img
+        v-if="processedMovie && processedMovie.posterUrl"
         style="height:150px;width: 100px;border-radius: 0.25rem; margin-right: 12px"
         class="card-img-top"
-        :src="selectedMovie?.posterUrl"
+        :src="processedMovie?.posterUrl"
         alt="Image"
       />
+      <img
+        v-else
+        style="height:150px;width: 100px;border-radius: 0.25rem; margin-right: 12px"
+        class="card-img-top"
+        :src="defaulImageSvg"
+        alt="Default Image"
+      />
       <div>
-        <b-card-text class="text-start"><strong>{{ selectedMovie?.title }}</strong></b-card-text>
-        <b-card-text class="text-start">{{ selectedMovie?.genre }}</b-card-text>
+        <b-card-text class="text-start"
+          ><strong>{{ processedMovie?.title }}</strong></b-card-text
+        >
+        <b-card-text class="text-start">{{ processedMovie?.genre }}</b-card-text>
       </div>
     </div>
 
     <div class="text-justify ">
-      <b-card-text class="mb-2"><strong>{{ selectedShowTime?.cinemaName }}</strong> - RAP 5</b-card-text>
-      <b-card-text v-html="showDate(selectedShowTime?.startTime || '')"></b-card-text>
+      <b-card-text class="mb-2" v-html="showMovieSelection(processedShowTime?.cinemaName, processedShowTime?.hallId ) || ''"></b-card-text>
+      <b-card-text v-html="showDate(processedShowTime?.startTime || '')"></b-card-text>
     </div>
-    <hr class="hr" />
-    <div class="row" style="font-size: 14px;">
-      <div class="col-sm-6 align-self-start text-start">
-        <!-- <b-card-text class="mb-0"><strong>2x</strong> Ghế đơn</b-card-text> -->
-        <!-- <b-card-text class="bold-font">Ghế: <strong>H11, H10</strong></b-card-text> -->
+    <div v-if="processedSeat && processedSeat.length > 0">
+      <hr class="hr" />
+      <div class="row" style="font-size: 14px;">
+        <div class="col-sm-6 align-self-start text-start">
+          <b-card-text class="mb-0"
+            ><strong>{{getNumberOfSelectedSeat()}}x</strong> Ghế đơn</b-card-text
+          >
+          <div class="d-flex flex-row">
+            <b-card-text class="mb-0">Ghế:</b-card-text>
+            <div v-for="item, index in processedSeat" :key="index">
+              <b-card-text v-html="showSeat(item.uniqueId, index)"></b-card-text>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 align-self-end text-end">
+          <b-card-text class="bold-font">{{ seatPrice }}đ</b-card-text>
+        </div>
       </div>
-      <div class="col-sm-6 align-self-end text-end">
-        <!-- <b-card-text class="bold-font">280.000đ</b-card-text> -->
+    </div>
+    <div v-if="processedPromotion">
+      <hr class="hr" />
+      <div class="row" style="font-size: 14px;">
+        <div class="col-sm-6 align-self-start text-start">
+          <strong>Mã Khuyến Mãi</strong>
+
+          <div class="d-flex">
+            <b-card-text>{{ processedPromotion?.title }}</b-card-text>
+          </div>
+        </div>
+        <div class="col-sm-6 align-self-end text-end">
+          <b-card-text>-{{discountPrice}}đ</b-card-text>
+        </div>
       </div>
     </div>
     <hr class="hr" />
@@ -33,7 +67,9 @@
         <b-card-text class="bold-font">Tổng cộng:</b-card-text>
       </div>
       <div class="col-sm-6 align-self-end text-end">
-        <!-- <b-card-text class="bold-font"><strong>280.000đ</strong></b-card-text> -->
+        <b-card-text class="bold-font"
+          ><strong>{{ totalPrice }}đ</strong></b-card-text
+        >
       </div>
     </div>
   </b-card>
@@ -41,6 +77,8 @@
 
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue';
+import { getFromLocalStorage } from '@/utils/localStorage';
+import defaulImageSvg from '@/assets/images/empty-img.svg'
 
 interface Movie {
     id: number;
@@ -60,13 +98,29 @@ interface Movie {
     remark: string
 }
 
-interface ShowTimeInfo {
+interface ShowTime {
   uniqueId: string;
   id: number;
+  hallId : number;
   cinemaName: string;
   cinemaAddress: string;
   startTime: string;
   endTime: string;
+}
+
+interface Seat {
+  uniqueId : string;
+  id: number;
+  columnCode: number;
+  rowCode : string;
+  price: number;
+  status : number;
+}
+
+interface Promotion {
+	id: number;
+	title: string;
+  discount: number
 }
 
 const props = defineProps({
@@ -75,10 +129,26 @@ const props = defineProps({
     default:null
   },
   selectedShowTime: {
-    type: Object as PropType<ShowTimeInfo | null>,
+    type: Object as PropType<ShowTime | null>,
     default:null
+  },
+  selectedSeat: {
+    type: Array as PropType<Seat[] |null>,
+    default: () => null
+  },
+  selectedPromotion: {
+    type: Object as PropType<Promotion | null>,
+    default: () => null
   }
 });
+
+const retrievedMovie = getFromLocalStorage<Movie>('selectedMovie') || null;
+
+const retrievedShowTime = getFromLocalStorage<ShowTime>('selectedShowTime') || null;
+
+const retrievedSeatsArray = getFromLocalStorage<Seat[]>('selectedSeat') || [];
+
+const retrievedPromotion = getFromLocalStorage<Promotion>('selectedPromotion') || null;
 
 const showDate = (startTime?: string) => {
   if (!startTime) return '';
@@ -92,6 +162,77 @@ const showDate = (startTime?: string) => {
   const [hours, minutes] = timeStringHours.split(':');
 
   return `Suất: <strong>${hours}:${minutes}</strong> - Ngày: <strong>${day}/${month}/${year}</strong>`;
-
 };
+
+const showMovieSelection = (cinemaName?: string, hallId?: number) => {
+  if(cinemaName === undefined || hallId === undefined ) {
+    return ``;
+  }
+  return `</strong>${cinemaName}<strong> - Rạp ${hallId}`;
+}
+
+const showSeat = (selectedSeat?: string, count?: number) => {
+  if (count === 0) {
+    return `<strong>&nbsp${selectedSeat}</strong>`;
+  }
+  else{
+  return `<strong>,&nbsp;${selectedSeat}</strong>`
+  }
+}
+
+const processedMovie = computed(() => {
+  if (props.selectedMovie) {
+    return props.selectedMovie;
+  }
+  return retrievedMovie;
+});
+
+const processedShowTime = computed(() => {
+  if (props.selectedShowTime) {
+    return props.selectedShowTime;
+  }
+  return retrievedShowTime;
+});
+
+const processedSeat = computed(() => {
+  if (props.selectedSeat) {
+    return props.selectedSeat;
+  }
+  return retrievedSeatsArray || [];
+});
+
+const processedPromotion = computed(() => {
+  if (props.selectedPromotion) {
+    return props.selectedPromotion;
+  }
+  return retrievedPromotion;
+});
+
+const seatPrice = computed(() => {
+  return processedSeat.value.reduce((acc, seat) => acc + seat.price, 0);
+});
+
+const getNumberOfSelectedSeat = () => {
+  if(!processedSeat){
+    return 0;
+  }
+  return processedSeat.value.length;
+};
+
+const discountPrice = computed(() => {
+  const rawDiscount = seatPrice.value * (processedPromotion.value?.discount || 0) / 100;
+  const roundedDiscount = parseFloat(rawDiscount.toFixed(2));
+
+  return roundedDiscount;
+});
+
+const totalPrice = computed(() => {
+  const rawTotal = seatPrice.value - discountPrice.value;
+  const roundedTotal = parseFloat(rawTotal.toFixed(2));
+
+  return roundedTotal;
+});
+
+onMounted(() => {
+});
 </script>

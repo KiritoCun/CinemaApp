@@ -1531,5 +1531,64 @@ export default {
       deleteSuccess: 'Delete successfully',
       deleteCf: 'Are you sure to delete hall?'
     }
-  }
+  },
+  // Showtime menu internationalization
+  showtime: {
+    searchInput: {
+      movieNameLb: 'Movie name',
+      movieNamePh: 'Select',
+      cinemaNameLb: 'Cinema name',
+      cinemaNamePh: 'Select',
+      hallNameLb: 'Hall name',
+      hallNamePh: 'Select',
+      releaseDateLb: 'Start time',
+      startTimePh: 'From',
+      endTimePh: 'To'
+    },
+    headerButtonLeft: {
+      releaseShowtimeTt: 'Release showtime'
+    },
+    headerButtonRight: {
+      editTt: 'Edit'
+    },
+    dialog: {
+      editSingleTt: 'Update showtime',
+      editMultiTt: 'Update showtime',
+      startTimeLb: 'Start time',
+      startTimePh: 'Select',
+      endTimeLb: 'End time',
+      endTimePh: 'Select',
+      remarkLb: 'Remark',
+      remarkPh: 'Nhập',
+      footerCancelTt: 'Close',
+      footerSubmitTt: 'Save'
+    },
+    showtimeColumns: {
+      movieNameLb: 'Movie name',
+      cinemaNameLb: 'Cinema name',
+      hallNameLb: 'Hall name',
+      startTimeLb: 'Start time',
+      endTimeLb: 'End time'
+    },
+    seatColumns: {
+      iconStatusLb: 'Status',
+      rowCodeLb: 'Row code',
+      columnCodeLb: 'Column code',
+      seatTypeNameLb: 'Seat type',
+      priceLb: 'Price (VND)'
+    },
+    operationMsg: {
+      submitSuccess: 'Update showtime successfully'
+    },
+    release: {
+      movieNameLb: 'Movie name',
+      cinemaNameLb: 'Cinema name',
+      hallNameLb: 'Hall name',
+      startTimeLb: 'Start time',
+      releaseOffical: 'Release',
+      closeBtn: 'Close',
+      releaseCf: 'Confirm release showtime?',
+      releaseSuccess: 'Release showtime successfully'
+    }
+  },
 };

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
@@ -34,9 +35,17 @@ public class ShowtimeVo implements Serializable {
 	private Long movieId;
 
 	private Long hallId;
+	
+	private String cinemaName;
+	
+	private String hallName;
+	
+	private String movieName;
 
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date startTime;
 
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date endTime;
 
 	private String remark;
