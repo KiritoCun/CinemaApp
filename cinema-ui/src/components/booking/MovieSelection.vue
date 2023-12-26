@@ -10,16 +10,16 @@
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
-        <v-expansion-panel value="ShowTime">
+        <v-expansion-panel value="Showtime">
           <v-expansion-panel-title>Chọn suất</v-expansion-panel-title>
           <v-expansion-panel-text>
-              <ShowTime v-if="selectedMovie" :currentDate = "currentDate" @selectShowTime="handleSelectShowTime" @panel-toggle="togglePanelShowTime"></ShowTime>
+              <Showtime v-if="selectedMovie" :currentDate = "currentDate" @selectShowtime="handleSelectShowtime" @panel-toggle="togglePanelShowtime"></Showtime>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
     <div class="card-container">
-      <CardDetails :selectedMovie="selectedMovie" :selectedShowTime="selectedShowTime"></CardDetails>
+      <CardDetails :selectedMovie="selectedMovie" :selectedShowtime="selectedShowtime"></CardDetails>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref} from 'vue';
 import MovieCarousel from '@/components/ExpansionPanels/MovieCarousel.vue';
-import ShowTime from '@/components/ExpansionPanels/ShowTime.vue';
+import Showtime from '@/components/ExpansionPanels/Showtime.vue';
 import CardDetails from '@/components/ExpansionPanels/CardDetails.vue';
 import { saveToLocalStorage, removeFromLocalStorage } from '@/utils/localStorage';
 
@@ -51,7 +51,7 @@ interface Movie {
     remark: string
 }
 
-interface ShowTimeInfo {
+interface ShowtimeInfo {
   uniqueId: string;
   id: number;
   cinemaName: string;
@@ -62,28 +62,30 @@ interface ShowTimeInfo {
 
 const selectedMovie = ref<Movie | null>(null);
 
-const selectedShowTime = ref<ShowTimeInfo | null>(null);
+const selectedShowtime = ref<ShowtimeInfo | null>(null);
 
 const currentDate = ref<Date>(new Date());
 
 const handleSelectMovie = (movie: Movie) => {
   selectedMovie.value = movie;
-  selectedShowTime.value = null;
+  selectedShowtime.value = null;
   saveToLocalStorage('selectedMovie', movie);
-  removeFromLocalStorage('selectedShowTime');
+  removeFromLocalStorage('selectedShowtime');
   currentDate.value = new Date();
 };
 
 const togglePanelMovie = () => {
-  panel.value = ['ShowTime'];
+  panel.value = ['Showtime'];
 }
 
-const handleSelectShowTime = (showTime: ShowTimeInfo) => {
-  selectedShowTime.value = showTime;
-  saveToLocalStorage('selectedShowTime', showTime);
+const handleSelectShowtime = (showtime: ShowtimeInfo) => {
+  console.log(222);
+  selectedShowtime.value = showtime;
+ console.log(selectedShowtime.value);
+  saveToLocalStorage('selectedShowtime', showtime);
 };
 
-const togglePanelShowTime = () => {
+const togglePanelShowtime = () => {
   panel.value = [''];
 }
 </script>

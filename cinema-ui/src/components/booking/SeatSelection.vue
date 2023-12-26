@@ -8,13 +8,13 @@
               <div v-for="rowNumber in seatData" :key="rowNumber.id" class="seat-row">
                 <h5 class="row-letter">{{ rowNumber.rowCode }}</h5>
                 <div
-                  v-for="seatNumber in rowNumber.seatLists"
+                  v-for="seatNumber in rowNumber.seatList"
                   :key="seatNumber.columnCode"
                   class="seat"
                   :class="{ selected: isSelected(rowNumber, seatNumber), sold : isSold(rowNumber, seatNumber), readonly: isSold(rowNumber, seatNumber)}"
                   @click="toggleSeat(rowNumber, seatNumber)"
                 >
-                  {{ rowNumber.rowCode }}{{ seatNumber.id }}
+                  {{ rowNumber.rowCode }}{{ seatNumber.columnCode }}
                 </div>
               </div>
             </div>
@@ -57,6 +57,8 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { saveToLocalStorage, getFromLocalStorage} from '@/utils/localStorage';
+import { ShowtimeVO } from '@/api/portCustomer/showtimeManagement/types';
+import { getSeatOrders } from '@/api/homepage';
 
 const panel = ref([1])
 const dialog = ref(false);
@@ -71,7 +73,7 @@ interface HallMap {
   id: number;
   rowCode: string;
   price: number;
-  seatLists: Column[];
+  seatList: Column[];
 }
 
 interface SeatProp {
@@ -80,7 +82,7 @@ interface SeatProp {
   columnCode: number;
   rowCode : string;
   price: number;
-  status : number;
+  status : string | number;
 }
 
 const hallMap = ref<HallMap[]>([]);
@@ -89,33 +91,31 @@ const seats = ref<SeatProp[]>([]);
 
 const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
 
-const fetchData = async () => {
-  try {
-    const response = await axios.get('https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/seatOrderList');
-    hallMap.value = response.data;
-    seats.value = localStorageSeats;
-    hallMap.value.map(row => {
-      row.seatLists.map(seat => {
-        if (seat.status === 1) {
-            // Check against Local Storage for selected seats
-          if (seats.value.find(seatProp =>
-            seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
-          ))
-          {
-            selectedSeats.value.push([row.id, seat.columnCode]);
-          }
-          else {
-            soldSeats.value.push([row.id, seat.columnCode]);
-          }
+const getSeatOrderList = async () => {
+  const showtimeSelected = getFromLocalStorage<ShowtimeVO>('selectedShowtime');
+  console.log(showtimeSelected);
+  const res = await getSeatOrders(showtimeSelected?.id);
+  hallMap.value = res;
+  seats.value = localStorageSeats;
+  hallMap.value.map(row => {
+    row.seatList.map(seat => {
+      if (seat.status === 1) {
+          // Check against Local Storage for selected seats
+        if (seats.value.find(seatProp =>
+          seatProp.rowCode === String(row.rowCode) && seatProp.columnCode === seat.columnCode
+        ))
+        {
+          selectedSeats.value.push([row.id, seat.columnCode]);
         }
-        else if (seat.status === 2) {
+        else {
           soldSeats.value.push([row.id, seat.columnCode]);
         }
-      });
+      }
+      else if (seat.status === 2) {
+        soldSeats.value.push([row.id, seat.columnCode]);
+      }
     });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+  });
 };
 
 const soldSeats = ref<number[][]>([]);
@@ -137,14 +137,14 @@ const isSelected = (rowNumber: HallMap, seatNumber: SeatProp): boolean => {
 const seatData = computed(() => {
   return hallMap.value.flatMap(hallMap => ({
     ...hallMap,
-    seatLists: hallMap.seatLists
+    seatList: hallMap.seatList
       .map(column => ({
         ...column,
         uniqueId: `${hallMap.id}${column.columnCode}`,
         rowCode : `${hallMap.id}`,
         price : hallMap.price
       }))
-  })).filter(hallMap => hallMap.seatLists.length > 0);
+  })).filter(hallMap => hallMap.seatList.length > 0);
 });
 
 const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
@@ -153,7 +153,7 @@ const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
   const limitedClick = 5;
 
   // Update status directly on the object
-  seatNumber.status = seatNumber.status === 0 ? 1 : 0;
+  seatNumber.status = seatNumber.status === 'N' ? 1 : 0;
 
   // Update selection lists based on new status
     if (seatNumber.status === 1) {
@@ -188,7 +188,7 @@ const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
 };
 
 onMounted(() => {
-  fetchData();
+  getSeatOrderList();
 });
 </script>
 <style lang="scss" scoped>

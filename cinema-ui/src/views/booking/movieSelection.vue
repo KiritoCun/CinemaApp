@@ -32,6 +32,6 @@ const decrementStep = () => {
 }
 onMounted(() => {
   removeFromLocalStorage('selectedMovie');
-  removeFromLocalStorage('selectedShowTime');
+  removeFromLocalStorage('selectedShowtime');
 });
 </script>

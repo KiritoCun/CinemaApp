@@ -20,8 +20,10 @@ const whiteList = [
   '/homepage/customer-register',
   '/homepage/movie-category',
   '/homepage/booking',
+  '/booking',
   '/booking/movieSelection',
-  '/booking/seatSelection'
+  '/booking/seatSelection',
+  '/booking/payment'
 ];
 
 router.beforeEach(async (to, from, next) => {

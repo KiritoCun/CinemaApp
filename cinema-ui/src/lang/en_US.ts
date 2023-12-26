@@ -156,7 +156,7 @@ export default {
       documentDownloadBtn: 'Download',
       showAllBtn: 'Show all',
       comingSoon: 'ComingSoon',
-      showTime: 'ShowTime'
+      showtime: 'Showtime'
     },
     document: {
       guideTt: 'Promotions',
