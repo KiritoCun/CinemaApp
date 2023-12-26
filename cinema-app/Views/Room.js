@@ -4,6 +4,7 @@ import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollVi
 import { Dropdown } from 'react-native-element-dropdown';
 import Seat from '../Component/seat';
 import { useSelector } from 'react-redux';
+import Loader from '../Component/loader';
 
 export default function Room({navigation, route}) {
   const Movie = useSelector((state) => state.movies.selectedMovie);
@@ -19,50 +20,50 @@ export default function Room({navigation, route}) {
     let k=1, j = 1, y = 1, h = 1, g=1, f=1, e=1, d=1, c=1, b=1, a = 1;
     for (let i = 0; i < sum; i++) {
       if(i < 12){
-        seatArray.push({seatId: `L${i+1}`});
+        seatArray.push({seatId: `L${i+1}`, state: 'n'});
       }
       if(i > 11 && i < 24){
-        seatArray.push({seatId: `K${k}`});
+        seatArray.push({seatId: `K${k}`, state: 'n'});
         k += 1;
       }
       if(i > 23 && i < 36){
-        seatArray.push({seatId: `J${j}`});
+        seatArray.push({seatId: `J${j}`, state: 'n'});
         j += 1;
       }
       if(i > 35 && i < 48){
-        seatArray.push({seatId: `I${y}`});
+        seatArray.push({seatId: `I${y}`, state: 'n'});
         y += 1;
       }
       if(i > 47 && i < 60){
-        seatArray.push({seatId: `H${h}`});
+        seatArray.push({seatId: `H${h}`, state: 'n'});
         h += 1;
       }
       if(i > 59 && i < 72){
-        seatArray.push({seatId: `G${g}`});
+        seatArray.push({seatId: `G${g}`, state: 'n'});
         g += 1;
       }
       if(i > 71 && i < 84){
-        seatArray.push({seatId: `F${f}`});
+        seatArray.push({seatId: `F${f}`, state: 'n'});
         f += 1;
       }
       if(i > 83 && i < 96){
-        seatArray.push({seatId: `E${e}`});
+        seatArray.push({seatId: `E${e}`, state: 'n'});
         e += 1;
       }
       if(i > 95 && i < 108){
-        seatArray.push({seatId: `D${d}`});
+        seatArray.push({seatId: `D${d}`, state: 'n'});
         d += 1;
       }
       if(i > 107 && i < 120){
-        seatArray.push({seatId: `C${c}`});
+        seatArray.push({seatId: `C${c}`, state: 'n'});
         c += 1;
       }
       if(i > 119 && i < 132){
-        seatArray.push({seatId: `B${b}`});
+        seatArray.push({seatId: `B${b}`, state: 'n'});
         b += 1;
       }
       if(i > 131 && i < 144){
-        seatArray.push({seatId: `A${a}`});
+        seatArray.push({seatId: `A${a}`, state: 'n'});
         a += 1;
       }
     }
@@ -72,7 +73,7 @@ export default function Room({navigation, route}) {
   const [selectedSeatIds, setSelectedSeatIds] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedSeatsCount, setSelectedSeatsCount] = useState(0);
-  // const [isDisabled, setDisabled] = useState(false);
+  const [progress, setProgress] = useState(false);
   const [price, setPrice] = useState(0);
 
   const handleSeatPress = (isPressed, item) => {
@@ -107,9 +108,16 @@ export default function Room({navigation, route}) {
         item={item}
         index={index}
         // exceededLimit={exceededLimit}
-        onPress={handleSeatPress}/>
+        onPress={handleSeatPress}
+      />
     )
   };
+  const pressContinue = () => {
+    if (price > 0) {
+      navigation.navigate('Payment', {address, time, selectedSeatIds, price});
+    }
+    setProgress(false);
+  }
 
   return(
     <SafeAreaView style={styles.container}>
@@ -129,10 +137,13 @@ export default function Room({navigation, route}) {
       </View>
 
       <View style={{width: '100%', height: '10%', borderTopWidth: 0.2, flexDirection: 'row', justifyContent: 'space-evenly',}}>
-        <View style={{width: '60%', height: '100%',}}>
+        <View style={{width: '60%', height: '100%', backgroundColor: 'red'}}>
           <Text style={{fontSize: 15, fontWeight: '600', top: '20%'}}>{Movie.title}</Text>
+          <View>
+            <Text style={{fontSize: 15, fontWeight: '600', top: '20%'}}>{Movie.rated}</Text>
+          </View>
         </View>
-        <View style={{width: '28%', height: '100%', justifyContent: 'center',}}>
+        <View style={{width: '28%', height: '100%', justifyContent: 'center', backgroundColor: 'gray'}}>
           <Text style={{fontSize: 15, fontWeight: '600', top: '20%'}}>{Movie.language}</Text>
         </View>
       </View>
@@ -197,15 +208,15 @@ export default function Room({navigation, route}) {
         </View>
         <View style={{height: '100%', flex: 1, alignItems: 'flex-start', justifyContent: 'center'}}>
           <TouchableOpacity style={{width: '88%', height: '75%', alignItems: 'center', justifyContent: 'center', backgroundColor: (price>0) ? '#999900' : '#CCCCCC', 
-          borderRadius: 5}} onPress={() => {
-              if (price > 0) {
-                navigation.navigate('Payment', {address, time, selectedSeatIds, price});
-              }
-            }}> 
+          borderRadius: 5}} onPress={()=>{
+            setProgress(true);
+            pressContinue();
+          }}> 
             <Text style={{color: 'white', fontSize: 16, fontWeight: '700'}}>Tiếp tục</Text>
           </TouchableOpacity>
         </View>
       </View>
+      {progress ? <Loader indeterminate={progress}/> : null}
     </SafeAreaView>
   )
 }

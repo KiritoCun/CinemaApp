@@ -3,9 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../Component/loader';
 
 const { width: screenWidth } = Dimensions.get('window');
-// console.log(screenWidth);
+const { height: screenHeight } = Dimensions.get('window');
+// console.log(screenHeight);
 
 export default Home = function({navigation}) {
   const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq";
@@ -18,6 +20,7 @@ export default Home = function({navigation}) {
   const [imageList2, setImageList2] = useState([]);
   const [listDiscount, setListDiscount] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [progress, setProgress] = useState(false);
 
   const renderDots = (list, currentIndex) => {
     return list.map((e, index) => (
@@ -58,13 +61,13 @@ export default Home = function({navigation}) {
       console.log(error);
     }
   }
-  const listShowtime = (showtimes) => {
-    try {
-      dispatch({ type: 'SET_SHOWTIME', showtimes: showtimes });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // const listShowtime = (showtimes) => {
+  //   try {
+  //     dispatch({ type: 'SET_SHOWTIME', showtimes: showtimes });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   useEffect(() => {
     //phim đang chiếu
@@ -96,16 +99,16 @@ export default Home = function({navigation}) {
     .catch((error) => {console.log(error);});
 
     // showtime
-    axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList")
-    .then((response) => {
-      const data = response.data;
-      listShowtime(data);
-      // console.log(data[1].showTimeList);
-      // console.log(response.request._response);
-      // console.log(response.request._response);
-      // console.log(showTimeInfoList); 
-      // console.log(data[1].showTimeList);
-    }).catch((error) => {console.error(error);});
+    // axios.get("https://50db-2001-ee0-4b4c-7840-c08c-a079-cbcd-2e54.ngrok-free.app/dev-api/customer/homepage/search/showtimeInfoList/5") 
+    // .then((response) => {
+    //   const data = response.data;
+    //   listShowtime(data);
+    //   // console.log(data[1].showTimeList);
+    //   // console.log(response.request._response);
+    //   // console.log(response.request._response);
+    //   // console.log(showTimeInfoList); 
+    //   // console.log(data[1].showTimeList);
+    // }).catch((error) => {console.error(error);});
 
 
     // 1. load data tu server
@@ -181,7 +184,6 @@ export default Home = function({navigation}) {
       setCurrentIndex(imageIndex);
     }
   }
-
   // useEffect(() => {
   //   const data1 = [
   //     {
@@ -285,13 +287,19 @@ export default Home = function({navigation}) {
   //   setImageList2(data2);
   // }, [])
 
+  const pressMovie = (item, index) => {
+    selectMovie(item);
+    navigation.navigate('Movies', {item});
+    setProgress(false)
+  }
+
   const viewItem = ({item, index}) => {
     // console.log(index);
     return(
       <TouchableOpacity style={{width: screenWidth/2.1, justifyContent: 'flex-start', alignItems:'center', marginBottom: '2%',}}
         onPress={() => {
-          selectMovie(item);
-          navigation.navigate('Movies', {item});
+          setProgress(true);
+          pressMovie(item, index);
         }} >
         <View style={{width: '88%', height: 270, borderRadius: 5,}}>
           <Image style={styles.image1} source={{uri: item.posterUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/694px-Unknown_person.jpg"}}/>
@@ -374,7 +382,8 @@ export default Home = function({navigation}) {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+      {progress ? <Loader indeterminate={progress}/> : null} 
+    </SafeAreaView> 
   );
 }
 const styles = StyleSheet.create({

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'react-native';
 import { useSelector } from 'react-redux'
 import { Dropdown } from 'react-native-element-dropdown';
+import Loader from '../Component/loader';
 
 export default function Payment({navigation, route}) {
     const movie = useSelector((state) => state.movies.selectedMovie);
@@ -14,14 +15,22 @@ export default function Payment({navigation, route}) {
     const [titlePromotion, setPromotion] = useState('');
     const [discount, setDiscount] = useState(0);
     const [alertVisible, setAlertVisible] = useState(true);
+    const [alertBack, setAlertBack] = useState(false);
+    const [progress, setProgress] = useState(false);
 
-    const hideAlert = () => {
+    const confirmAlert = () => {
       setAlertVisible(false);
     };
-
-    useEffect(() => {
-      setAlertVisible(true);
-    }, []);
+    const cancelAlert = () => {
+      setAlertVisible(false);
+      navigation.popToTop();
+      setProgress(false);
+    };
+    const continueAlert = () => {
+      setAlertBack(false);
+      navigation.goBack();
+      setProgress(false);
+    };
 
     const data = [
       {
@@ -59,23 +68,67 @@ export default function Payment({navigation, route}) {
 
         <Modal transparent visible={alertVisible} animationType="slide">
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)',}}>
-            <View style={{backgroundColor: 'white', borderRadius: 5, alignItems: 'center', width: '80%', height: '30%',}}>
-              <View style={{width: '100%', height: '20%', backgroundColor: 'gray', alignItems: 'center', justifyContent: 'center'}}>
-                <View style={{width: '10%', height: '45%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3}}>
+            <View style={{backgroundColor: 'white', borderRadius: 2, alignItems: 'center', width: '88%', height: '27%',}}>
+              <View style={{width: '100%', height: '23%', alignItems: 'center', justifyContent: 'flex-end'}}>
+                <View style={{width: '12%', height: '50%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3}}>
                   <Text style={{color: 'white', fontSize: 14, fontWeight: '600'}}>{movie.rated}</Text>
                 </View>
               </View>
-              <View style={{width: '100%', height: '60%', backgroundColor: 'red'}}>
-
+              <View style={{width: '100%', height: '55%', alignItems: 'center'}}>
+                <View style={{width: '85%', height: '50%', alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={{fontWeight: '600', textAlign: 'center', fontSize: 17}}>Xác nhận mua vé cho người có độ tuổi phù hợp</Text>
+                </View>
+                <View style={{width: '84%', height: '60%',}}>
+                  <Text style={{textAlign: 'center', fontSize: 15}}>Tôi xác nhận mua vé phim này cho người có độ tuổi từ {18} tuổi trở lên.</Text>
+                </View>
               </View>
-              <View style={{flexDirection: 'row', width: '100%', height: '20%', }}>
-                <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: 'darkgray', justifyContent: 'center', alignItems: 'center'}} 
-                  onPress={hideAlert}>
-                  <Text style={{fontWeight: '600', fontSize: 16, color: 'black'}}>Từ chối</Text>
+              <View style={{flexDirection: 'row', width: '100%', height: '22%', }}>
+                <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: '#EEEEEE', justifyContent: 'center', alignItems: 'center'}} 
+                  onPress={() => {
+                    setProgress(true);
+                    cancelAlert();
+                  }}>
+                  <Text style={{fontWeight: '500', fontSize: 16, color: 'black'}}>Từ chối</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: '#999900', justifyContent: 'center', alignItems: 'center'}} 
-                  onPress={hideAlert}>
-                  <Text style={{fontWeight: '600', fontSize: 16, color: 'white'}}>Xác nhận</Text>
+                  onPress={confirmAlert}>
+                  <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>Đồng ý</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal transparent visible={alertBack} animationType="slide">
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)',}}>
+            <View style={{backgroundColor: 'white', borderRadius: 2, alignItems: 'center', width: '88%', height: '27%',}}>
+              <View style={{width: '100%', height: '23%', alignItems: 'center', justifyContent: 'flex-end'}}>
+                <View style={{width: '15%', height: '60%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3}}>
+                  <Image source={require('./Image/warning.png')} style={{width: '100%', height: '100%', resizeMode: 'contain',}}/>
+                </View>
+              </View>
+              <View style={{width: '100%', height: '55%', alignItems: 'center'}}>
+                <View style={{width: '85%', height: '50%', alignItems: 'center', justifyContent: 'center'}}>
+                  <Text style={{fontWeight: '600', textAlign: 'center', fontSize: 17}}>Thông Tin</Text>
+                </View>
+                <View style={{width: '84%', height: '60%',}}>
+                  <Text style={{textAlign: 'center', fontSize: 15}}>Gỡ bỏ khuyến mãi?</Text>
+                </View>
+              </View>
+              <View style={{flexDirection: 'row', width: '100%', height: '22%', }}>
+                <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: '#EEEEEE', justifyContent: 'center', alignItems: 'center'}} 
+                  onPress={() => {
+                    // setProgress(true);
+                    setAlertBack(false);
+                  }}>
+                  <Text style={{fontWeight: '500', fontSize: 16, color: 'black'}}>Đóng</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{width: '50%', height: '100%', backgroundColor: '#999900', justifyContent: 'center', alignItems: 'center'}} 
+                  onPress={() => {
+                    setProgress(true);
+                    continueAlert();
+                  }}>
+                  <Text style={{fontWeight: '500', fontSize: 16, color: 'white'}}>Tiếp tục</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -83,7 +136,7 @@ export default function Payment({navigation, route}) {
         </Modal>
 
         <View style={{width: '100%', height: '5%', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row'}}>
-          <TouchableOpacity style={{width: '16%', height: '80%', alignItems: 'center'}} onPress={() => {navigation.goBack()}}>
+          <TouchableOpacity style={{width: '16%', height: '80%', alignItems: 'center'}} onPress={() => {setAlertBack(true)}}>
             <Image source={require('./Image/icon_back.png')} style={{width: '100%', height: '100%', tintColor: 'purple', resizeMode: 'contain'}}/>
           </TouchableOpacity>
           <Text style={{fontSize: 19, fontWeight: '600', width: '60%'}}>Giao dịch</Text>
@@ -173,6 +226,7 @@ export default function Payment({navigation, route}) {
               </TouchableOpacity>
             </View>
         </View>
+        {progress ? <Loader indeterminate={progress}/> : null}
       </SafeAreaView>
     )
   }

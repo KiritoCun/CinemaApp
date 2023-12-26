@@ -4,6 +4,7 @@ const initialState = {
     movies: [],
     selectedMovie: null,
     showtimes: [],
+    stateSeat: 'n',
   };
   
   const movieReducer = (state = initialState, payload) => {
@@ -19,10 +20,15 @@ const initialState = {
           selectedMovie: payload.selectedMovie,
         };
       case 'SET_SHOWTIME':
-      return {
-        ...state,
-        showtimes: payload.showtimes,
-      };
+        return {
+          ...state, 
+          showtimes: payload.showtimes,
+        };
+      case 'SET_STATE_SEAT':
+        return {
+          ...state,
+          stateSeat: payload.stateSeat,
+        };
       default:
         return state;
     }
