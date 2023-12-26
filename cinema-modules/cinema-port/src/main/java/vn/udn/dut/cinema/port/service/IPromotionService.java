@@ -30,6 +30,7 @@ public interface IPromotionService {
 	 * Query Promotion list
 	 */
 	List<PromotionVo> queryList(PromotionBo bo);
+	List<PromotionVo> getNowPromotions();
 
 	/**
 	 * Add Promotion

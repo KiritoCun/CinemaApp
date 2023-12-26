@@ -29,6 +29,8 @@ public class Seat extends TenantEntity {
 	private Long seatTypeId;
 
 	private Long hallId;
+	
+	private Long showtimeId;
 
     private String rowCode;
     

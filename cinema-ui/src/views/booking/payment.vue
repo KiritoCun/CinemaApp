@@ -17,6 +17,8 @@
 <script setup lang="ts">
 import Payment from '@/components/booking/Payment.vue';
 import { removeFromLocalStorage, getFromLocalStorage } from '@/utils/localStorage';
+import { Booking } from '@/api/homepage/type';
+import { getVnpayUrl } from '@/api/homepage';
 import { ref } from 'vue';
 import router from '@/router';
 
@@ -30,13 +32,22 @@ interface SeatProp {
 }
 
 const step = ref(3);
+const booking = ref(<Booking[]>([]))
 
 const localStorageSeats = getFromLocalStorage<SeatProp[]>('selectedSeat') || [];
 
 const incrementStep = () => {
   step.value += 1;
   router.push({path: '/booking/invoice'});
+  return `/booking`;
 }
+
+/** Payment vnpay */
+// const submitVnpay = async () => {
+//   const res = await getVnpayUrl(booking);
+//   const url = res.data;
+//   window.open(url, "_blank");
+// }
 
 const decrementStep = () => {
   removeFromLocalStorage('selectedPromotion')

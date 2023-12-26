@@ -6,18 +6,27 @@ import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import vn.udn.dut.cinema.common.core.domain.R;
 import vn.udn.dut.cinema.common.web.core.BaseController;
+import vn.udn.dut.cinema.port.domain.bo.CinemaBo;
 import vn.udn.dut.cinema.port.domain.bo.MovieBo;
 import vn.udn.dut.cinema.port.domain.bo.PromotionBo;
 import vn.udn.dut.cinema.port.domain.bo.SlideBo;
+import vn.udn.dut.cinema.port.domain.vo.CinemaVo;
 import vn.udn.dut.cinema.port.domain.vo.MovieVo;
+import vn.udn.dut.cinema.port.domain.vo.PromotionVo;
+import vn.udn.dut.cinema.port.service.ICinemaService;
+import vn.udn.dut.cinema.port.domain.vo.SeatOrderVo;
+import vn.udn.dut.cinema.port.domain.vo.ShowtimeInfoVo;
 import vn.udn.dut.cinema.port.service.IMovieService;
 import vn.udn.dut.cinema.port.service.IPromotionService;
+import vn.udn.dut.cinema.port.service.ISeatService;
+import vn.udn.dut.cinema.port.service.IShowtimeService;
 import vn.udn.dut.cinema.port.service.ISlideService;
 
 /**
@@ -35,6 +44,9 @@ public class HomepageSearchController extends BaseController {
 	private final IPromotionService promotionService;
 	private final IMovieService movieService;
 	private final ISlideService slideService;
+	private final ICinemaService cinemaService;
+	private final IShowtimeService showtimeService;
+	private final ISeatService seatService;
 
 	@GetMapping("/documents")
 	public R<Map<String, Object>> getDocuments() {
@@ -45,16 +57,35 @@ public class HomepageSearchController extends BaseController {
 		result.put("movies", movieService.queryList(bo2));
 		SlideBo bo3 = new SlideBo();
 		result.put("slides", slideService.queryList(bo3));
-		result.put("nowplayingmovies", movieService.getNowPlayingMovies());
-		result.put("upcommingmovies", movieService.getUpcomingMovies());
 		return R.ok(result);
 	}
+	
 	@GetMapping("/nowplayingmovies")
 	public List<MovieVo> getNowPlayingMovies() {
 		return movieService.getNowPlayingMovies();
 	}
+	
 	@GetMapping("/upcommingmovies")
 	public List<MovieVo> getUpcommingMovies() {
 		return movieService.getUpcomingMovies();
+	}
+
+	@GetMapping("/promotions")
+	public List<PromotionVo> getPromotions() {
+		return promotionService.getNowPromotions();
+	}
+	@GetMapping("/cinemas")
+	public List<CinemaVo> getCinemaList(CinemaBo bo) {
+		return cinemaService.queryList(bo);
+	}
+	
+	@GetMapping("/showtimeInfoList/{movieId}")
+	public List<ShowtimeInfoVo> fetchShowtimeInfoList(@PathVariable Long movieId) {
+		return showtimeService.fetchShowtimeInfoList(movieId);
+	}
+	
+	@GetMapping("/showtime/seatOrderList/{showtimeId}")
+	public List<SeatOrderVo> fetchSeatOrderList(@PathVariable Long showtimeId) {
+		return seatService.fetchSeatOrderList(showtimeId);
 	}
 }

@@ -24,8 +24,8 @@
     </div>
 
     <div class="text-justify ">
-      <b-card-text class="mb-2" v-html="showMovieSelection(processedShowTime?.cinemaName, processedShowTime?.hallId ) || ''"></b-card-text>
-      <b-card-text v-html="showDate(processedShowTime?.startTime || '')"></b-card-text>
+      <b-card-text class="mb-2" v-html="showMovieSelection(processedShowtime?.cinemaName, processedShowtime?.hallName ) || ''"></b-card-text>
+      <b-card-text v-html="showDate(processedShowtime?.startTime || '')"></b-card-text>
     </div>
     <div v-if="processedSeat && processedSeat.length > 0">
       <hr class="hr" />
@@ -88,10 +88,11 @@ interface Movie {
     posterUrl: string;
 }
 
-interface ShowTime {
+interface Showtime {
   uniqueId: string;
   id: number;
   hallId : number;
+  hallName : string;
   cinemaName: string;
   cinemaAddress: string;
   startTime: string;
@@ -118,8 +119,8 @@ const props = defineProps({
     type: Object as PropType<Movie | null>,
     default:null
   },
-  selectedShowTime: {
-    type: Object as PropType<ShowTime | null>,
+  selectedShowtime: {
+    type: Object as PropType<Showtime | null>,
     default:null
   },
   selectedSeat: {
@@ -134,7 +135,7 @@ const props = defineProps({
 
 const retrievedMovie = getFromLocalStorage<Movie>('selectedMovie') || null;
 
-const retrievedShowTime = getFromLocalStorage<ShowTime>('selectedShowTime') || null;
+const retrievedShowtime = getFromLocalStorage<Showtime>('selectedShowtime') || null;
 
 const retrievedSeatsArray = getFromLocalStorage<Seat[]>('selectedSeat') || [];
 
@@ -158,7 +159,7 @@ const showMovieSelection = (cinemaName?: string, hallId?: number) => {
   if(cinemaName === undefined || hallId === undefined ) {
     return ``;
   }
-  return `</strong>${cinemaName}<strong> - Rạp ${hallId}`;
+  return `</strong>${cinemaName}<strong> - ${hallId}`;
 }
 
 const showSeat = (selectedSeat?: string, count?: number) => {
@@ -177,11 +178,11 @@ const processedMovie = computed(() => {
   return retrievedMovie;
 });
 
-const processedShowTime = computed(() => {
-  if (props.selectedShowTime) {
-    return props.selectedShowTime;
+const processedShowtime = computed(() => {
+  if (props.selectedShowtime) {
+    return props.selectedShowtime;
   }
-  return retrievedShowTime;
+  return retrievedShowtime;
 });
 
 const processedSeat = computed(() => {
@@ -219,8 +220,8 @@ const discountPrice = computed(() => {
 const totalPrice = computed(() => {
   const rawTotal = seatPrice.value - discountPrice.value;
   const roundedTotal = parseFloat(rawTotal.toFixed(2));
-
-  return roundedTotal;
+  const formattedNumber = roundedTotal.toLocaleString('en-US');
+  return formattedNumber;
 });
 
 onMounted(() => {

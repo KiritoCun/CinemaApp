@@ -41,34 +41,20 @@
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue';
 import axios from 'axios';
+import { getNowplayingmovies } from '@/api/homepage';
+import { MovieVO } from '@/api/portCustomer/movieManagement/types';
 
-interface Movie {
-    id: number;
-    title: string;
-    movieDescription: string;
-    releaseDate: string;
-    endDate: string;
-    duration: number;
-    language: string;
-    rated: string;
-    genre: string;
-    director: string;
-    actor: string;
-    rating: string;
-    posterUrl: string;
-    trailerUrl: string;
-    remark: string
-};
-
-const movieRows = ref<Movie[][]>([]);
+const movieRows = ref<MovieVO[][]>([]);
 
 const rowSize = 3;
 
 const emit = defineEmits(['selectMovie','panel-toggle']);
 
-const selectedMovieId = ref<number | null>(null);
+const selectedMovieId = ref<string | number>('');
 
-const handleSelectMovie = (movie: Movie) => {
+const movies = ref<MovieVO[]>([]);
+
+const handleSelectMovie = (movie: MovieVO) => {
   selectedMovieId.value = movie.id;
   emit('selectMovie', movie);
   emit('panel-toggle');
@@ -82,24 +68,17 @@ const handleSelectMovie = (movie: Movie) => {
   });
 };
 
-onMounted(async () => {
-  try {
-    const response = await axios.get('https://65742768f941bda3f2af6a27.mockapi.io/api/mq/movie', {
-      headers: {
-        'ngrok-skip-browser-warning': 'any'
-      }
-    });
-
-    const movies: Movie[] = response.data;
-
-    const rowCount = Math.ceil(movies.length / rowSize);
-
+const getNowplayingmovieList = async () => {
+  const res = await getNowplayingmovies();
+  movies.value = res;
+    const rowCount = Math.ceil(movies.value.length / rowSize);
     for (let i = 0; i < rowCount; i++) {
-      movieRows.value.push(movies.slice(i * rowSize, (i + 1) * rowSize));
+      movieRows.value.push(movies.value.slice(i * rowSize, (i + 1) * rowSize));
     }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+}
+
+onMounted(() => {
+  getNowplayingmovieList();
 });
 </script>
 

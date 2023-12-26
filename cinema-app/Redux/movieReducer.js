@@ -3,6 +3,7 @@
 const initialState = {
     movies: [],
     selectedMovie: null,
+    showtimes: [],
   };
   
   const movieReducer = (state = initialState, payload) => {
@@ -17,6 +18,11 @@ const initialState = {
           ...state,
           selectedMovie: payload.selectedMovie,
         };
+      case 'SET_SHOWTIME':
+      return {
+        ...state,
+        showtimes: payload.showtimes,
+      };
       default:
         return state;
     }

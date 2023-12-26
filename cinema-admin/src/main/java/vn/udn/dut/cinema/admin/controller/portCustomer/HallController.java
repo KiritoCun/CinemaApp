@@ -1,6 +1,7 @@
 package vn.udn.dut.cinema.admin.controller.portCustomer;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -68,5 +69,10 @@ public class HallController extends BaseController{
 	@DeleteMapping("/{ids}")
 	public R<Void> remove(@NotEmpty(message = "Primary key cannot be empty") @PathVariable Long[] ids) {
 		return toAjax(hallService.deleteWithValidByIds(List.of(ids), true));
+	}
+	
+	@GetMapping("/map")
+	public R<Map<Long, List<HallVo>>> getHallMap() {
+		return R.ok(hallService.getHallMap());
 	}
 }

@@ -14,7 +14,7 @@
       <div class="col-sm-4 d-flex" style="width: 350px;">
         <select class="form-select  rounded d-flex flex-end ms-2 fs-sm text-center" id="inputGroupSelect01" v-model="selectedCinema">
           <option selected>Tất cả rạp</option>
-          <option v-for="(cinema) in showTimeInfo" :key="cinema.id" :value="cinema.cinema.cinemaName">{{cinema.cinema.cinemaName}}</option>
+          <option v-for="(cinema) in showtimeInfo" :key="cinema.id" :value="cinema.cinema.cinemaName">{{cinema.cinema.cinemaName}}</option>
         </select>
       </div>
     </div>
@@ -27,10 +27,10 @@
         </div>
         <div class="col col-sm-9 row">
           <el-card
-            v-for="item in cinema.showTimeList"
+            v-for="item in cinema.showtimeList"
             :key="item.uniqueId"
             class="col-2 mx-2 my-1 btn btn-primary "
-            @click="handleSelectShowTime(item)"
+            @click="handleSelectShowtime(item)"
             >{{ cinemaHours(item.startTime) }}</el-card
           >
         </div>
@@ -42,16 +42,19 @@
 <script setup lang="ts">
 import { ref, Ref, computed } from 'vue';
 import axios from 'axios';
+import { getShowtimeInfos } from '@/api/homepage';
+import { getFromLocalStorage } from '@/utils/localStorage';
+import { MovieVO } from '@/api/portCustomer/movieManagement/types';
 
-interface ShowTime {
+interface Showtime {
   id: number;
   hallId : number;
   startTime: string;
   endTime: string;
 }
 
-interface ShowTimeInfo {
-  showTimeList: ShowTime[];
+interface ShowtimeInfo {
+  showtimeList: Showtime[];
   cinema: {
     cinemaName: string;
     cinemaAddress: string;
@@ -59,7 +62,7 @@ interface ShowTimeInfo {
   id: number;
 }
 
-const showTimeInfo = ref<ShowTimeInfo[]>([]);
+const showtimeInfo = ref<ShowtimeInfo[]>([]);
 
 interface Tab {
   id: number;
@@ -79,7 +82,7 @@ const tabs= ref<Tab[]>([]);
 
 const createTabs = (date: Date) => {
   const newTabs : Tab[] = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = -4; i < 0; i++) {
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + i);
     const day = newDate.getDate().toString().padStart(2, '0');
@@ -119,33 +122,33 @@ const selectedCinema = ref("Tất cả rạp");
 
 const selectedCinemas = computed(() => {
   if (selectedCinema.value === "Tất cả rạp") {
-      return selectedShowTimes.value;
+      return selectedShowtimes.value;
   }
   else {
-      return selectedShowTimes.value.filter(cinema => cinema.cinema.cinemaName === selectedCinema.value);
+      return selectedShowtimes.value.filter(cinema => cinema.cinema.cinemaName === selectedCinema.value);
     }
   });
 
 
-const selectedShowTimes = computed(() => {
+const selectedShowtimes = computed(() => {
   const activeTab = tabs.value.find(tab => tab.id === activeName.value);
   if (!activeTab) return [];
   const activeTabDayMonth = cinemaDays(activeTab.label);
 
-  return showTimeInfo.value.flatMap(cinema => ({
+  return showtimeInfo.value.flatMap(cinema => ({
     ...cinema,
-    showTimeList: cinema.showTimeList
-      .filter(showTime => cinemaDays(showTime.startTime) === activeTabDayMonth)
-      .map(showTime => ({
-        ...showTime,
-        uniqueId: `${cinema.id}-${showTime.id}`,
+    showtimeList: cinema.showtimeList
+      .filter(showtime => cinemaDays(showtime.startTime) === activeTabDayMonth)
+      .map(showtime => ({
+        ...showtime,
+        uniqueId: `${cinema.id}-${showtime.id}`,
         cinemaName: cinema.cinema.cinemaName,
         cinemaAddress: cinema.cinema.cinemaAddress
       }))
-  })).filter(cinema => cinema.showTimeList.length > 0);
+  })).filter(cinema => cinema.showtimeList.length > 0);
 });
 
-const emit = defineEmits(['selectShowTime','panel-toggle']);
+const emit = defineEmits(['selectShowtime','panel-toggle']);
 
 interface CardDetailInfo {
   uniqueId: string;
@@ -157,18 +160,17 @@ interface CardDetailInfo {
   endTime: string;
 }
 
-const handleSelectShowTime = (cinema: CardDetailInfo) => {
-  emit('selectShowTime', cinema);
+const handleSelectShowtime = (cinema: CardDetailInfo) => {
+  emit('selectShowtime', cinema);
   emit('panel-toggle');
 };
-
-onMounted(async () => {
-  try {
-    const response = await axios.get('https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList ');
-    showTimeInfo.value = response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+const getShowtimeInfoList = async () => {
+  const movieSelected = getFromLocalStorage<MovieVO>('selectedMovie');
+  const res = await getShowtimeInfos(movieSelected?.id);
+  showtimeInfo.value = res;
+}
+onMounted(() => {
+  getShowtimeInfoList();
 });
 </script>
 

@@ -40,7 +40,7 @@
               </div>
               <div class="card-subtitle text-muted my-4 container">
                 <h6 class="d-flex flex-start my-3">Khuyến mãi của bạn</h6>
-                <div v-for="code in promotionLists" :key="code.id" class="card my-1" style="width: 100%;">
+                <div v-for="code in promotionList" :key="code.id" class="card my-1" style="width: 100%;">
                   <img :src="code.imageUrl" class="card-img-top image" alt="..." style="width: 20%;" />
                   <div class="card-body d-flex justify-content-between align-items-center" style="100%">
                     <h6 class="card-title w-30">{{code.title}}</h6>
@@ -77,17 +77,11 @@
 <script setup name="pay" lang="ts">
 import { ref,watch , onMounted } from 'vue';
 import { saveToLocalStorage, getFromLocalStorage } from '@/utils/localStorage';
+import { getPromotions } from '@/api/homepage';
+import { PromotionVO } from '@/api/portCustomer/promotionManagement/types';
 import axios from 'axios'
 import router from '@/router';
 import { removeFromLocalStorage } from '@/utils/localStorage';
-
-interface Promotion {
-	id: number;
-	title: string;
-	imageUrl: string;
-	discount: number;
-	toDate: string;
-}
 
 interface PromotionProp {
 	id: number;
@@ -117,7 +111,7 @@ const countDown = () => {
 
 const currentDate = new Date()
 
-const promotionLists = ref<Promotion[]>([]);
+const promotionList = ref<PromotionVO[]>([]);
 
 const selectedTitle = ref<string |undefined>("");
 
@@ -156,35 +150,26 @@ const formatDate = (date: string) => {
   return `${day}/${month}/${year}`;
 }
 
-const fetchData = async () => {
-  try {
-    const response = await axios.get('https://90e3-2001-ee0-4b4c-7840-bd92-c5fd-572e-33dc.ngrok-free.app/dev-api/customer/homepage/search/promotions', {
-      headers: {
-        'ngrok-skip-browser-warning': 'any'
-      }
-    });
-    promotionLists.value = response.data;
-    const localStoragePromotion = getFromLocalStorage<PromotionProp>('selectedPromotion') || null;
-    selectedPromotion.value = localStoragePromotion;
-    selectedPromotionId.value = selectedPromotion.value?.id;
-    selectedTitle.value = selectedPromotion.value?.title;
-    selectedDiscount.value = selectedPromotion.value?.discount;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+const getPromotionList = async () => {
+  const res = await getPromotions();
+  promotionList.value = res;
+  const localStoragePromotion = getFromLocalStorage<PromotionProp>('selectedPromotion') || null;
+  selectedPromotion.value = localStoragePromotion;
+  selectedPromotionId.value = selectedPromotion.value?.id;
+  selectedTitle.value = selectedPromotion.value?.title;
+  selectedDiscount.value = selectedPromotion.value?.discount;
 };
 
 onMounted(() => {
-  fetchData();
-  const intervalId = setInterval(countDown,850);
+  getPromotionList();
+  const intervalId = setInterval(countDown, 1000);
 
   watch(() => dialog.value, (newValue) => {
     if (newValue) {
       clearInterval(intervalId);
     }
   });
-  })
-
+});
 </script>
 
 <style lang="scss" scoped>

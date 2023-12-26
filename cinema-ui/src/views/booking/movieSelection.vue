@@ -31,5 +31,4 @@ const decrementStep = () => {
   step.value -= 1;
   router.push({path:'/homepage'});
 }
-
 </script>

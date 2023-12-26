@@ -456,7 +456,7 @@ defineExpose({
 
     .layout3-body-left {
       min-width: 10%;
-      width: 35%;
+      width: 55%;
       padding-right: 1.5px;
       z-index: 9;
       display: flex;
