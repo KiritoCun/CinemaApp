@@ -91,11 +91,11 @@ INSERT sys_dict_data VALUES (9, N'000000', 2, N'BANK', N'BANK', N'payment_type',
 GO
 INSERT sys_dict_data VALUES (10, N'000000', 1, N'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html', N'vnp_PayUrl', N'pm_config_vnpay', N'', N'blue', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO
-INSERT sys_dict_data VALUES (11, N'000000', 2, N'http://localhost/paymentResult/payment-result/vnpay-payment-result', N'vnp_ReturnUrl', N'pm_config_vnpay', N'', N'red', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
+INSERT sys_dict_data VALUES (11, N'000000', 2, N'http://localhost/payment-result/vnpay-payment-result', N'vnp_ReturnUrl', N'pm_config_vnpay', N'', N'red', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO
-INSERT sys_dict_data VALUES (12, N'000000', 3, N'EPORTWEB', N'vnp_TmnCode', N'pm_config_vnpay', N'', N'purple', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
+INSERT sys_dict_data VALUES (12, N'000000', 3, N'SFRH95M6', N'vnp_TmnCode', N'pm_config_vnpay', N'', N'purple', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO
-INSERT sys_dict_data VALUES (13, N'000000', 4, N'AHOYEJWEVDDWDAISVOOUIHUKWAGOFQJC', N'secretKey', N'pm_config_vnpay', N'', N'yellow', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
+INSERT sys_dict_data VALUES (13, N'000000', 4, N'RRVRYHJPWWBGMJPZLIOJOKMQHWRZORQG', N'secretKey', N'pm_config_vnpay', N'', N'yellow', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO
 INSERT sys_dict_data VALUES (14, N'000000', 5, N'https://sandbox.vnpayment.vn/merchant_webapi/api/transaction', N'vnp_ApiUrl', N'pm_config_vnpay', N'', N'green', N'N', N'0', 103, 1, getdate(), NULL, NULL, N'')
 GO

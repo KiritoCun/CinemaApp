@@ -5,9 +5,7 @@ import lombok.Data;
 @Data
 public class PaymentInfoVo {
 	
-	private Long shipmentId;
-	
-	private String serviceType;
+	private Long showtimeId;
 	
 	private String orderInfo;
 	

@@ -133,7 +133,8 @@ const seats = ref<SeatProp[]>([]);
 
 const getSeatOrderList = async () => {
   const showtimeSelected = getFromLocalStorage<ShowtimeVO>('selectedShowtime');
-  const res = (await getSeatOrders(showtimeSelected?.id)).data;
+  const res = (await getSeatOrders(showtimeSelected?.id));
+  console.log(res)
   hallMap.value = res;
   const seatsParam = route.query.seats as string | LocationQueryValue[] | undefined;
 
@@ -150,7 +151,7 @@ const getSeatOrderList = async () => {
 
   hallMap.value.map(row => {
     row.seatList.map(seat => {
-      if (seat.status === 1) {
+      if (seat.status === 'Y') {
         if(!seats.value.length) {
           soldSeats.value.push([row.id, seat.columnCode]);
         }
@@ -167,7 +168,7 @@ const getSeatOrderList = async () => {
           }
         }
       }
-      else if (seat.status === 2) {
+      else if (seat.status === 'P') {
         soldSeats.value.push([row.id, seat.columnCode]);
       }
     });
@@ -209,10 +210,10 @@ const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
   const limitedClick = 5;
 
   // Update status directly on the object
-  seatNumber.status = seatNumber.status === 'N' ? 1 : 0;
+  seatNumber.status = (seatNumber.status === 'N' || seatNumber.status === 'P')  ? 'Y' : 'N';
 
   // Update selection lists based on new status
-    if (seatNumber.status === 1) {
+    if (seatNumber.status === 'Y') {
       if (selectedSeats.value.length < limitedClick) {
       selectedSeats.value.push([rowNumber.id, seatNumber.columnCode]);
       seats.value = [...(seats.value || []), {

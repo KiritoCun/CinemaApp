@@ -1,8 +1,10 @@
 package vn.udn.dut.cinema.port.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -62,10 +64,13 @@ public class SeatServiceImpl implements ISeatService {
 		return baseMapper.selectSeatList(this.buildQueryWrapper(bo));
 	}
 
+	@SuppressWarnings("unchecked")
 	private Wrapper<Seat> buildQueryWrapper(SeatBo bo) {
+		Map<String, Object> params = bo.getParams();
 		QueryWrapper<Seat> wrapper = Wrappers.query();
-		wrapper.eq(bo.getShowtimeId() != null, "s.showtime_id", bo.getShowtimeId()).eq(bo.getId() != null, "s.id",
-				bo.getId());
+		wrapper.eq(bo.getShowtimeId() != null, "s.showtime_id", bo.getShowtimeId())
+		.eq(bo.getId() != null, "s.id", bo.getId())
+		.in(params.get("ids") != null, "s.id", (List<Long>) params.get("ids"));;
 		return wrapper;
 	}
 
@@ -130,6 +135,15 @@ public class SeatServiceImpl implements ISeatService {
 			seatOrderList.add(seatOrder);
 		}
 		return seatOrderList;
+	}
+
+	@Override
+	public List<SeatVo> queryByIds(Long[] seatIds) {
+		SeatBo seatBo = new SeatBo();
+		Map<String, Object> params = new HashMap<>();
+		params.put("ids", Arrays.asList(seatIds));
+		seatBo.setParams(params);
+		return baseMapper.selectSeatList(this.buildQueryWrapper(seatBo));
 	}
 
 }

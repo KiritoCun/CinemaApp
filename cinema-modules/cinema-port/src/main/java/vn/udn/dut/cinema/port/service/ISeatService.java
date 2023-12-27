@@ -49,4 +49,11 @@ public interface ISeatService {
 
 	List<SeatOrderVo> fetchSeatOrderList(Long showtimeId);
 
+	/**
+	 *
+	 * @param seatIds
+	 * @return
+	 */
+	List<SeatVo> queryByIds(Long[] seatIds);
+
 }

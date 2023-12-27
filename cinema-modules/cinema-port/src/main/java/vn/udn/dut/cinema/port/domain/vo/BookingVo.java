@@ -28,7 +28,7 @@ public class BookingVo implements Serializable {
 
 	private Long id;
 
-	private Long cinema_id;
+	private Long cinemaId;
 
 	private Long customerId;
 

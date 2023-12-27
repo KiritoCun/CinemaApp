@@ -69,7 +69,7 @@ export default {
   },
   common: {
     logoutCfTt: 'Xác nhận',
-    logoutCfMsg: 'Trạng thái đăng nhập đã hết hạn, bạn có thể ở lại trạng này hoặc đăng nhập lại',
+    logoutCfMsg: 'Bạn chưa đăng nhập, để thực hiện thanh toán bắt buộc bạn phải đăng nhập',
     logoutCfBtn: 'Đồng ý',
     logoutCancelBtn: 'Đóng',
     sessionExpiredMsg: 'Phiên làm việc không hợp lệ hoặc đã hết hạn, vui lòng đăng nhập lại',
