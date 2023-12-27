@@ -54,6 +54,7 @@ import { LoginData, TenantVO } from '@/api/types';
 import { getCodeImg, getTenantList } from '@/api/login';
 import { to } from 'await-to-js';
 import i18n from '@/lang';
+import { saveToLocalStorage, getFromLocalStorage } from '@/utils/localStorage';
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 const route = useRoute()
@@ -110,7 +111,8 @@ const handleLogin = () => {
       // prittier-ignore
       const [err] = await to(userStore.login(loginForm.value));
       if (!err) {
-        await router.push({ path: redirect.value || '/homepage' });
+        const beforePathLogin = getFromLocalStorage('beforePathLogin')
+        await router.push({ path: redirect.value || beforePathLogin });
       } else {
         loading.value = false;
         // Get verification code again

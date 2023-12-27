@@ -23,7 +23,9 @@ const whiteList = [
   '/booking',
   '/booking/movieSelection',
   '/booking/seatSelection',
-  '/booking/payment'
+  '/booking/payment',
+  '/booking/invoice',
+  '/payment-result/vnpay-payment-result'
 ];
 
 router.beforeEach(async (to, from, next) => {

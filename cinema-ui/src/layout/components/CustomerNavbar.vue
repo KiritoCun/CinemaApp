@@ -87,6 +87,7 @@ import { ComponentInternalInstance } from "vue";
 import { TenantVO } from "@/api/types";
 import i18n from '@/lang';
 import { removeAllFromLocalStorage } from '@/utils/localStorage';
+import { saveToLocalStorage, getFromLocalStorage } from '@/utils/localStorage';
 
 const router = useRouter();
 
@@ -108,6 +109,7 @@ const dynamic = ref(false);
 const tenantEnabled = ref(true);
 
 const goToLogin = () => {
+  saveToLocalStorage('beforePathLogin', router.currentRoute.value.href);
   router.push({path: '/homepage/customer-login', query: {
   }});
 }

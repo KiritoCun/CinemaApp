@@ -91,6 +91,11 @@ export const constantRoutes: RouteOption[] = [
     hidden: true
   },
   {
+    path: '/booking/invoice',
+    component: () => import('@/views/booking/invoice.vue'),
+    hidden: true
+  },
+  {
     path: '',
     component: Layout,
     redirect: '/index',
@@ -141,6 +146,12 @@ export const constantRoutes: RouteOption[] = [
         props: { step: 3 }
       },
     ]
+  },
+  {
+    path: '/payment-result/vnpay-payment-result',
+    component: () => import('@/views/paymentResult/vnpayPaymentResult.vue'),
+    hidden: true,
+    meta: { title: '{"vi_VN":"Thông tin thanh toán","en_US":"Payment infomation"}', icon: '' }
   }
 ];
 

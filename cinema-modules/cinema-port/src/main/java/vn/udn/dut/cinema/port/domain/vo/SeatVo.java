@@ -2,6 +2,7 @@ package vn.udn.dut.cinema.port.domain.vo;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 
@@ -43,6 +44,8 @@ public class SeatVo implements Serializable {
 	private Long price;
 	
 	private String seatTypeName;
+	
+	private Date updateTime;
 
 	private String remark;
 }

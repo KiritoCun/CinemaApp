@@ -115,9 +115,10 @@ service.interceptors.response.use(
           isRelogin.show = false;
           useUserStore().logout().then(() => {
             if ('/' === import.meta.env.VITE_APP_CONTEXT_PATH) {
-              location.href = import.meta.env.VITE_APP_CONTEXT_PATH + 'index';
+              //location.href = import.meta.env.VITE_APP_CONTEXT_PATH + 'index';
+              location.href = import.meta.env.VITE_APP_CONTEXT_PATH + 'homepage/customer-login';
             } else {
-              location.href = import.meta.env.VITE_APP_CONTEXT_PATH + '/index';
+              location.href = import.meta.env.VITE_APP_CONTEXT_PATH + '/homepage/customer-login';
             }
           });
         }).catch(() => {

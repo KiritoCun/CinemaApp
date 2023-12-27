@@ -36,7 +36,7 @@
                     Áp Dụng
                   </button>
                 </div>
-                <span class="d-flex flex-start" style="font-size: 14px;color: #ccc;">Lưu ý : Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</span>
+                <span class="d-flex flex-start" style="font-size: 14px;color: #ccc;">Lưu ý : Chỉ áp dụng 1 voucher cho mỗi lần thanh toán</span>
               </div>
               <div class="card-subtitle text-muted my-4 container">
                 <h6 class="d-flex flex-start my-3">Khuyến mãi của bạn</h6>
@@ -92,7 +92,7 @@ interface PromotionProp {
 const panel = ref([2])
 
 //giu ghe
-const remainingTime = ref(600);
+const remainingTime = ref(300);
 const dialog = ref(false);
 
 const formatTime = (seconds : number) => {
@@ -162,8 +162,8 @@ const getPromotionList = async () => {
 
 onMounted(() => {
   getPromotionList();
+  saveToLocalStorage('beforePathLogin', router.currentRoute.value.href);
   const intervalId = setInterval(countDown, 1000);
-
   watch(() => dialog.value, (newValue) => {
     if (newValue) {
       clearInterval(intervalId);

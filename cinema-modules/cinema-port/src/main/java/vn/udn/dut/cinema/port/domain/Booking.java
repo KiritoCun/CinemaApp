@@ -22,7 +22,7 @@ public class Booking {
 	@TableId(value = "id")
 	private Long id;
 
-	private Long cinema_id;
+	private Long cinemaId;
 
 	private Long customerId;
 
