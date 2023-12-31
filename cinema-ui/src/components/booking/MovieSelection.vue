@@ -72,9 +72,7 @@ const togglePanelMovie = () => {
 }
 
 const handleSelectShowtime = (showtime: ShowtimeInfo) => {
-  console.log(222);
   selectedShowtime.value = showtime;
- console.log(selectedShowtime.value);
   saveToLocalStorage('selectedShowtime', showtime);
 };
 

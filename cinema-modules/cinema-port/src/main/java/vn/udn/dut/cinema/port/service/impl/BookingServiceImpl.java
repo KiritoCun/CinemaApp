@@ -65,6 +65,7 @@ public class BookingServiceImpl implements IBookingService {
 		lqw.eq(bo.getCustomerId() != null, Booking::getCustomerId, bo.getCustomerId());
 		lqw.eq(bo.getPromotionId() != null, Booking::getPromotionId, bo.getPromotionId());
 		lqw.eq(bo.getShowtimeId() != null, Booking::getShowtimeId, bo.getShowtimeId());
+		lqw.orderByDesc(Booking::getCreateTime);
 		return lqw;
 	}
 
