@@ -32,4 +32,6 @@ public class BookingDetailVo implements Serializable {
 	private Long bookingId;
 
 	private Long seatId;
+	private String rowCode;
+	private Integer columnCode;
 }

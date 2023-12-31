@@ -29,9 +29,13 @@ public class BookingVo implements Serializable {
 	private Long id;
 
 	private Long cinemaId;
+	
+	private String cinemaName;
 
 	private Long customerId;
 
+	private String nickName;
+	
 	private Long numTicket;
 
 	private Long promotionId;
@@ -41,6 +45,8 @@ public class BookingVo implements Serializable {
 	private String paymentFlag;
 
 	private Long showtimeId;
+	
+	private String movieName;
 
 	private Date createTime;
 }

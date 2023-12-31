@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -44,9 +46,8 @@ public class BookingDetailServiceImpl implements IBookingDetailService {
 	 */
 	@Override
 	public TableDataInfo<BookingDetailVo> queryPageList(BookingDetailBo bo, PageQuery pageQuery) {
-		LambdaQueryWrapper<BookingDetail> lqw = buildQueryWrapper(bo);
-		Page<BookingDetailVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
-		return TableDataInfo.build(result);
+		Page<BookingDetailVo> page = baseMapper.selectPageBookingDetailList(pageQuery.build(), this.buildQueryWrapper(bo));
+		return TableDataInfo.build(page);
 	}
 
 	/**
@@ -54,17 +55,16 @@ public class BookingDetailServiceImpl implements IBookingDetailService {
 	 */
 	@Override
 	public List<BookingDetailVo> queryList(BookingDetailBo bo) {
-		LambdaQueryWrapper<BookingDetail> lqw = buildQueryWrapper(bo);
-		return baseMapper.selectVoList(lqw);
+		return baseMapper.selectBookingDetailList(this.buildQueryWrapper(bo));
 	}
 
-	private LambdaQueryWrapper<BookingDetail> buildQueryWrapper(BookingDetailBo bo) {
-//        Map<String, Object> params = bo.getParams();
-		LambdaQueryWrapper<BookingDetail> lqw = Wrappers.lambdaQuery();
-		lqw.eq(bo.getCinemaId() != null, BookingDetail::getCinemaId, bo.getCinemaId());
-		lqw.eq(bo.getBookingId() != null, BookingDetail::getBookingId, bo.getBookingId());
-		lqw.eq(bo.getSeatId() != null, BookingDetail::getSeatId, bo.getSeatId());
-		return lqw;
+	private Wrapper<BookingDetail> buildQueryWrapper(BookingDetailBo bo) {
+//      Map<String, Object> params = bo.getParams();
+		QueryWrapper<BookingDetail> wrapper = Wrappers.query();
+		wrapper.eq(bo.getCinemaId() != null, "b.cinema_id", bo.getCinemaId())
+				.eq(bo.getBookingId() != null, "b.booking_id", bo.getBookingId())
+				.eq(bo.getSeatId() != null, "b.seat_id", bo.getSeatId());
+		return wrapper;
 	}
 
 	/**

@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -44,9 +46,8 @@ public class BookingServiceImpl implements IBookingService {
 	 */
 	@Override
 	public TableDataInfo<BookingVo> queryPageList(BookingBo bo, PageQuery pageQuery) {
-		LambdaQueryWrapper<Booking> lqw = buildQueryWrapper(bo);
-		Page<BookingVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
-		return TableDataInfo.build(result);
+		Page<BookingVo> page = baseMapper.selectPageBookingList(pageQuery.build(), this.buildQueryWrapper(bo));
+		return TableDataInfo.build(page);
 	}
 
 	/**
@@ -54,18 +55,18 @@ public class BookingServiceImpl implements IBookingService {
 	 */
 	@Override
 	public List<BookingVo> queryList(BookingBo bo) {
-		LambdaQueryWrapper<Booking> lqw = buildQueryWrapper(bo);
-		return baseMapper.selectVoList(lqw);
+//		LambdaQueryWrapper<Booking> lqw = buildQueryWrapper(bo);
+		return baseMapper.selectBookingList(this.buildQueryWrapper(bo));
 	}
 
-	private LambdaQueryWrapper<Booking> buildQueryWrapper(BookingBo bo) {
+	private Wrapper<Booking> buildQueryWrapper(BookingBo bo) {
 //        Map<String, Object> params = bo.getParams();
-		LambdaQueryWrapper<Booking> lqw = Wrappers.lambdaQuery();
-		lqw.eq(bo.getCinemaId() != null, Booking::getCinemaId, bo.getCinemaId());
-		lqw.eq(bo.getCustomerId() != null, Booking::getCustomerId, bo.getCustomerId());
-		lqw.eq(bo.getPromotionId() != null, Booking::getPromotionId, bo.getPromotionId());
-		lqw.eq(bo.getShowtimeId() != null, Booking::getShowtimeId, bo.getShowtimeId());
-		return lqw;
+		QueryWrapper<Booking> wrapper = Wrappers.query();
+		wrapper.eq(bo.getCustomerId() != null, "b.customer_id", bo.getCustomerId())
+				.eq(bo.getShowtimeId() != null, "b.showtime_id", bo.getShowtimeId())
+				.eq(bo.getCinemaId() != null, "b.cinema_id", bo.getCinemaId())
+				.eq(bo.getPromotionId() != null, "b.promotion_id", bo.getPromotionId());
+		return wrapper;
 	}
 
 	/**

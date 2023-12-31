@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -31,9 +32,9 @@ public interface BookingMapper extends BaseMapperPlus<Booking, BookingVo> {
 
 	/**
 	 * 
-	 * @param queryWrapper
+	 * @param wrapper
 	 * @return
 	 */
-	List<BookingVo> selectBookingList(@Param(Constants.WRAPPER) Wrapper<Booking> queryWrapper);
+	List<BookingVo> selectBookingList(@Param(Constants.WRAPPER) Wrapper<Booking> wrapper);
 
 }

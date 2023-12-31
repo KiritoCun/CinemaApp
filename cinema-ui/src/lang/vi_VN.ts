@@ -1589,4 +1589,40 @@ export default {
       releaseSuccess: 'Phát hành lịch chiếu thành công'
     }
   },
+  // Ticket menu internationalization
+  ticketManagement: {
+    searchInput: {
+      cinemaIdLb: 'Tên Rạp',
+      cinemaIdPh: 'Chọn'
+    },
+    headerButton: {
+      addTt: 'Thêm',
+      editTt: 'Sửa',
+      deleteTt: 'Xóa'
+    },
+    columns: {
+      nickNameLb: 'Họ Tên',
+      cinemaNameLb: 'Tên Rạp',
+      numTicketLb: 'Số vé',
+      totalPriceLb: 'Tổng tiền',
+      promotionIdLb: 'Mã khuyến mãi',
+      movieNameLb: 'Tên Phim',
+      createTimeLb: 'Ngày tạo',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xóa'
+    },
+    bookingDetailColumns: {
+      rowCodeLb: 'Mã hàng của ghế',
+      columnCodeLb: 'Mã cột',
+      operateLb: 'Thao tác',
+      editLb: 'Sửa',
+      deleteLb: 'Xóa'
+    },
+    operationMsg: {
+      submitSuccess: 'Sửa thành công',
+      deleteSuccess: 'Xóa thành công',
+      deleteCf: 'Xác nhận xóa vé?'
+    }
+  },
 };
