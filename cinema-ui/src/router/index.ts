@@ -124,6 +124,7 @@ export const constantRoutes: RouteOption[] = [
   },
   {
     path: '/booking',
+    hidden: true,
     children: [
       {
         path: 'movieSelection',
