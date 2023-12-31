@@ -1591,4 +1591,40 @@ export default {
       releaseSuccess: 'Release showtime successfully'
     }
   },
+  // Ticket menu internationalization
+  ticketManagement: {
+    searchInput: {
+      cinemaIdLb: 'Cinema',
+      cinemaIdPh: 'Select'
+    },
+    headerButton: {
+      addTt: 'Add',
+      editTt: 'Edit',
+      deleteTt: 'Delete'
+    },
+    columns: {
+      nickNameLb: 'Full Name',
+      cinemaNameLb: 'Cinema',
+      numTicketLb: 'Number of tickets',
+      totalPriceLb: 'Total price',
+      promotionIdLb: 'Promotion',
+      movieNameLb: 'Movie Name',
+      createTimeLb: 'Create time',
+      operateLb: 'Operate',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    bookingDetailColumns: {
+      rowCodeLb: 'Row Code',
+      columnCodeLb: 'Column Code',
+      operateLb: 'Operate',
+      editLb: 'Edit',
+      deleteLb: 'Delete'
+    },
+    operationMsg: {
+      submitSuccess: 'Edit successfully',
+      deleteSuccess: 'Delete successfully',
+      deleteCf: 'Are you sure to delete booking?'
+    }
+  },
 };
