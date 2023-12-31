@@ -43,11 +43,8 @@ const incrementStep = () => {
 /** Payment vnpay */
 const submitVnpay = async () => {
   const localStoragePromotion = getFromLocalStorage<any>('selectedPromotion') || null;
-  console.log(localStoragePromotion);
   const localStorageSeats = getFromLocalStorage<any>('selectedSeat') || null;
-  console.log(localStorageSeats);
   const promotionId = localStoragePromotion === null ? 0 : localStoragePromotion.id;
-  console.log(promotionId);
   const res = await getVnpayUrl(localStorageSeats.map((obj: { id: any; }) => obj.id), promotionId);
   const url = res.data;
   window.open(url, "_blank");
@@ -60,4 +57,14 @@ const decrementStep = () => {
   const serializedSeats = localStorageSeats ? JSON.stringify(localStorageSeats) : '';
   router.push({path: '/booking/seatSelection', query: {seats: serializedSeats}});
 }
+onMounted(() => {
+  console.log("before");
+  window.addEventListener('storage', (event) => {
+    console.log("after");
+    if (event.key === 'redirectBeforePaymentSuccess' && event.newValue === 'true') {
+      router.push({path: '/profile', query: {}});
+      localStorage.setItem('redirectBeforePaymentSuccess', 'false');
+    }
+  });
+});
 </script>

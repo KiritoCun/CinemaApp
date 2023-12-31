@@ -134,7 +134,6 @@ const seats = ref<SeatProp[]>([]);
 const getSeatOrderList = async () => {
   const showtimeSelected = getFromLocalStorage<ShowtimeVO>('selectedShowtime');
   const res = (await getSeatOrders(showtimeSelected?.id));
-  console.log(res)
   hallMap.value = res;
   const seatsParam = route.query.seats as string | LocationQueryValue[] | undefined;
 

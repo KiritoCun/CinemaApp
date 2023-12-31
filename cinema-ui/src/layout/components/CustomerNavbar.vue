@@ -14,7 +14,7 @@
             src="https://www.galaxycine.vn/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fbtn-ticket.42d72c96.webp&amp;w=256&amp;q=100"
           />
         </router-link>
-        <router-link to="/">
+        <router-link to="/homepage">
           <el-menu-item index="showtime">{{ $t('homepage.topNav.homepage') }}</el-menu-item>
         </router-link>
         <router-link to="/homepage/movie-category">

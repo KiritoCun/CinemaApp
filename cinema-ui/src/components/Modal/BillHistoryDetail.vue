@@ -5,25 +5,25 @@
         <div class="modal-container">
           <span type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></span>
           <div class="flex-column modal-header">
-            <img :src="bill?.img" style="height:120px" />
-            <div class="modal-title">{{ bill?.title }}</div>
+            <img :src="bill?.posterUrl" style="height:120px" />
+            <div class="modal-title">{{ bill?.movieName }}</div>
             <p>{{ bill?.genre }}</p>
           </div>
           <div class="custom-dotted-line"></div>
           <div class="modal-body">
             <div class="time-info">
-              <p class="bold-font mb-1">Star Cinema {{bill?.province}} - Rạp 6</p>
+              <p class="bold-font mb-1">Star Cinema - {{bill?.cinemaName}} - {{bill?.hallName}}</p>
               <div class="d-inline-block">
-                <p v-html="formatTime(bill?.start_time)"></p>
+                <p v-html="formatTime(bill?.startTime)"></p>
               </div>
               <div class="text-center">
-                <img :src="bill?.booking_qr" style="height:116px; width:116px" />
+                <img :src="bill?.bookingQr" style="height:116px; width:116px" />
               </div>
             </div>
             <div class="custom-dotted-line"></div>
             <div class="seat_info">
               <p>
-                Ghế - <strong>{{ bill?.seat_id.join(', ') }}</strong>
+                Ghế - <strong>{{ bill?.seatIds.join(', ') }}</strong>
               </p>
             </div>
             <div class="custom-dotted-line"></div>
@@ -32,9 +32,9 @@
                 <div class="grid-item">Mã vé</div>
                 <div class="grid-item">KM</div>
                 <div class="grid-item">Giá</div>
-                <div class="grid-item bold-font">{{ bill?.booking_id }}</div>
-                <div class="grid-item bold-font">{{ bill?.promotion_id }}</div>
-                <div class="grid-item bold-font">{{ bill?.price }}</div>
+                <div class="grid-item bold-font">{{ bill?.bookingId }}</div>
+                <div class="grid-item bold-font">{{ bill?.promotionId }}</div>
+                <div class="grid-item bold-font">{{ formatCurrency(bill?.price) }}</div>
               </div>
             </div>
           </div>
@@ -49,18 +49,22 @@ import { defineProps, PropType } from 'vue';
 
 interface BillProps {
     id: number;
-    title: string;
+    movieName: string;
     genre: string;
-    province: string;
-    hall_name: string;
-    seat_id: string[];
-    booking_id: string;
-    promotion_id: string;
-    booking_qr: string;
-    img: string;
+    cinemaName: string;
+    hallName: string;
+    seatIds: string[];
+    bookingId: string;
+    promotionId: string;
+    bookingQr: string;
+    posterUrl: string;
     price: number;
-    start_time: Date;
+    startTime: Date;
 }[];
+
+const formatCurrency = (value?:any) => {
+  return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+}
 
 const props = defineProps({
   bill: {
