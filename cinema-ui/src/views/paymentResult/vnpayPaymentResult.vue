@@ -36,7 +36,7 @@
         Số giao dịch:&nbsp;<span class="value">{{ $route.query.vnp_TransactionNo }}</span>
       </div>
     </div>
-    <IrButton colorStyle="blue" type="primary" buttonSize="large" title="Đóng" :width="210" @onClick="close" />
+    <IrButton colorStyle="blue" type="primary" buttonSize="large" title="Thông tin vé" :width="210" @onClick="goToInvoice" />
     <WarningTextbox title="Lưu ý:">
       <template v-slot:content>
         Để bảo mật thông tin tài khoản, vui lòng không cung cấp chi tiết thẻ hoặc tài khoản ngân hàng cho bất kỳ ai Mọi thắc mắc vui lòng liên hệ Bộ
@@ -50,7 +50,7 @@
   import { useRoute } from "vue-router";
   import { handleBookingTicket } from '@/api/homepage';
   const route = useRoute();
-
+  const router = useRouter();
   // Lấy giá trị vnp_PayDate từ URL
   const vnpPayDate = route.query.vnp_PayDate;
   const vnpAmount = route.query.vnp_Amount;
@@ -64,8 +64,10 @@
   const isSuccess = () => {
     return trangThaiGiaoDich === '00' ? true : false;
   }
-  const close = () => {
-    window.close();
+
+  let queryObj = {};
+  const goToInvoice = () => {
+    router.push({path: '/booking/invoice', query: queryObj});
   }
 
   function formatVnpPayDate(dateTime:any) {
@@ -87,11 +89,24 @@
   }
   /** Add booking info */
   const addBookingInfo = async () => {
-    await handleBookingTicket(route.query.vnp_TxnRef + '');
+    let invoiceInfo = await handleBookingTicket(route.query.vnp_TxnRef + '');
+    queryObj = {
+      "ticketId": invoiceInfo.data.ticketId,
+      "startTime": invoiceInfo.data.startTime,
+      "cinemaName": invoiceInfo.data.cinemaName,
+      "hallName": invoiceInfo.data.hallName,
+      "seatName": invoiceInfo.data.seatName,
+      "promotionName": invoiceInfo.data.promotionName,
+      "seatDescription": invoiceInfo.data.seatDescription,
+      "totalAmount": invoiceInfo.data.totalAmount,
+      "discountAmount": invoiceInfo.data.discountAmount,
+      "actualAmount": invoiceInfo.data.actualAmount
+    }
   }
 onMounted(() => {
   if (isSuccess()) {
     addBookingInfo();
+    localStorage.setItem('redirectBeforePaymentSuccess', 'true');
   }
 });
 </script>

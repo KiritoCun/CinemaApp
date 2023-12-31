@@ -1,18 +1,18 @@
 <template>
   <div class="mt-4">
-    <div class="container my-1" v-for="data in props.billHistoryData" :key="data.id">
+    <div class="container my-1" v-for="data in paginatedData" :key="data.id">
       <div class="card">
-        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.img" alt="Image" />
+        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.posterUrl" alt="Image" />
         <div class="card-body col col-md-6">
           <div class="d-flex justify-content-between align-items-center mt-3">
             <div class="absolute-left" style="left:110px; top:30px;width: 30%;">
-              <b-card-text class="bold-font">{{ data.title }}</b-card-text>
+              <b-card-text class="bold-font">{{ data.movieName }}</b-card-text>
               <b-card-text>{{ data.genre }}</b-card-text>
             </div>
             <div class="absolute-right p-3" style="right:-50px; top:30px">
               <b-card-text class="d-inline-block">Star Cinema -</b-card-text
-              ><b-card-text class="d-inline-block bold-font">{{ data.hall_name }}</b-card-text>
-              <b-card-text v-html="formatDate(data.start_time)"></b-card-text>
+              ><b-card-text class="d-inline-block bold-font">{{ data.hallName }}</b-card-text>
+              <b-card-text v-html="formatDate(data.startTime)"></b-card-text>
             </div>
             <div class="absolute-left" style="left: 50rem; top: 50px;">
               <button class="accordion-button bold-font text-color" @click.prevent="openDetail(data)">Chi tiết</button>
@@ -21,6 +21,11 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-primary mx-2" @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="btn btn-primary mx-2" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
     </div>
   </div>
 </template>
@@ -31,17 +36,17 @@ import BillHistoryDetail from '../Modal/BillHistoryDetail.vue';
 
 interface BillProps {
     id: number;
-    title: string;
+    movieName: string;
     genre: string;
     province: string;
-    hall_name: string;
-    seat_id: string[];
-    booking_id: string;
-    promotion_id: string;
-    booking_qr: string;
-    img: string;
+    hallName: string;
+    seatIds: string[];
+    bookingId: string;
+    promotionId: string;
+    bookingQr: string;
+    posterUrl: string;
     price: number;
-    start_time: Date;
+    startTime: Date;
 }[];
 
 interface BillHistoryProps {
@@ -85,6 +90,29 @@ return '';
 };
 
 const selectedData = ref(null);
+
+const currentPage = ref(1);
+const itemsPerPage = ref(3);
+
+const totalPages = computed(() => Math.ceil(props.billHistoryData.length / itemsPerPage.value));
+
+const paginatedData = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
+  return props.billHistoryData.slice(start, end);
+});
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value -= 1;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value += 1;
+  }
+};
 </script>
 
 <style scoped>
