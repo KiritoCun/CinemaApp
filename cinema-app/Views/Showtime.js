@@ -22,15 +22,12 @@ export default function Showtime({navigation, isLoggedIn}) {
             const hour = dateObject.hours();
             let minute = dateObject.minutes();
             minute = (minute < 10) ? `0${minute}` : minute;
-            data.push({date: `${date}/${month}`, hour: `${hour}:${minute}`});
+            data.push({date: `${date}/${month}`, hour: `${hour}:${minute}`, cinemaName: Showtimes[i].cinema.cinemaName});
           }
         }
       }
       return data;
     }
-    useEffect(()=>{
-      console.log(Showtimes);
-    }, []);
     // const dateObject = moment(Showtimes[1].showTimeList[1].startTime, 'DD/MM/YYYY HH:mm:ss');
     // const date = (dateObject.date() < 10) ? `0${dateObject.date()}` : dateObject.date();
     // const month = ((dateObject.month() + 1) < 10) ? `0${(dateObject.month() + 1)}` : (dateObject.month() + 1);
@@ -140,11 +137,6 @@ export default function Showtime({navigation, isLoggedIn}) {
     const startDate = new Date(); // Thay đổi ngày bắt đầu tùy ý
     const numberOfDays = 7; // Thay đổi số lượng ngày tùy ý
     const data2 = generateDateArray(startDate, numberOfDays);
-
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const toggleExpanded = () => {
-      setIsCollapsed(!isCollapsed);
-    }
   
     const [selected, setSelected] = useState(0);
     const [selectedItem, setSelectedItem] = useState(new Date());
@@ -212,14 +204,14 @@ export default function Showtime({navigation, isLoggedIn}) {
     }
     const pressRoom = (item) => {
       if(isLoggedIn) {
-        navigation.navigate('Room', {item, address});
+        navigation.navigate('Room', {item, address, selectedItem});
         setProgress(false);
       } else {
         navigation.navigate('Login', {
           onLoginSuccess: () => {
             // Callback khi đăng nhập thành công, chuyển đến trang kế tiếp
             isLoggedIn = true;
-            navigation.navigate('Room', {item, isLoggedIn, address});
+            navigation.navigate('Room', {item, isLoggedIn, address, selectedItem});
             setProgress(false); 
           },
         });

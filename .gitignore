@@ -127,4 +127,4 @@ deployment/prod/redis/data/*
 
 
 #Node-Modules Mobile
-cinema-app/node-modules/
+cinema-app/node_modules

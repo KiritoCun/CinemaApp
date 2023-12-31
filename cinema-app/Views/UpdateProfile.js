@@ -16,6 +16,7 @@ export default function UpdateProfile({navigation}) {
     }
     const name = (customer.nickName);
     const phone = customer.phonenumber;
+    const avatar = customer.avatar;
     const [email, setEmail] = useState(customer.userName);
     const [gender, setGender] = useState(getNamebyGender(customer.sex));
     const [isButtonEnabled, setButtonEnabled] = useState(false);
@@ -48,6 +49,7 @@ export default function UpdateProfile({navigation}) {
                     phone={phone}
                     email={email}
                     gender={gender}
+                    avatar={avatar}
                     handleEmailChange={handleEmailChange}
                 />
                 </View>

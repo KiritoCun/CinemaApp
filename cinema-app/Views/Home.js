@@ -13,7 +13,7 @@ export default Home = function({navigation}) {
   const URL = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq";
   const URLMovies = "https://9dfa-2001-ee0-4b7b-4950-45fe-2b36-fcc8-7224.ngrok-free.app/dev-api/customer/homepage/search/nowplayingmovies";
   const URLMovies1 = "https://65742768f941bda3f2af6a27.mockapi.io/api/mq/customer";
-  const URLPromotions = "https://04fc-2402-800-629c-469a-fdae-eeb2-7db1-d18e.ngrok.io/dev-api/customer/homepage/search/promotions";
+  const URLPromotions = "https://3e5d-2a09-bac5-d41b-16d2-00-246-11.ngrok-free.app/dev-api/customer/homepage/search/promotions";
 
   const [imageList, setImageList] = useState([]);
   const [imageList1, setImageList1] = useState([]); 
@@ -81,7 +81,7 @@ export default Home = function({navigation}) {
     .catch((error) => {console.log(error);});
 
     // phim sắp chiếu
-    axios.get(`${URL}/customer`) 
+    axios.get(`${URL}/movie`) 
     .then((response) => {
       const data = response.data;
       // console.log(data);
@@ -134,22 +134,27 @@ export default Home = function({navigation}) {
       {
         imageUrl: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
         title: 'Thứ 4 vui vẻ',
+        discount: 10,
       },
       {
         image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
         title: 'Thứ 4 vui vẻ',
+        discount: 10,
       },
       {
         image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
         title: 'Thứ 4 vui vẻ',
+        discount: 10,
       },
       {
         image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
         title: 'Thứ 4 vui vẻ',
+        discount: 10,
       },
       {
         image: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
         title: 'Thứ 4 vui vẻ',
+        discount: 10,
       },
     ];
     setListDiscount(data1);
@@ -179,7 +184,7 @@ export default Home = function({navigation}) {
       const currentOffset = nativeEvent.contentOffset.x;
       let imageIndex = 0;
       if(currentOffset > 0){
-        imageIndex = Math.floor((nativeEvent.contentOffset.x + screenWidth/2) / (screenWidth - (22*screenWidth/100)));
+        imageIndex = Math.floor((nativeEvent.contentOffset.x + screenWidth/2) / (screenWidth));
       }
       setCurrentIndex(imageIndex);
     }
@@ -371,9 +376,10 @@ export default Home = function({navigation}) {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {
               return(
-                <TouchableOpacity style={{width: 250, height: 200, marginRight: 20, marginLeft: index===0 ? 20 : 0,}}
+                <TouchableOpacity style={{width: 250, height: 210, marginRight: 20, marginLeft: index===0 ? 20 : 0,}}
                   onPress={() => {navigation.navigate('Discount', {item})}}>
-                  <Image source={{uri: item.imageUrl || "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png"}} style={{resizeMode: 'stretch', width: '100%', height: '90%', borderRadius: 8, marginTop: '6%'}}/>
+                  <Image source={{uri: item.imageUrl || "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png"}} 
+                  style={{resizeMode: 'stretch', width: '100%', height: '78%', borderRadius: 8, marginTop: '6%'}}/>
                   <Text style={{fontSize: 15, fontWeight: '600', marginTop: '2%', width: '100%',}}>{item.title}</Text>
                 </TouchableOpacity>
             )}}
@@ -383,7 +389,7 @@ export default Home = function({navigation}) {
         </View>
       </ScrollView>
       {progress ? <Loader indeterminate={progress}/> : null} 
-    </SafeAreaView> 
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

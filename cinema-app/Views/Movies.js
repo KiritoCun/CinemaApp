@@ -35,9 +35,10 @@ export default function Movies({navigation, isLoggedIn}) {
     }
   }
   useEffect(() => {
-    console.log(Movie.id);
+    // console.log(Movie.id);
     // axios.get(`${URL}/${Movie.id}`) 
-    axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList") 
+    // axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList") 
+    axios.get("https://658be023859b3491d3f4f2c6.mockapi.io/pbl6/api/showtimeInfoList") 
     .then((response) => {
       const data = response.data; 
       listShowtime(data);

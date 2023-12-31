@@ -30,7 +30,7 @@ export default function Profile({navigation, route}){
 
             <View style={{width: '100%', height: '40%', alignItems: 'center', justifyContent: 'space-evenly',}}>
                 <View style={{width: '30%', height: '40%', backgroundColor: 'gray', borderRadius: '60%', alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: '95%', height: '95%', borderRadius: 100}} source={{uri: customer.avatar || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/800px-Unknown_person.jpg"}} resizeMode='stretch'/>
+                    <Image style={{width: '97%', height: '97%', borderRadius: 100}} source={{uri: customer.avatar || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/800px-Unknown_person.jpg"}} resizeMode='stretch'/>
                 </View>
                 <View style={{width: '90%', height: '18%', flexDirection: 'row', alignItems: 'baseline'}}>
                     <View style={{width: '75%', height: '100%',}}>
@@ -51,7 +51,8 @@ export default function Profile({navigation, route}){
                         <Image style={{width: '13%', height: '38%', marginHorizontal: '2%', tintColor: 'black', }} source={require('./Image/icon_pencil.png')} resizeMode='contain' />
                         <Text style={{fontWeight: '600', fontSize: 15}}>Thông tin</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'center', borderRightWidth: 0.2, borderColor: 'silver'}}>
+                    <TouchableOpacity style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'center', borderRightWidth: 0.2, borderColor: 'silver'}}
+                      onPress={() => {navigation.navigate('BillHistory')}}>
                         <Image style={{width: '13%', height: '38%', marginHorizontal: '2%', tintColor: 'purple',}} source={require('./Image/icon_hisTime.png')} resizeMode='contain' />
                         <Text style={{fontWeight: '600', fontSize: 15}}>Giao dịch</Text>
                     </TouchableOpacity>
