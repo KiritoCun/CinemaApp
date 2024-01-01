@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import YouTube from 'vue3-youtube';
-import { getDocuments } from '@/api/homepage';
+import { getNowplayingmovies } from '@/api/homepage';
 const youtube = ref();
 const youtubeSrc = ref('');
 const nowPlayingMovies = ref([]);
@@ -57,8 +57,8 @@ const onReady = () => {
   youtube.value.playVideo();
 }
 const getDocumentList = async () => {
-  const res = await getDocuments();
-  nowPlayingMovies.value = res.data.nowplayingmovies;
+  const res = await getNowplayingmovies();
+  nowPlayingMovies.value = res;
 }
 onMounted(() => {
   getDocumentList();
