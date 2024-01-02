@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <div class="d-flex flex-row" style="max-height: 600px ;padding-bottom: 20px;">
+    <div class="d-flex flex-row" style="max-height: 600px; min-height: 100px;padding-bottom: 20px;">
       <img
         v-if="processedMovie && processedMovie.posterUrl"
         style="height:150px;width: 100px;border-radius: 0.25rem; margin-right: 12px"
@@ -57,7 +57,7 @@
           </div>
         </div>
         <div class="col-sm-6 align-self-end text-end">
-          <b-card-text>-{{discountPrice}}đ</b-card-text>
+          <b-card-text class="font-weight-bold">{{discountPrice}}đ</b-card-text>
         </div>
       </div>
     </div>
@@ -152,14 +152,24 @@ const showDate = (startTime?: string) => {
 
   const [hours, minutes] = timeStringHours.split(':');
 
-  return `Suất: <strong>${hours}:${minutes}</strong> - Ngày: <strong>${day}/${month}/${year}</strong>`;
+  return `
+  <div class="d-flex justify-content-between">
+    <p>Ngày: <strong>${day}/${month}/${year}</strong></p>
+    <p>Suất: <strong>${hours}:${minutes}</strong></p>
+  </div>
+  `;
 };
 
 const showMovieSelection = (cinemaName?: string, hallId?: number) => {
   if(cinemaName === undefined || hallId === undefined ) {
     return ``;
   }
-  return `</strong>${cinemaName}<strong> - ${hallId}`;
+  return `
+  <div class="d-flex justify-content-between">
+    <p>Rạp: <small class="text-uppercase font-weight-bold">${cinemaName}</small></p>
+    <strong>${hallId}</strong>
+  </div>
+  `;
 }
 
 const showSeat = (selectedSeat?: string, count?: number) => {
@@ -227,3 +237,6 @@ const totalPrice = computed(() => {
 onMounted(() => {
 });
 </script>
+<style lang="scss">
+@import "@/assets/styles/stepper-component.scss";
+</style>
