@@ -1,54 +1,55 @@
 <template>
   <LayoutCustomerHomepage>
     <template v-slot:content>
-      <div class="login-form-container">
-        <el-form ref="loginRef" :model="registerForm" :rules="registerRules" class="login-form-customer">
-          <el-form-item prop="username" :label="$t('homepage.register.usernameLb')">
-            <el-input v-model="registerForm.username" type="text" size="large" auto-complete="off" :placeholder="$t('homepage.login.usernamePh')">
-            </el-input>
+      <el-form ref="loginRef" :model="registerForm" :rules="registerRules" class="gradient-custom-3  bg-image login-form-customer">
+        <el-form-item class="item-input" label="Họ và tên" prop="nickname">
+          <el-input v-model="registerForm.nickname" type="text" size="small" auto-complete="off" placeholder="Nhập họ và tên"> </el-input>
+        </el-form-item>
+        <el-form-item class="item-input" prop="username" label="Tài Khoản">
+          <el-input v-model="registerForm.username" type="text" size="small" auto-complete="off" placeholder="Nhập tài khoản"></el-input>
+        </el-form-item>
+        <el-form-item class="item-input" prop="password" label="Mật Khẩu">
+          <el-input
+            v-model="registerForm.password"
+            type="password"
+            size="small"
+            auto-complete="off"
+            placeholder="Nhập mật khẩu"
+            @keyup.enter=""
+            show-password
+            clearable
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item class="item-input" prop="email" label="Email">
+          <el-input v-model="registerForm.email" type="text" size="small" auto-complete="off" placeholder="Nhập email"></el-input>
+        </el-form-item>
+        <el-form-item class="item-input group-input">
+          <el-form-item prop="sdt" label="Số điện thoại">
+            <el-input v-model="registerForm.sdt" style="width: 480px;" type="text" size="small" auto-complete="off" placeholder="Nhập sdt"></el-input>
           </el-form-item>
-          <el-form-item prop="password" :label="$t('homepage.register.passwordLb')">
-            <el-input
-              v-model="registerForm.password"
-              type="password"
-              size="large"
-              auto-complete="off"
-              :placeholder="$t('homepage.register.passwordPh')"
-              @keyup.enter=""
-              show-password
-              clearable
-            >
-            </el-input>
+          <el-form-item style="margin-left:160px" prop="gerden" label="Giới Tính">
+            <el-radio v-model="registerForm.gerden" label="1">Nam</el-radio>
+            <el-radio v-model="registerForm.gerden" label="2">Nữ</el-radio>
+            <el-radio v-model="registerForm.gerden" label="3">Khác</el-radio>
           </el-form-item>
-          <el-form-item prop="confirmPassword" :label="$t('homepage.register.rePasswordLb')">
-            <el-input
-              v-model="registerForm.confirmPassword"
-              type="password"
-              size="large"
-              auto-complete="off"
-              :placeholder="$t('homepage.register.rePasswordPh')"
-              @keyup.enter=""
-              show-password
-              clearable
-            >
-            </el-input>
-          </el-form-item>
-          <el-form-item style="width:100%;">
-            <IrButton
-              colorStyle="blue"
-              type="primary"
-              buttonSize="large"
-              :title="$t('homepage.register.registerBtnTt')"
-              widthPercent="100%"
-              @onClick="handleRegister"
-              style="width:100%;"
-            />
-            <div style="float: right;" v-if="register">
-              <router-link class="link-type" :to="'/register'">Sign up now</router-link>
-            </div>
-          </el-form-item>
-        </el-form>
-      </div>
+        </el-form-item>
+        <el-form-item class="item-input" style="width:100%;">
+          <IrButton
+            class="item-btn"
+            colorStyle="blue"
+            type="primary"
+            buttonSize="large"
+            :title="$t('homepage.register.registerBtnTt')"
+            widthPercent="100%"
+            @onClick="handleRegister"
+            style="width:100%;"
+          />
+          <div style="float: right;" v-if="register">
+            <router-link class="link-type" :to="'/register'">Sign up now</router-link>
+          </div>
+        </el-form-item>
+      </el-form>
     </template>
   </LayoutCustomerHomepage>
 </template>
@@ -61,16 +62,8 @@ import { RegisterData, TenantVO } from '@/api/types';
 import i18n from '@/lang';
 import { to } from 'await-to-js';
 
-const { proxy } = getCurrentInstance() as ComponentInternalInstance;
-const route = useRoute()
 const router = useRouter();
 const userStore = useCustomerUserStore();
-
-const activeLogin = ref('')
-const codeUrl = ref('customer');
-// Captcha switch
-const captchaEnabled = ref(true);
-// registration switch
 const register = ref(false);
 
 const registerForm = ref<RegisterData>({
@@ -78,14 +71,20 @@ const registerForm = ref<RegisterData>({
   username: '',
   password: '',
   confirmPassword: '',
+  sdt: '',
+  email: '',
+  nickname: '',
+  gerden: '',
   code: '',
   uuid: 'nb'
 });
 
 const registerRules: FormRules = {
+  nickname: [{ required: true, trigger: "blur", message: "Vui lòng nhập Họ và tên" }],
   tenantId: [{ required: true, trigger: "blur", message: "Please enter your tenant number" }],
   username: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.usernameRqMsg') }],
   password: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.passwordRqMsg') }],
+  email: [{ required: true, trigger: 'blur', message: "Vui lòng nhập email" }],
   confirmPassword: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.passwordRqMsg') }],
   code: [{ required: true, trigger: 'change', message: 'Please enter verification code' }]
 };
@@ -219,17 +218,30 @@ onMounted(() => {
 }
 
 .login-form-customer {
-  height: 470px;
-  width: 526px;
-  margin: 30px auto 30px auto;
-  padding: 40px 60px 0px 60px;
-  background: rgba(17, 25, 39, 0.8);
+  background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');
+  // height: 470px;
+  width: 60%;
+  margin: 10px auto;
+  padding: 40px 60px;
+  border-radius: 8px;
+  opacity: 1;
 }
 
 .login-form-customer .el-checkbox .el-checkbox__label  {
-  color: $gray-0 !important;
+  color: #000 !important;
 }
-
+.item-input{
+  margin-bottom: 18px !important;
+}
+.group-input{
+  margin-bottom: -32px !important;
+  margin-top: 4px !important;
+  // color: #000 !important;
+}
+.item-btn{
+  margin-top: 12px !important;
+  margin-bottom: -12px !important;
+}
 .title {
   color: white;
   text-align: center;
@@ -274,5 +286,14 @@ onMounted(() => {
   filter: brightness(0) saturate(100%) invert(95%) sepia(8%) saturate(136%) hue-rotate(174deg) brightness(89%) contrast(93%);
   vertical-align: -2px;
 }
-</style>
+.gradient-custom-3 {
+opacity: 0.9;
+background: #84fab0;
 
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+}
+</style>
