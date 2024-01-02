@@ -13,8 +13,8 @@ import BootstrapVue3 from 'bootstrap-vue-3';
 //Element-plus
 import ElementPlus from 'element-plus';
 
-import vuetify from './plugins/vuetify'
-import { loadFonts } from './plugins/webfontloader'
+import vuetify from './plugins/vuetify';
+import { loadFonts } from './plugins/webfontloader';
 
 loadFonts();
 
