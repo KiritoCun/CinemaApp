@@ -17,7 +17,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import MovieSelection from '@/components/booking/MovieSelection.vue';
-import { removeFromLocalStorage } from '@/utils/localStorage';
 import router from '@/router';
 
 const step = ref(1);

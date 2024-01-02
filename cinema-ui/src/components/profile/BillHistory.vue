@@ -2,7 +2,7 @@
   <div class="mt-4">
     <div class="container my-1" v-for="data in props.billHistoryData" :key="data.id">
       <div class="card">
-        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.img" alt="Image" />
+        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.movieImg" alt="Image" />
         <div class="card-body col col-md-6">
           <div class="d-flex justify-content-between align-items-center mt-3">
             <div class="absolute-left" style="left:110px; top:30px;width: 30%;">
@@ -11,8 +11,8 @@
             </div>
             <div class="absolute-right p-3" style="right:-50px; top:30px">
               <b-card-text class="d-inline-block">Star Cinema -</b-card-text
-              ><b-card-text class="d-inline-block bold-font">{{ data.hall_name }}</b-card-text>
-              <b-card-text v-html="formatDate(data.start_time)"></b-card-text>
+              ><b-card-text class="d-inline-block bold-font">{{ data.hallName }}</b-card-text>
+              <b-card-text v-html="formatDate(data.startTime)"></b-card-text>
             </div>
             <div class="absolute-left" style="left: 50rem; top: 50px;">
               <button class="accordion-button bold-font text-color" @click.prevent="openDetail(data)">Chi tiết</button>
@@ -26,33 +26,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { ref, defineProps,PropType } from 'vue';
+import { BillHisToryVO } from '@/api/booking/types';
 import BillHistoryDetail from '../Modal/BillHistoryDetail.vue';
 
-interface BillProps {
-    id: number;
-    title: string;
-    genre: string;
-    province: string;
-    hall_name: string;
-    seat_id: string[];
-    booking_id: string;
-    promotion_id: string;
-    booking_qr: string;
-    img: string;
-    price: number;
-    start_time: Date;
-}[];
+const props = defineProps({
+  billHistoryData: {
+    type: Array as PropType<BillHisToryVO[] | null>,
+    default: []
+  }
+})
 
-interface BillHistoryProps {
-  billHistoryData: BillProps[];
-}
 
 const showDetail = ref(false);
-const selectedBill = ref<BillProps | null>(null);
-const props = defineProps<BillHistoryProps>();
+const selectedBill = ref<BillHisToryVO | null>(null);
 
-const openDetail = (billData: BillProps) => {
+const openDetail = (billData: BillHisToryVO) => {
   selectedBill.value = billData;
   showDetail.value = true;
 };
@@ -62,29 +51,19 @@ const closeDetail = () => {
   selectedBill.value = null; // optional: clear the selectedBill when closing
 };
 
-const formatDate = (date: Date | string) => {
-  if (typeof date === 'string') {
-    date = new Date(date);
-  }
+const formatDate = (date: string) => {
+  if (!date) return '';
 
-  if (date instanceof Date && !isNaN(date.getTime())) {
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-};
-  const intlDate = new Intl.DateTimeFormat('default', options).format(date);
-  const [day, month, year, hour, minute] = intlDate.match(/\d+/g) || [];
+  const timeStringDays = date.split(' ')[0];
 
-  return `<b>${hour}:${minute}</b> - ${day}/${month}/${year}`;
+  const timeStringHours = date.split(' ')[1];
+
+  const [day, month, year] = timeStringDays.split('/');
+
+  const [hours, minutes] = timeStringHours.split(':');
+
+  return `<b>${hours}:${minutes}</b> - ${day}/${month}/${year}`;
 }
-return '';
-};
-
-const selectedData = ref(null);
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
         <div class="modal-container">
           <span type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></span>
           <div class="flex-column modal-header">
-            <img :src="bill?.img" style="height:120px" />
+            <img :src="bill?.movieImg" style="height:120px" />
             <div class="modal-title">{{ bill?.title }}</div>
             <p>{{ bill?.genre }}</p>
           </div>
@@ -14,16 +14,18 @@
             <div class="time-info">
               <p class="bold-font mb-1">Star Cinema {{bill?.province}} - Rạp 6</p>
               <div class="d-inline-block">
-                <p v-html="formatTime(bill?.start_time)"></p>
+                <p v-html="formatTime(bill?.startTime)"></p>
               </div>
               <div class="text-center">
-                <img :src="bill?.booking_qr" style="height:116px; width:116px" />
+                <qrcode-vue :value="bill?.bookingId" style="height:116px; width:116px" level="H"></qrcode-vue>
               </div>
             </div>
             <div class="custom-dotted-line"></div>
             <div class="seat_info">
               <p>
-                Ghế - <strong>{{ bill?.seat_id.join(', ') }}</strong>
+                <div class="d-flex flex-row">
+                Ghế - <div><strong>{{showSeat(bill?.seatId)}}</strong></div>
+                </div>
               </p>
             </div>
             <div class="custom-dotted-line"></div>
@@ -32,8 +34,8 @@
                 <div class="grid-item">Mã vé</div>
                 <div class="grid-item">KM</div>
                 <div class="grid-item">Giá</div>
-                <div class="grid-item bold-font">{{ bill?.booking_id }}</div>
-                <div class="grid-item bold-font">{{ bill?.promotion_id }}</div>
+                <div class="grid-item bold-font">{{ bill?.bookingId }}</div>
+                <div class="grid-item bold-font">{{ bill?.promotionId }}</div>
                 <div class="grid-item bold-font">{{ bill?.price }}</div>
               </div>
             </div>
@@ -46,50 +48,37 @@
 
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue';
-
-interface BillProps {
-    id: number;
-    title: string;
-    genre: string;
-    province: string;
-    hall_name: string;
-    seat_id: string[];
-    booking_id: string;
-    promotion_id: string;
-    booking_qr: string;
-    img: string;
-    price: number;
-    start_time: Date;
-}[];
+import { BillHisToryVO } from '../../api/booking/types';
+import QrcodeVue from 'qrcode.vue';
 
 const props = defineProps({
   bill: {
-    type: Object as PropType<BillProps | null>,
+    type: Object as PropType<BillHisToryVO | null>,
     default: null
   }
 })
 
-const formatTime = (date?: Date | string) => {
-  if (typeof date === 'string') {
-    date = new Date(date);
+const formatTime = (date?: string) => {
+  if (!date) return '';
+
+  const timeStringDays = date.split(' ')[0];
+
+  const timeStringHours = date.split(' ')[1];
+
+  const [day, month, year] = timeStringDays.split('/');
+
+  const [hours, minutes] = timeStringHours.split(':');
+
+  return `Suất: <b>${hours}:${minutes} - ${day}/${month}/${year}</b>`;
+}
+
+const showSeat = (selectedSeats?: string[]) => {
+  if (!selectedSeats) {
+    return '';
   }
 
-  if (date instanceof Date && !isNaN(date.getTime())) {
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-};
-  const intlDate = new Intl.DateTimeFormat('default', options).format(date);
-  const [day, month, year, hour, minute] = intlDate.match(/\d+/g) || [];
-
-  return `Suất: <b>${hour}:${minute} - ${day}/${month}/${year}</b>`;
+  return selectedSeats.join(', ');
 }
-return '';
-};
 </script>
 
 <style scoped>
