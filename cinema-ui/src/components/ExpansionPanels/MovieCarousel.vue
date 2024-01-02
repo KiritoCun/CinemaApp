@@ -6,7 +6,6 @@
           <div>
             <div class="d-block">
               <b-container>
-                <!-- First Row -->
                 <b-row v-for="(row, index) in movieRows" :key="index" class="justify-content-center my-7">
                   <b-col v-for="movie in row" :key="movie.id" class="d-flex flex-column align-items-start film-item mx-5" cols="3">
                     <button @click="handleSelectMovie(movie)">
@@ -55,6 +54,7 @@ const selectedMovieId = ref<string | number>('');
 const movies = ref<MovieVO[]>([]);
 
 const handleSelectMovie = (movie: MovieVO) => {
+
   selectedMovieId.value = movie.id;
   emit('selectMovie', movie);
   emit('panel-toggle');
@@ -83,6 +83,10 @@ onMounted(() => {
 </script>
 
 <style>
+.image-wrapper.selected{
+  text-decoration: none !important;
+  background-color: #000;
+}
 .carousel-next {
     right: -7.7%;
     height: 65px;
@@ -103,7 +107,14 @@ onMounted(() => {
 }
 .film-item {
   margin-bottom:20px;
-
+}
+.film-item:hover{
+  opacity: 0.8;
+  transform: translate(-2px,2px)
+}
+.selected {
+  background-color: #000;
+  color: #000;
 }
 .film-text {
   padding-left:10px;
@@ -119,6 +130,7 @@ onMounted(() => {
 .selected {
   background-color: rgba(3, 78, 162, 0.43);
 }
+
 .card-img-top {
   width: 100%;
   height: 100%;

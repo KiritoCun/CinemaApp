@@ -6,13 +6,13 @@
           <span type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></span>
           <div class="flex-column modal-header">
             <img :src="bill?.movieImg" style="height:120px" />
-            <div class="modal-title">{{ bill?.title }}</div>
+            <div class="modal-title">{{ bill?.movieName }}</div>
             <p>{{ bill?.genre }}</p>
           </div>
           <div class="custom-dotted-line"></div>
           <div class="modal-body">
             <div class="time-info">
-              <p class="bold-font mb-1">Star Cinema {{bill?.province}} - Rạp 6</p>
+              <p class="bold-font mb-1">Star Cinema - {{bill?.cinemaName}} - {{bill?.hallName}}</p>
               <div class="d-inline-block">
                 <p v-html="formatTime(bill?.startTime)"></p>
               </div>
@@ -50,6 +50,10 @@
 import { defineProps, PropType } from 'vue';
 import { BillHisToryVO } from '../../api/booking/types';
 import QrcodeVue from 'qrcode.vue';
+
+const formatCurrency = (value?:any) => {
+  return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+}
 
 const props = defineProps({
   bill: {

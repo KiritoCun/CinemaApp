@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import SideBar from './components/Sidebar/index.vue'
-import { AppMain, Navbar, CustomerNavbar, Settings, TagsView } from './components'
+import { AppMain, Navbar, Settings, TagsView } from './components'
 import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 
@@ -66,13 +66,11 @@ watchEffect(() => {
 })
 
 const navbarRef = ref(Navbar);
-const customerNavbarRef = ref(CustomerNavbar);
 const settingRef = ref(Settings);
 
 onMounted(() => {
   nextTick(() => {
     navbarRef.value.initTenantList();
-    customerNavbarRef.value.initTenantList();
   })
 })
 
@@ -151,5 +149,10 @@ const toggleSideBar = () => {
   position: absolute;
   left: -6px;
   top: 28px;
+}
+</style>
+<style lang="scss">
+.openSidebar .el-scrollbar__view {
+  margin-bottom: 46px;
 }
 </style>

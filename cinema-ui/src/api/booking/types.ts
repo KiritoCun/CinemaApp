@@ -1,6 +1,7 @@
 export interface BillHisToryVO {
   id: string | number;
-  title: string;
+  movieName: string;
+  cinemaName: string;
   genre: string;
   province: string;
   hallName: string;

@@ -57,7 +57,6 @@
 import { ref } from 'vue';
 import useCustomerUserStore from '@/store/modules/customer';
 import userAvatar from "../system/user/profile/userAvatar.vue";
-import { getUserProfile } from "@/api/system/user";
 import { getUserInfo } from '@/api/booking';
 import { CustomerVO } from '@/api/customer/account/types';
 import { getBillHistoryInfos } from '@/api/booking';
@@ -69,33 +68,23 @@ const state = ref<{ user: any; roleGroup: string;  postGroup: string}>({
     postGroup: ''
 });
 
-const userForm = ref({});
-
 const userInfoData = ref<CustomerVO[]>([]);
 
 const billHistoryData = ref<BillHisToryVO[]>([]);
 
-const getUser = async () => {
-    const resUserProfie = await getUserProfile();
-    state.value.user = resUserProfie.data.user;
-    userForm.value = { ...resUserProfie.data.user }
-    state.value.roleGroup = resUserProfie.data.roleGroup;
-    state.value.postGroup = resUserProfie.data.postGroup;
-
-    const resUserInfo = await getUserInfo();
-    console.log(resUserInfo);
-    userInfoData.value = resUserInfo;
-
-    const resHistoryInfos = await getBillHistoryInfos();
-    billHistoryData.value = resHistoryInfos;
+const getUserInfo = async () => {
+  const resUserInfo = await getUserInfo();
+  userInfoData.value = resUserInfo;
 };
 
-// const appStore = useAppStore()
-const userStore = useCustomerUserStore();
-
+const getBillHistoryList = async () => {
+  const resHistoryInfos = await getBillHistoryInfos();
+  billHistoryData.value = resHistoryInfos;
+}
 
 onMounted(() => {
-  getUser();
+  getUserInfo();
+  getBillHistoryList();
 })
 </script>
 
@@ -104,7 +93,9 @@ onMounted(() => {
 @import "@/assets/styles/mixin.scss";
 @import "@/assets/styles/variables.module.scss";
 
-
+.container-fluid {
+  padding: 2% 10% !important;
+}
 .vertical-divider {
  width: 1px;
  background-color: #181818;

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div v-for="movie in upcomingMovies" :key="movie.id" class="col-md-3 mb-4 w-100">
+      <div v-for="movie in upcomingMovies" :key="movie.id" class="col-md mb-4 w-100">
         <div class="card">
           <img class="card-img-top" :src="movie.posterUrl" alt="Image" />
           <div class="votes">
@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import YouTube from 'vue3-youtube';
-import { getDocuments } from '@/api/homepage';
+import { getUpcommingmovies } from '@/api/homepage';
 const youtube = ref();
 const youtubeSrc = ref('');
 const upcomingMovies = ref([]);
@@ -58,8 +58,8 @@ const onReady = () => {
 }
 
 const getDocumentList = async () => {
-  const res = await getDocuments();
-  upcomingMovies.value = res.data.upcommingmovies;
+  const res = await getUpcommingmovies();
+  upcomingMovies.value = res;
 }
 onMounted(() => {
   getDocumentList();

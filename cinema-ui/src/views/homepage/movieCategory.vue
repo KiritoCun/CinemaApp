@@ -33,10 +33,10 @@ const getUpcommingmovieList = async () => {
   const res = await getUpcommingmovies();
   upcomingMovies.value = res.rows;
 }
-onMounted(() => {
-  getNowplayingmovieList();
-  getUpcommingmovieList();
-});
+// onMounted(() => {
+//   getNowplayingmovieList();
+//   getUpcommingmovieList();
+// });
 </script>
 
 <style lang="scss" scoped>

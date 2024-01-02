@@ -111,8 +111,13 @@ const handleLogin = () => {
       // prittier-ignore
       const [err] = await to(userStore.login(loginForm.value));
       if (!err) {
-        const beforePathLogin = getFromLocalStorage('beforePathLogin')
-        await router.push({ path: redirect.value || beforePathLogin });
+        const beforePathLogin = getFromLocalStorage('beforePathLogin');
+        if (beforePathLogin === "/login?redirect=/index") {
+          await router.push({ path: "/homepage" });
+        } else {
+          await router.push({ path: beforePathLogin });
+        }
+        
       } else {
         loading.value = false;
         // Get verification code again

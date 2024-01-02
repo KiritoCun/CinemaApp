@@ -124,6 +124,16 @@ export function getUserProfile(): AxiosPromise<UserInfoVO> {
 }
 
 /**
+ * 
+ */
+export function getBookingHistorys(): AxiosPromise<any> {
+  return request({
+    url: '/booking/info',
+    method: 'get'
+  });
+}
+
+/**
  * Modify user personal information
  * @param data User Info
  */
