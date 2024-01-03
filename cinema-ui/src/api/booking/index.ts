@@ -3,16 +3,16 @@ import { AxiosPromise } from 'axios';
 import { BillHisToryVO } from './types';
 import { CustomerVO } from '../customer/account/types';
 
-export const getUserInfo = (): AxiosPromise<CustomerVO[]> => {
+export const getUserInfos = (): AxiosPromise<CustomerVO[]> => {
   return request({
-    url: 'https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/userInfo',
+    url: '/system/user/profile',
     method: 'get'
   });
 };
 
 export const getBillHistoryInfos = (): AxiosPromise<BillHisToryVO[]> => {
   return request({
-    url: 'https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/billHistoryInfo',
+    url: 'booking/info',
     method: 'get'
   });
 };

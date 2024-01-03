@@ -46,20 +46,28 @@ spring:
         # Master database data source
         master:
           type: ${spring.datasource.type}
-          driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          #driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
           # jdbc all parameter configuration reference
           # rewriteBatchedStatements=true Batch processing optimization greatly improves the performance of batch insert, update, and delete (there is a performance loss to the database, and performance issues should be considered when using batch operations)
-          url: jdbc:sqlserver://localhost:1433;databaseName=CINEMA;SelectMethod=cursor;encrypt=false;rewriteBatchedStatements=true
-          username: sa
-          password: root
+          #url: jdbc:sqlserver://localhost:1433;databaseName=CINEMA;SelectMethod=cursor;encrypt=false;rewriteBatchedStatements=true
+          #username: sa
+          #password: 123456
+          driverClassName: org.postgresql.Driver
+          url: jdbc:postgresql://dpg-cmakl17109ks73ffp0eg-a.singapore-postgres.render.com:5432/cinema_psya
+          username: cinema_psya_user
+          password: YZCsQuwcLzL4dDvYhfnKqzIA1YlN8fmS
         # From the database data source
         slave:
           lazy: true
           type: ${spring.datasource.type}
-          driverClassName: com.mysql.cj.jdbc.Driver
-          url: jdbc:sqlserver://localhost:1433;databaseName=CINEMA;SelectMethod=cursor;encrypt=false;rewriteBatchedStatements=true
-          username: sa
-          password: root
+          #driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+          #url: jdbc:sqlserver://localhost:1433;databaseName=CINEMA;SelectMethod=cursor;encrypt=false;rewriteBatchedStatements=true
+          #username: sa
+          #password: 123456
+          driverClassName: org.postgresql.Driver
+          url: jdbc:postgresql://dpg-cmakl17109ks73ffp0eg-a.singapore-postgres.render.com:5432/cinema_psya
+          username: cinema_psya_user
+          password: YZCsQuwcLzL4dDvYhfnKqzIA1YlN8fmS
       hikari:
         # Maximum number of connection pools
         maxPoolSize: 20
