@@ -55,7 +55,7 @@ interface ShowTimeInfo {
 
 const selectedMovie = ref<Movie | null>();
 
-const selectedShowtime = ref<ShowtimeInfo | null>(null);
+const selectedShowtime = ref<ShowTimeInfo | null>(null);
 
 const currentDate = ref<Date>(new Date());
 
@@ -90,7 +90,7 @@ onMounted(() => {
         posterUrl: route.query.posterUrl as string,
       };
 
-      saveToLocalStorage('selectedMovie', selectedMovie);
+      saveToLocalStorage('selectedMovie', selectedMovie.value);
       panel.value = ['ShowTime'];
     }
   }
