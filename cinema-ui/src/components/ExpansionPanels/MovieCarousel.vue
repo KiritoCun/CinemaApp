@@ -58,14 +58,6 @@ const handleSelectMovie = (movie: MovieVO) => {
   selectedMovieId.value = movie.id;
   emit('selectMovie', movie);
   emit('panel-toggle');
-
-  axios.post('/api/movieSelection/', { movieId: movie.id })
-  .then((response) => {
-    console.log(response);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
 };
 
 const getNowplayingmovieList = async () => {

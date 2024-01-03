@@ -14,7 +14,7 @@
       <div class="col-sm-4 d-flex" style="width: 350px;">
         <select class="form-select  rounded d-flex flex-end ms-2 fs-sm text-center" id="inputGroupSelect01" v-model="selectedCinema">
           <option selected>Tất cả rạp</option>
-          <option v-for="(cinema) in showtimeInfo" :key="cinema.id" :value="cinema.cinema.cinemaName">{{cinema.cinema.cinemaName}}</option>
+          <option v-for="(cinema) in props.showtimeInfo" :key="cinema.id" :value="cinema.cinema.cinemaName">{{cinema.cinema.cinemaName}}</option>
         </select>
       </div>
     </div>
@@ -40,11 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, computed } from 'vue';
-import axios from 'axios';
-import { getShowtimeInfos } from '@/api/homepage';
-import { getFromLocalStorage } from '@/utils/localStorage';
-import { MovieVO } from '@/api/portCustomer/movieManagement/types';
+import { ref, computed, PropType } from 'vue';
 
 interface Showtime {
   id: number;
@@ -62,8 +58,6 @@ interface ShowtimeInfo {
   id: number;
 }
 
-const showtimeInfo = ref<ShowtimeInfo[]>([]);
-
 interface Tab {
   id: number;
   label: string;
@@ -75,6 +69,10 @@ const props = defineProps({
   currentDate: {
     type: Date,
     required: true
+  },
+  showtimeInfo: {
+    type: Array as PropType<ShowtimeInfo[]>,
+    default: () => null
   }
 });
 
@@ -135,7 +133,7 @@ const selectedShowtimes = computed(() => {
   if (!activeTab) return [];
   const activeTabDayMonth = cinemaDays(activeTab.label);
 
-  return showtimeInfo.value.flatMap(cinema => ({
+  return props.showtimeInfo.flatMap(cinema => ({
     ...cinema,
     showtimeList: cinema.showtimeList
       .filter(showtime => cinemaDays(showtime.startTime) === activeTabDayMonth)
@@ -164,14 +162,6 @@ const handleSelectShowtime = (cinema: CardDetailInfo) => {
   emit('selectShowtime', cinema);
   emit('panel-toggle');
 };
-const getShowtimeInfoList = async () => {
-  const movieSelected = getFromLocalStorage<MovieVO>('selectedMovie');
-  const res = await getShowtimeInfos(movieSelected?.id);
-  showtimeInfo.value = res;
-}
-onMounted(() => {
-  getShowtimeInfoList();
-});
 </script>
 
 <style lang="scss" scoped>
