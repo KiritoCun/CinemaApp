@@ -10,7 +10,6 @@ RUN mvn clean package -DskipTests
 #
 FROM openjdk:17.0.1-jdk-slim
 COPY --from=build /cinema-admin/target/cinema-admin.jar cinema-admin.jar
-
-# ENV PORT=8080 8082
+# ENV PORT=8080
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","cinema-admin.jar"]
