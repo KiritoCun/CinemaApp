@@ -90,7 +90,7 @@ onMounted(() => {
         posterUrl: route.query.posterUrl as string,
       };
 
-      saveToLocalStorage('selectedMovie', selectedMovie);
+      saveToLocalStorage('selectedMovie', selectedMovie.value);
       panel.value = ['ShowTime'];
     }
   }
