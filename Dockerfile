@@ -13,4 +13,4 @@ COPY --from=build /cinema-admin/target/cinema-admin.jar cinema-admin.jar
 
 # ENV PORT=8080 8082
 EXPOSE 8080
-#ENTRYPOINT ["java","-jar","cinema-admin.jar"]
+ENTRYPOINT ["java","-jar","cinema-admin.jar"]
