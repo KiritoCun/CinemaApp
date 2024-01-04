@@ -1,14 +1,14 @@
 export interface BillHisToryVO {
-  id: string | number;
+  id: number;
   movieName: string;
-  cinemaName: string;
   genre: string;
-  province: string;
+  cinemaName: string;
   hallName: string;
-  seatId: string[];
-  bookingId: string | number;
-  promotionId: string | number;
-  movieImg: string;
+  seatIds: string[];
+  bookingId: string;
+  promotionId: string;
+  bookingQr: string;
+  posterUrl: string;
   price: number;
   startTime: string;
 }

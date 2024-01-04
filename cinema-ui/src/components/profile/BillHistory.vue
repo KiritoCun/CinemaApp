@@ -2,7 +2,7 @@
   <div class="mt-4">
     <div class="container my-1" v-for="data in paginatedData" :key="data.id">
       <div class="card">
-        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.movieImg" alt="Image" />
+        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.posterUrl" alt="Image" />
         <div class="card-body col col-md-6">
           <div class="d-flex justify-content-between align-items-center mt-3">
             <div class="absolute-left" style="left:110px; top:30px;width: 30%;">
@@ -69,8 +69,6 @@ const formatDate = (date: string) => {
 
   return `<b>${hours}:${minutes}</b> - ${day}/${month}/${year}`;
 }
-
-const selectedData = ref(null);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(3);
