@@ -5,26 +5,26 @@
         <div class="modal-container">
           <span type="button" class="btn-close" @click="$emit('close')" aria-label="Close"></span>
           <div class="flex-column modal-header">
-            <img :src="bill?.movieImg" style="height:120px" />
+            <img :src="props.bill?.posterUrl" style="height:120px" />
             <div class="modal-title">{{ bill?.movieName }}</div>
-            <p>{{ bill?.genre }}</p>
+            <p>{{ props.bill?.genre }}</p>
           </div>
           <div class="custom-dotted-line"></div>
           <div class="modal-body">
             <div class="time-info">
-              <p class="bold-font mb-1">Star Cinema - {{bill?.cinemaName}} - {{bill?.hallName}}</p>
+              <p class="bold-font mb-1">Star Cinema - {{props.bill?.cinemaName}} - {{bill?.hallName}}</p>
               <div class="d-inline-block">
-                <p v-html="formatTime(bill?.startTime)"></p>
+                <p v-html="formatTime(props.bill?.startTime)"></p>
               </div>
               <div class="text-center">
-                <qrcode-vue :value="bill?.bookingId" style="height:116px; width:116px" level="H"></qrcode-vue>
+                <qrcode-vue :value="props.bill?.bookingId" style="height:116px; width:116px" level="H"></qrcode-vue>
               </div>
             </div>
             <div class="custom-dotted-line"></div>
             <div class="seat_info">
               <p>
                 <div class="d-flex flex-row">
-                Ghế - <div><strong>{{showSeat(bill?.seatId)}}</strong></div>
+                Ghế - <div><strong>{{showSeat(props.bill?.seatIds)}}</strong></div>
                 </div>
               </p>
             </div>
@@ -34,9 +34,9 @@
                 <div class="grid-item">Mã vé</div>
                 <div class="grid-item">KM</div>
                 <div class="grid-item">Giá</div>
-                <div class="grid-item bold-font">{{ bill?.bookingId }}</div>
-                <div class="grid-item bold-font">{{ bill?.promotionId }}</div>
-                <div class="grid-item bold-font">{{ bill?.price }}</div>
+                <div class="grid-item bold-font">{{ props.bill?.bookingId }}</div>
+                <div class="grid-item bold-font">{{ props.bill?.promotionId }}</div>
+                <div class="grid-item bold-font">{{ props.bill?.price }}</div>
               </div>
             </div>
           </div>
@@ -58,7 +58,7 @@ const formatCurrency = (value?:any) => {
 const props = defineProps({
   bill: {
     type: Object as PropType<BillHisToryVO | null>,
-    default: null
+    required: true
   }
 })
 
@@ -69,7 +69,7 @@ const formatTime = (date?: string) => {
 
   const timeStringHours = date.split(' ')[1];
 
-  const [day, month, year] = timeStringDays.split('/');
+  const [year, month, day] = timeStringDays.split('-');
 
   const [hours, minutes] = timeStringHours.split(':');
 

@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import YouTube from 'vue3-youtube';
 import { getNowplayingmovies } from '@/api/homepage';
+import { removeAllFromLocalStorage } from '@/utils/localStorage';
 
 const router = useRouter();
 const youtube = ref();
@@ -68,7 +69,7 @@ const playYoutube = (url: string) => {
   dialog.visible = true;
 }
 const gotoBooking = async (movie: any):Promise<void> => {
-  console.log("ajsnasna");
+  removeAllFromLocalStorage();
     try {
         router.push({ path: '/booking/movieSelection',query: {
           id : movie.id,
