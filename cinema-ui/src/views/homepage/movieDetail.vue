@@ -106,10 +106,10 @@ const handleSelectShowtime = (showtime: ShowtimeInfo) => {
   router.push({path:'/booking/seatSelection'});
 };
 
-const formatDate = () => (startTime: string) => {
+const formatDate = (startTime: string) => {
   const timeString = startTime.split(' ')[0];
 
-  const [day, month, year] = timeString.split('/');
+  const [year, month, day] = timeString.split('-');
 
   return `${day}/${month}/${year}`;
 }
