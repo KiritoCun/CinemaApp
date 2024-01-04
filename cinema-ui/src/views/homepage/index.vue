@@ -88,7 +88,7 @@ import { FormRules } from 'element-plus';
 import { to } from 'await-to-js';
 import i18n from '@/lang';
 import { DocumentVO } from '@/api/system/document/types';
-import axios from 'axios';
+import { removeAllFromLocalStorage } from '@/utils/localStorage';
 
 const activeIndex = ref('login');
 const activeLogin = ref('');
@@ -316,30 +316,36 @@ const onReady = () => {
 }
 /** */
 const goToMovieDetail = (movie: any) => {
-  router.push({path: '/homepage/movie-detail', query: {
-    title: movie.title,
-    movieDescription: movie.movieDescription,
-    director: movie.director,
-    actor: movie.actor,
-    rated: movie.rated,
-    language: movie.language,
-    duration: movie.duration,
-    genre: movie.genre,
-    releaseDate: movie.releaseDate,
-    posterUrl: movie.posterUrl,
+  try{
+    removeAllFromLocalStorage();
+
+    router.push({path: '/homepage/movie-detail', query: {
+      id: movie.id,
+      title: movie.title,
+      movieDescription: movie.movieDescription,
+      director: movie.director,
+      actor: movie.actor,
+      rated: movie.rated,
+      language: movie.language,
+      duration: movie.duration,
+      genre: movie.genre,
+      releaseDate: movie.releaseDate,
+      posterUrl: movie.posterUrl,
   }});
+  } catch (error) {
+      console.error('Error:', error);
+    }
 }
 
-const gotoBooking = async (movie: any):Promise<void> => {
+const gotoBooking = (movie: any) => {
     try {
-      // const response = await axios.post('https://90b9-2001-ee0-4b4c-7840-a5fb-255d-ea41-361a.ngrok-free.app/dev-api/customer/homepage/search/nowplayingmovies', { movieId: movie.id });
-      // console.log(response.data);
-        router.push({ path: '/booking/movieSelection',query: {
-          id : movie.id,
-          title: movie.title,
-          rated: movie.rated,
-          genre: movie.genre,
-          posterUrl: movie.posterUrl,
+      removeAllFromLocalStorage();
+      router.push({ path: '/booking/movieSelection',query: {
+        id : movie.id,
+        title: movie.title,
+        rated: movie.rated,
+        genre: movie.genre,
+        posterUrl: movie.posterUrl,
     }});
     } catch (error) {
       console.error('Error:', error);
