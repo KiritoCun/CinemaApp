@@ -7,7 +7,7 @@
         </div>
         <div class="film-content">
           <div class="thumbnail">
-            <img :src="route.query.posterUrl">
+            <img :src="route.query.posterUrl" />
           </div>
           <div class="product-shop">
             <div class="product-name">
@@ -27,7 +27,7 @@
             </div>
             <div class="movie-info">
               <label>Khởi chiếu: </label>
-              <div>&nbsp;{{ formattedDate }}</div>
+              <div>&nbsp;{{ formatDate(route.query.releaseDate) }}</div>
             </div>
             <div class="movie-info">
               <label>Thời lượng: </label>
@@ -54,44 +54,10 @@
             {{ route.query.movieDescription }}
           </span>
         </div>
-
-        <div class="mt-4">
+        <div style="margin-top: 30px ;">
           <h4 class="divider px-2">Lịch Chiếu</h4>
           <el-divider style="width:840px"></el-divider>
-          <div class="input-group d-flex align-items-center mt-3 mb-1 w-80 row text-capitalize">
-            <div class="col-sm-6 justify-content-center d-flex" style="width: 500px">
-              <el-radio-group v-for="tab in tabs" :key="tab.id" v-model="activeName" size="small">
-                <el-radio-button class="btn-showtime mx-4" :label="tab.id">
-                  <div style="white-space: pre-line;width: 80px;height: 34px; font-size: 16px; font-weight: 400;line-height: 20px;">
-                    {{ tab.label }}
-                  </div>
-                </el-radio-button>
-              </el-radio-group>
-            </div>
-
-            <div class="col-sm-4 d-flex" style="width: 360px;">
-              <select class="form-select  rounded flex-start fs-sm" id="inputGroupSelect01">
-                <option selected>Toàn quốc</option>
-                <option v-for="(province) in provinces" :key="province.id" :value="province.label">{{province.label}}</option>
-              </select>
-              <select class="form-select  rounded d-flex flex-end ms-2 fs-sm text-center" id="inputGroupSelect01">
-                <option selected>Tất cả rạp</option>
-                <option v-for="(cinema) in cinemas" :key="cinema.id" :value="cinema.label">{{cinema.label}}</option>
-              </select>
-            </div>
-          </div>
-          <el-divider style="width:840px;height: 4px;background-color: #034ea2;"></el-divider>
-          <ul v-for="cinema in cinemas" :key="cinema.id" class="list-group container d-flex flex-start m-3" style="width: 720px; margin-left: 0;">
-            <li class="list-group-item row d-flex my-2">
-              <div class="col col-sm-3">
-                <h6>{{ cinema.label }}</h6>
-                <span>2D Phụ Đề</span>
-              </div>
-              <div class="col col-sm-9 row">
-                <el-card v-for="item in itemData" :key="item.id" class="col-2 mx-2 my-1 btn btn-primary ">{{ item.title }}</el-card>
-              </div>
-            </li>
-          </ul>
+          <ShowTime :currentDate="currentDate" :showtimeInfo="showtimeInfo" @selectShowtime="handleSelectShowtime"></ShowTime>
         </div>
       </div>
     </template>
@@ -99,138 +65,75 @@
 </template>
 
 <script setup name="MovieDetail" lang="ts">
+import router from "@/router";
 import { useRoute } from "vue-router";
+import { getShowtimeInfos } from "@/api/homepage";
+import { saveToLocalStorage } from "@/utils/localStorage";
+import ShowTime from "@/components/ExpansionPanels/ShowTime.vue";
+
+interface Movie {
+    id: number;
+    title: string;
+    rated: string;
+    genre: string;
+    posterUrl: string;
+}
+
+interface ShowtimeInfo {
+  uniqueId: string;
+  id: number;
+  cinemaName: string;
+  cinemaAddress: string;
+  startTime: string;
+  endTime: string;
+}
+
 const route = useRoute();
 
-const provinces = [
-  {
-    id:1,
-    label: "TP.Hồ Chí Minh"
-  },
-  { id:2 ,
-    label: "Đà Nẵng" },
-  { id: 3,
-    label: "Hải Phòng" },
-  {
-    id:4,
-    label: "Hà Nội"
-  },
-  {
+const selectedMovie = ref<Movie | null>();
 
-    id: 5,
-    label: "Vinh",
-  }
+const showtimeInfo = ref<ShowtimeInfo[] | null>([]);
 
-];
+const currentDate = ref<Date>(new Date());
 
-const cinemas = [
-  {
-    id:1,
-    label: "Galaxy Trần Phú "
-  },
-  { id:2 ,
-    label: "Galaxy Đà Nẵng" },
-  { id: 3,
-    label: "Galaxy Hà Đông" },
-  {
-    id:4,
-    label: "Galaxy Hà Nội"
-  }
-];
-
-const itemData = [
-  {
-    id: "1",
-    title: "20:15",
-  },
-  {
-    id: "2",
-    title: "20:15",
-  },
-  {
-    id: "3",
-    title: "20:15",
-  },
-  {
-    id: "4",
-    title: "20:15",
-  },
-  {
-    id: "5",
-    title: "20:15",
-  },
-  {
-    id: "6",
-    title: "20:15",
-  },
-  {
-    id: "7",
-    title: "20:15",
-  },
-  {
-    id: "1",
-    title: "20:15",
-  },
-  {
-    id: "2",
-    title: "20:15",
-  },
-  {
-    id: "3",
-    title: "20:15",
-  },
-  {
-    id: "4",
-    title: "20:15",
-  },
-  {
-    id: "5",
-    title: "20:15",
-  },
-  {
-    id: "6",
-    title: "20:15",
-  },
-  {
-    id: "7",
-    title: "20:15",
-  },
-];
-
-
-onMounted(() => {
-
-});
-
-const activeName = ref("1")
-
-const handleClick = (tab: any,e : Event) => {
-  console.log(tab, e);
+const getShowtimeInfoList = async (movieId : string | number) => {
+  const res = await getShowtimeInfos(movieId);
+  showtimeInfo.value = res;
 }
-const tabs = [
-  { id:1,label: 'Hôm nay 05/11' },
-  { id:2,label: 'Thứ Hai 06/11' },
-  { id:3,label: 'Thứ Ba 07/11' },
-  { id:4,label: 'Thứ Tư 08/11' },
-];
 
-const formattedDate = formatDate(route.query.releaseDate);
+const handleSelectShowtime = (showtime: ShowtimeInfo) => {
+  saveToLocalStorage('selectedShowtime', showtime);
+  router.push({path:'/booking/seatSelection'});
+};
 
-function formatDate(dateTime:any) {
-  const year = dateTime.substring(0, 4);
-  const month = dateTime.substring(5, 7);
-  const day = dateTime.substring(9, 11);
+const formatDate = () => (startTime: string) => {
+  const timeString = startTime.split(' ')[0];
+
+  const [day, month, year] = timeString.split('/');
 
   return `${day}/${month}/${year}`;
 }
 
 onMounted(() => {
+  if (route.query.id) {
+      selectedMovie.value = {
+        id: Number(route.query.id) as number,
+        title: route.query.title as string,
+        rated: route.query.rated as string,
+        genre: route.query.genre as string,
+        posterUrl: route.query.posterUrl as string,
+      };
+      console.log(selectedMovie.value);
+      saveToLocalStorage('selectedMovie', selectedMovie.value);
+      getShowtimeInfoList(selectedMovie.value.id);
+    }
 });
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/styles/mixin.scss";
 @import "@/assets/styles/variables.module.scss";
+
 .main-container {
   position: relative;
   top: -50px;
