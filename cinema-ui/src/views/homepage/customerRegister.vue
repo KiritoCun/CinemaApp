@@ -45,8 +45,8 @@
             @onClick="handleRegister"
             style="width:100%;"
           />
-          <div style="float: right;" v-if="register">
-            <router-link class="link-type" :to="'/register'">Sign up now</router-link>
+          <div style="width:100%;margin:24px 0 -48px 0;display: flex;justify-content: center;font-size: 18px;">
+            <p>Đã có tài khoản? <a href="/homepage/customer-login">Đăng nhập</a></p>
           </div>
         </el-form-item>
       </el-form>
@@ -287,13 +287,9 @@ onMounted(() => {
   vertical-align: -2px;
 }
 .gradient-custom-3 {
-opacity: 0.9;
-background: #84fab0;
+opacity: 1;
+background: -webkit-linear-gradient(to right, rgba(140, 141, 140, 0.5), rgba(108, 213, 255, 0.5));
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+background: linear-gradient(to right, rgba(140, 141, 140, 0.5), rgba(108, 213, 255, 0.5))
 }
 </style>
