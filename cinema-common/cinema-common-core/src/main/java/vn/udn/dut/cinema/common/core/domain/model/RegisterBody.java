@@ -13,5 +13,9 @@ import lombok.EqualsAndHashCode;
 public class RegisterBody extends LoginBody {
 
     private String userType;
+    private String nickName;
+    private String phonenumber;
+    private String email;
+    private String sex;
 
 }
