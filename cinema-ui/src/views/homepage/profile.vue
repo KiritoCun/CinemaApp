@@ -55,7 +55,8 @@
 
 <script setup name="Profile" lang="ts">
 import { ref } from 'vue';
-import userAvatar from "../system/user/profile/userAvatar.vue";
+import { BillHisToryVO } from '@/api/booking/types';
+import userAvatar from "../system/user/profile/userAvatar.vue"; 
 import { getUserProfile, getBookingHistorys } from "@/api/system/user";
 
 const state = ref<{ user: any; roleGroup: string;  postGroup: string}>({
@@ -64,7 +65,7 @@ const state = ref<{ user: any; roleGroup: string;  postGroup: string}>({
     postGroup: ''
 });
 
-const billHistoryData = ref<any[]>([]);
+const billHistoryData = ref<BillHisToryVO[]>([]);
 
 const userForm = ref({});
 
@@ -78,7 +79,7 @@ const getUserInfo = async () => {
 
 const getBillHistoryList = async () => {
   const resHistoryInfos = await getBookingHistorys();
-  billHistoryData.value = resHistoryInfos;
+  billHistoryData.value = resHistoryInfos.data;
 }
 
 onMounted(() => {

@@ -315,10 +315,9 @@ const onReady = () => {
   youtube.value.playVideo();
 }
 /** */
-const goToMovieDetail = (movie: any) => {
+const goToMovieDetail = async(movie: any):Promise<void> => {
+  removeAllFromLocalStorage();
   try{
-    removeAllFromLocalStorage();
-
     router.push({path: '/homepage/movie-detail', query: {
       id: movie.id,
       title: movie.title,
@@ -337,9 +336,9 @@ const goToMovieDetail = (movie: any) => {
     }
 }
 
-const gotoBooking = (movie: any) => {
+const gotoBooking = async(movie: any):Promise<void> => {
+  removeAllFromLocalStorage();
     try {
-      removeAllFromLocalStorage();
       router.push({ path: '/booking/movieSelection',query: {
         id : movie.id,
         title: movie.title,

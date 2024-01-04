@@ -9,7 +9,7 @@
                 <h5 v-if="remainingTime > 0">
                   Thời gian giữ ghế : <strong class="time-out">{{ formatTime((remainingTime)) }}</strong>
                 </h5>
-                <div v-else-ife="modalVisible" class="modal" tabindex="-1">
+                <div v-else-if="modalVisible" class="modal" tabindex="-1">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">

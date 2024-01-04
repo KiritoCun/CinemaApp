@@ -69,7 +69,7 @@ const formatTime = (date?: string) => {
 
   const timeStringHours = date.split(' ')[1];
 
-  const [day, month, year] = timeStringDays.split('/');
+  const [year, month, day] = timeStringDays.split('-');
 
   const [hours, minutes] = timeStringHours.split(':');
 

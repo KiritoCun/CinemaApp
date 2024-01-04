@@ -38,10 +38,9 @@ import BillHistoryDetail from '../Modal/BillHistoryDetail.vue';
 const props = defineProps({
   billHistoryData: {
     type: Array as PropType<BillHisToryVO[]>,
-    default: []
+    default: null
   }
 })
-
 
 const showDetail = ref(false);
 const selectedBill = ref<BillHisToryVO | null>(null);
@@ -63,7 +62,7 @@ const formatDate = (date: string) => {
 
   const timeStringHours = date.split(' ')[1];
 
-  const [day, month, year] = timeStringDays.split('/');
+  const [year, month, day] = timeStringDays.split('-');
 
   const [hours, minutes] = timeStringHours.split(':');
 

@@ -70,7 +70,6 @@ const handleSelectMovie = (movie: Movie) => {
   removeFromLocalStorage('selectedShowtime');
   currentDate.value = new Date();
   getShowtimeInfoList(selectedMovie.value);
-  console.log(showtimeInfo.value);
 };
 
 const getShowtimeInfoList = async (selectedMovie : Movie) => {
@@ -100,8 +99,9 @@ onMounted(() => {
         genre: route.query.genre as string,
         posterUrl: route.query.posterUrl as string,
       };
-
       saveToLocalStorage('selectedMovie', selectedMovie.value);
+      currentDate.value = new Date();
+      getShowtimeInfoList(selectedMovie.value);
       panel.value = ['ShowTime'];
     }
   }
