@@ -2,9 +2,9 @@
   <LayoutCustomerHomepage>
     <template v-slot:content>
       <div class="login-form-container">
-        <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form-customer">
+        <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="gradient-custom-3 login-form-customer">
           <el-form-item prop="username" :label="$t('homepage.login.usernameLb')">
-            <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" :placeholder="$t('homepage.login.usernamePh')">
+            <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" placeholder="Nhập tên đăng nhập">
             </el-input>
           </el-form-item>
           <el-form-item prop="password" :label="$t('homepage.login.passwordLb')">
@@ -13,14 +13,14 @@
               type="password"
               size="large"
               auto-complete="off"
-              :placeholder="$t('homepage.login.passwordPh')"
+              placeholder="Nhập mật khẩu"
               @keyup.enter="handleLogin"
               show-password
               clearable
             >
             </el-input>
           </el-form-item>
-          <el-checkbox v-model="loginForm.rememberMe">
+          <el-checkbox v-model="loginForm.rememberMe" style="display: flex;justify-content: flex-start;margin-top: -18px;">
             <span class="remember-pass-text">{{ $t('homepage.login.rememberPassLb') }}</span>
           </el-checkbox>
           <el-form-item style="width:100%;">
@@ -32,10 +32,10 @@
               :loadingFlag="loading"
               widthPercent="100%"
               @onClick="handleLogin"
-              style="width:100%; margin-top: 40px;"
+              style="width:100%; margin-top: 20px;"
             />
-            <div style="float: right;" v-if="register">
-              <router-link class="link-type" :to="'/register'">Sign up now</router-link>
+            <div class="text-center" style="width:100%;margin:8px 0;display: flex;justify-content: center;">
+              <p>Chưa có tài khoản? <a href="/homepage/customer-register">Đăng ký</a></p>
             </div>
           </el-form-item>
         </el-form>
@@ -117,7 +117,7 @@ const handleLogin = () => {
         } else {
           await router.push({ path: beforePathLogin });
         }
-        
+
       } else {
         loading.value = false;
         // Get verification code again
@@ -300,7 +300,8 @@ onMounted(() => {
 }
 
 .login-form-customer {
-  height: 420px;
+  border-radius: 8px;
+  height: auto;
   width: 526px;
   margin: 30px auto 30px auto;
   padding: 40px 60px 0px 60px;
@@ -354,5 +355,12 @@ onMounted(() => {
   fill: currentColor;
   filter: brightness(0) saturate(100%) invert(95%) sepia(8%) saturate(136%) hue-rotate(174deg) brightness(89%) contrast(93%);
   vertical-align: -2px;
+}
+.gradient-custom-3 {
+opacity: 1;
+
+background: -webkit-linear-gradient(to right, rgba(140, 141, 140, 0.5), rgba(108, 213, 255, 0.5));
+
+background: linear-gradient(to right, rgba(140, 141, 140, 0.5), rgba(108, 213, 255, 0.5))
 }
 </style>
