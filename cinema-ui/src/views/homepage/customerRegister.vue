@@ -26,7 +26,14 @@
         </el-form-item>
         <el-form-item class="item-input group-input">
           <el-form-item prop="sdt" label="Số điện thoại">
-            <el-input v-model="registerForm.sdt" style="width: 480px;" type="text" size="small" auto-complete="off" placeholder="Nhập sdt"></el-input>
+            <el-input
+              v-model="registerForm.phonenumber"
+              style="width: 480px;"
+              type="text"
+              size="small"
+              auto-complete="off"
+              placeholder="Nhập sdt"
+            ></el-input>
           </el-form-item>
           <el-form-item style="margin-left:160px" prop="gerden" label="Giới Tính">
             <el-radio v-model="registerForm.gerden" label="1">Nam</el-radio>
