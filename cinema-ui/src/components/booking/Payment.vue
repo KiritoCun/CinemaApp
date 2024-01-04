@@ -44,6 +44,7 @@
                   <img :src="code.imageUrl" class="card-img-top image" alt="..." style="width: 20%;" />
                   <div class="card-body d-flex justify-content-between align-items-center" style="100%">
                     <h6 class="card-title w-30">{{code.title}}</h6>
+                    <span>Giảm {{ code.discount }}%</span>
                     <p class="card-title ml-1">Hạn sử dụng : {{ formatDate(code.toDate) }}</p>
                     <button @click="handleUploadInput(code.id,code.title,code.discount)" class="btn btn-outline btn-apply">Dùng ngay</button>
                   </div>

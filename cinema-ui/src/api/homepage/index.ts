@@ -2,8 +2,6 @@ import request from '@/utils/request';
 import { AxiosPromise } from 'axios';
 import { MovieVO } from '@/api/portCustomer/movieManagement/types';
 import { PromotionVO } from '@/api/portCustomer/promotionManagement/types';
-import { InvoiceInfoVO } from '@/api/homepage/type';
-
 export const getDocuments = (): AxiosPromise<any> => {
   return request({
     url: '/homepage/search/documents',
@@ -44,7 +42,7 @@ export const getUpcommingmovies = (): AxiosPromise<MovieVO[]> => {
   });
 };
 
-export const getShowtimeInfos = (movieId? : string | number): AxiosPromise<any[]> => {
+export const getShowtimeInfos = (movieId?: string | number): AxiosPromise<any[]> => {
   return request({
     url: '/homepage/search/showtimeInfoList/' + movieId,
     headers: {
@@ -54,7 +52,7 @@ export const getShowtimeInfos = (movieId? : string | number): AxiosPromise<any[]
   });
 };
 
-export const getSeatOrders = (showtimeId? : string | number): AxiosPromise<any[]> => {
+export const getSeatOrders = (showtimeId?: string | number): AxiosPromise<any[]> => {
   return request({
     url: '/homepage/search/showtime/seatOrderList/' + showtimeId,
     headers: {
@@ -69,7 +67,7 @@ export const getSeatOrders = (showtimeId? : string | number): AxiosPromise<any[]
  */
 export const getVnpayUrl = (seatId: string | number | (string | number)[], promotionId: string | number) => {
   return request({
-    url: '/booking/vnpay/url/' + seatId + "/" + promotionId,
+    url: '/booking/vnpay/url/' + seatId + '/' + promotionId,
     method: 'get'
   });
 };
@@ -77,7 +75,7 @@ export const getVnpayUrl = (seatId: string | number | (string | number)[], promo
 /**
  *
  */
-export const handleBookingTicket = (transactionId: string ) : AxiosPromise<InvoiceInfoVO>=> {
+export const handleBookingTicket = (transactionId: string) => {
   return request({
     url: '/booking/' + transactionId,
     method: 'get'

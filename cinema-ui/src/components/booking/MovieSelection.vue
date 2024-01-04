@@ -13,7 +13,7 @@
         <v-expansion-panel value="Showtime">
           <v-expansion-panel-title>Chọn suất</v-expansion-panel-title>
           <v-expansion-panel-text>
-              <Showtime v-if="selectedMovie" :currentDate = "currentDate" @selectShowtime="handleSelectShowtime" @panel-toggle="togglePanelShowtime"></Showtime>
+              <Showtime v-if="selectedMovie" :currentDate = "currentDate" :showtimeInfo = "showtimeInfo" @selectShowtime="handleSelectShowtime" @panel-toggle="togglePanelShowtime"></Showtime>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -31,6 +31,8 @@ import Showtime from '@/components/ExpansionPanels/ShowTime.vue';
 import CardDetails from '@/components/ExpansionPanels/CardDetails.vue';
 import { saveToLocalStorage, removeFromLocalStorage } from '@/utils/localStorage';
 import { useRoute } from 'vue-router';
+import { getShowtimeInfos } from '../../api/homepage/index';
+import { getFromLocalStorage } from '@/utils/localStorage';
 
 interface Movie {
     id: number;
@@ -44,7 +46,7 @@ const route = useRoute();
 
 const panel=ref<string[]>([]);
 
-interface ShowTimeInfo {
+interface ShowtimeInfo {
   uniqueId: string;
   id: number;
   cinemaName: string;
@@ -59,13 +61,22 @@ const selectedShowtime = ref<ShowtimeInfo | null>(null);
 
 const currentDate = ref<Date>(new Date());
 
+const showtimeInfo = ref<ShowtimeInfo[] | null>([]);
+
 const handleSelectMovie = (movie: Movie) => {
   selectedMovie.value = movie;
   selectedShowtime.value = null;
   saveToLocalStorage('selectedMovie', movie);
   removeFromLocalStorage('selectedShowtime');
   currentDate.value = new Date();
+  getShowtimeInfoList(selectedMovie.value);
+  console.log(showtimeInfo.value);
 };
+
+const getShowtimeInfoList = async (selectedMovie : Movie) => {
+  const res = await getShowtimeInfos(selectedMovie?.id);
+  showtimeInfo.value = res;
+}
 
 const togglePanelMovie = () => {
   panel.value = ['Showtime'];
@@ -90,7 +101,7 @@ onMounted(() => {
         posterUrl: route.query.posterUrl as string,
       };
 
-      saveToLocalStorage('selectedMovie', selectedMovie);
+      saveToLocalStorage('selectedMovie', selectedMovie.value);
       panel.value = ['ShowTime'];
     }
   }

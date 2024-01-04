@@ -2,7 +2,7 @@
   <div class="mt-4">
     <div class="container my-1" v-for="data in paginatedData" :key="data.id">
       <div class="card">
-        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.posterUrl" alt="Image" />
+        <img style="height:160px;width: 120px;" class="card-img-top" :src="data.movieImg" alt="Image" />
         <div class="card-body col col-md-6">
           <div class="d-flex justify-content-between align-items-center mt-3">
             <div class="absolute-left" style="left:110px; top:30px;width: 30%;">
@@ -31,33 +31,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { ref, defineProps,PropType } from 'vue';
+import { BillHisToryVO } from '@/api/booking/types';
 import BillHistoryDetail from '../Modal/BillHistoryDetail.vue';
 
-interface BillProps {
-    id: number;
-    movieName: string;
-    genre: string;
-    province: string;
-    hallName: string;
-    seatIds: string[];
-    bookingId: string;
-    promotionId: string;
-    bookingQr: string;
-    posterUrl: string;
-    price: number;
-    startTime: Date;
-}[];
+const props = defineProps({
+  billHistoryData: {
+    type: Array as PropType<BillHisToryVO[]>,
+    default: []
+  }
+})
 
-interface BillHistoryProps {
-  billHistoryData: BillProps[];
-}
 
 const showDetail = ref(false);
-const selectedBill = ref<BillProps | null>(null);
-const props = defineProps<BillHistoryProps>();
+const selectedBill = ref<BillHisToryVO | null>(null);
 
-const openDetail = (billData: BillProps) => {
+const openDetail = (billData: BillHisToryVO) => {
   selectedBill.value = billData;
   showDetail.value = true;
 };
@@ -67,27 +56,19 @@ const closeDetail = () => {
   selectedBill.value = null; // optional: clear the selectedBill when closing
 };
 
-const formatDate = (date: Date | string) => {
-  if (typeof date === 'string') {
-    date = new Date(date);
-  }
+const formatDate = (date: string) => {
+  if (!date) return '';
 
-  if (date instanceof Date && !isNaN(date.getTime())) {
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-};
-  const intlDate = new Intl.DateTimeFormat('default', options).format(date);
-  const [day, month, year, hour, minute] = intlDate.match(/\d+/g) || [];
+  const timeStringDays = date.split(' ')[0];
 
-  return `<b>${hour}:${minute}</b> - ${day}/${month}/${year}`;
+  const timeStringHours = date.split(' ')[1];
+
+  const [day, month, year] = timeStringDays.split('/');
+
+  const [hours, minutes] = timeStringHours.split(':');
+
+  return `<b>${hours}:${minutes}</b> - ${day}/${month}/${year}`;
 }
-return '';
-};
 
 const selectedData = ref(null);
 

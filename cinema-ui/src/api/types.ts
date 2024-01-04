@@ -1,3 +1,5 @@
+import { DatetimeFormatProps } from "vue-i18n";
+
 /**
  * register
  */
@@ -28,9 +30,13 @@ export interface LoginData {
  */
 export interface RegisterData {
   tenantId: string;
+  nickname: string;
   username: string;
   password: string;
   confirmPassword: string;
+  sdt: string;
+  email: string;
+  gerden: string;
   code?: string;
   uuid?: string;
 }

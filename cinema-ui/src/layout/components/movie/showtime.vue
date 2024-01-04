@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div v-for="movie in nowPlayingMovies" :key="movie.id" class="col-md-3 mb-4">
+      <div v-for="movie in nowPlayingMovies" :key="movie.id" class="col-md mb-4 w-100">
         <div class="card">
           <img class="card-img-top" :src="movie.posterUrl" alt="Image" />
           <div class="votes">
@@ -13,7 +13,7 @@
             {{ movie.rating }}
           </div>
           <div class="card-overlay d-flex flex-column">
-            <button class="overlay-button btn btn-buy my-2">
+            <button class="overlay-button btn btn-buy my-2" @click="gotoBooking(movie)">
               <svg xmlns="http://www.w3.org/2000/svg" height="1em" style="margin-right: 4px;" fill="#fff" viewBox="0 0 576 512">
                 <path
                   d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm64 320H64V320c35.3 0 64 28.7 64 64zM64 192V128h64c0 35.3-28.7 64-64 64zM448 384c0-35.3 28.7-64 64-64v64H448zm64-192c-35.3 0-64-28.7-64-64h64v64zM288 160a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"
@@ -43,6 +43,8 @@
 <script setup lang="ts">
 import YouTube from 'vue3-youtube';
 import { getNowplayingmovies } from '@/api/homepage';
+
+const router = useRouter();
 const youtube = ref();
 const youtubeSrc = ref('');
 const nowPlayingMovies = ref([]);
@@ -60,14 +62,28 @@ const getDocumentList = async () => {
   const res = await getNowplayingmovies();
   nowPlayingMovies.value = res;
 }
-onMounted(() => {
-  getDocumentList();
-})
 
 const playYoutube = (url: string) => {
   youtubeSrc.value = `https://www.youtube.com/watch?v=${url}`;
   dialog.visible = true;
 }
+const gotoBooking = async (movie: any):Promise<void> => {
+  console.log("ajsnasna");
+    try {
+        router.push({ path: '/booking/movieSelection',query: {
+          id : movie.id,
+          title: movie.title,
+          rated: movie.rated,
+          genre: movie.genre,
+          posterUrl: movie.posterUrl,
+        }});
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+onMounted(() => {
+  getDocumentList();
+})
 </script>
 
 <style lang="scss" scoped>
