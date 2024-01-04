@@ -3,7 +3,7 @@
     <template v-slot:content>
       <el-form ref="loginRef" :model="registerForm" :rules="registerRules" class="gradient-custom-3  bg-image login-form-customer">
         <el-form-item class="item-input" label="Họ và tên" prop="nickname">
-          <el-input v-model="registerForm.nickname" type="text" size="small" auto-complete="off" placeholder="Nhập họ và tên"> </el-input>
+          <el-input v-model="registerForm.nickName" type="text" size="small" auto-complete="off" placeholder="Nhập họ và tên"> </el-input>
         </el-form-item>
         <el-form-item class="item-input" prop="username" label="Tài Khoản">
           <el-input v-model="registerForm.username" type="text" size="small" auto-complete="off" placeholder="Nhập tài khoản"></el-input>
