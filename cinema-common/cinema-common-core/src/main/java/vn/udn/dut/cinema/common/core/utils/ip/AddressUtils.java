@@ -23,9 +23,9 @@ public class AddressUtils {
         }
         // Intranet does not query
         ip = "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : HtmlUtil.cleanHtmlTag(ip);
-        if (NetUtil.isInnerIP(ip)) {
-            return "Intranet IP";
-        }
+//        if (NetUtil.isInnerIP(ip)) {
+//            return "Intranet IP";
+//        }
         return RegionUtils.getCityInfo(ip);
     }
 }

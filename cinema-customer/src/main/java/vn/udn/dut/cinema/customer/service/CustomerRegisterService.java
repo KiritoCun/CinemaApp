@@ -36,9 +36,16 @@ public class CustomerRegisterService {
     public void register(RegisterBody registerBody) {
         String username = registerBody.getUsername();
         String password = registerBody.getPassword();
+        String nickname = registerBody.getNickName();
+        String phonenumber = registerBody.getPhonenumber();
+        String email = registerBody.getEmail();
+        String sex = registerBody.getSex();
         CustomerBo customerUser = new CustomerBo();
         customerUser.setUserName(username);
-        customerUser.setNickName(username);
+        customerUser.setNickName(nickname);
+        customerUser.setPhonenumber(phonenumber);
+        customerUser.setEmail(email);
+        customerUser.setSex(sex);
         customerUser.setPassword(BCrypt.hashpw(password));
 
         if (!customerService.checkUserNameUnique(customerUser)) {
