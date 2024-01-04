@@ -3,7 +3,7 @@
     <template v-slot:content>
       <el-form ref="loginRef" :model="registerForm" :rules="registerRules" class="gradient-custom-3  bg-image login-form-customer">
         <el-form-item class="item-input" label="Họ và tên" prop="nickname">
-          <el-input v-model="registerForm.nickname" type="text" size="small" auto-complete="off" placeholder="Nhập họ và tên"> </el-input>
+          <el-input v-model="registerForm.nickName" type="text" size="small" auto-complete="off" placeholder="Nhập họ và tên"> </el-input>
         </el-form-item>
         <el-form-item class="item-input" prop="username" label="Tài Khoản">
           <el-input v-model="registerForm.username" type="text" size="small" auto-complete="off" placeholder="Nhập tài khoản"></el-input>
@@ -26,7 +26,14 @@
         </el-form-item>
         <el-form-item class="item-input group-input">
           <el-form-item prop="sdt" label="Số điện thoại">
-            <el-input v-model="registerForm.sdt" style="width: 480px;" type="text" size="small" auto-complete="off" placeholder="Nhập sdt"></el-input>
+            <el-input
+              v-model="registerForm.phonenumber"
+              style="width: 480px;"
+              type="text"
+              size="small"
+              auto-complete="off"
+              placeholder="Nhập sdt"
+            ></el-input>
           </el-form-item>
           <el-form-item style="margin-left:160px" prop="gerden" label="Giới Tính">
             <el-radio v-model="registerForm.gerden" label="1">Nam</el-radio>
