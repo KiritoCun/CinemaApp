@@ -2,7 +2,9 @@
   <div class="navbar">
     <!-- <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" /> -->
     <div class="left-menu flex align-center">
-      <img :src="logo" class="navbar-logo" />
+      <router-link to="/homepage">
+        <img :src="logo" class="navbar-logo" width="112" height="36" />
+      </router-link>
       <el-menu :default-active="activeIndex" class="nav-header" mode="horizontal" @select="handleNavigate">
         <router-link class="btn-buytickets mx-5 my-3" @click="removeAllFromLocalStorage()" style="marginLeft: 30px" to="/booking/movieSelection">
           <img
@@ -20,7 +22,6 @@
         <router-link to="/homepage/movie-category">
           <el-menu-item index="film">{{ $t('homepage.topNav.film') }}</el-menu-item>
         </router-link>
-        <el-menu-item index="document">{{ $t('homepage.topNav.cinema') }}</el-menu-item>
         <el-menu-item index="promotion">{{ $t('homepage.topNav.promotions') }}</el-menu-item>
         <el-menu-item index="contact">{{ $t('homepage.topNav.contact') }}</el-menu-item>
       </el-menu>
@@ -68,9 +69,6 @@
             <span class="">Đăng ký</span>
           </a>
         </div>
-      </div>
-      <div class="lang-container">
-        <lang-select />
       </div>
     </div>
   </div>
