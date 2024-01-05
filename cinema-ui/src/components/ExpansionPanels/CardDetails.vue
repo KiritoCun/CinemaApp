@@ -30,19 +30,47 @@
     <div v-if="processedSeat && processedSeat.length > 0">
       <hr class="hr" />
       <div class="row" style="font-size: 14px;">
-        <div class="col-sm-6 align-self-start text-start">
+        <div v-if="getNumberOfSelectedNormalSeat() !== 0" class="col-sm-6 align-self-start text-start">
           <b-card-text class="mb-0"
-            ><strong>{{getNumberOfSelectedSeat()}}x</strong> Ghế đơn</b-card-text
+            ><strong>{{getNumberOfSelectedNormalSeat()}}x</strong> Ghế Thường</b-card-text
           >
           <div class="d-flex flex-row">
             <b-card-text class="mb-0">Ghế:</b-card-text>
             <div v-for="item, index in processedSeat" :key="index">
-              <b-card-text v-html="showSeat(item.uniqueId, index)"></b-card-text>
+              <b-card-text v-html="showNormalSeat(item, index)"></b-card-text>
             </div>
           </div>
         </div>
-        <div class="col-sm-6 align-self-end text-end">
-          <b-card-text class="bold-font">{{ seatPrice }}đ</b-card-text>
+        <div v-if="getNumberOfSelectedNormalSeat() !== 0" class="col-sm-6 align-self-end text-end">
+          <b-card-text class="bold-font">{{ seatNormalPrice }}đ</b-card-text>
+        </div>
+        <div v-if="getNumberOfSelectedCoupleSeat() !== 0" class="col-sm-6 align-self-start text-start mt-2">
+          <b-card-text class="mb-0"
+            ><strong>{{getNumberOfSelectedCoupleSeat()}}x</strong> Ghế Đôi</b-card-text
+          >
+          <div v-if="getNumberOfSelectedCoupleSeat() !== 0" class="d-flex flex-row">
+            <b-card-text class="mb-0">Ghế:</b-card-text>
+            <div v-for="item, index in processedSeat" :key="index">
+              <b-card-text v-html="showCoupleSeat(item, index)"></b-card-text>
+            </div>
+          </div>
+        </div>
+        <div v-if="getNumberOfSelectedCoupleSeat() !== 0" class="col-sm-6 align-self-end text-end">
+          <b-card-text class="bold-font">{{ seatCouplePrice }}đ</b-card-text>
+        </div>
+        <div v-if="getNumberOfSelectedVipSeat() !== 0" class="col-sm-6 align-self-start text-start mt-2">
+          <b-card-text class="mb-0"
+            ><strong>{{getNumberOfSelectedVipSeat()}}x</strong> Ghế Vip</b-card-text
+          >
+          <div class="d-flex flex-row">
+            <b-card-text class="mb-0">Ghế:</b-card-text>
+            <div v-for="item, index in processedSeat" :key="index">
+              <b-card-text v-html="showVipSeat(item, index)"></b-card-text>
+            </div>
+          </div>
+        </div>
+        <div v-if="getNumberOfSelectedVipSeat() !== 0" class="col-sm-6 align-self-end text-end">
+          <b-card-text class="bold-font">{{ seatVipPrice }}đ</b-card-text>
         </div>
       </div>
     </div>
@@ -172,14 +200,57 @@ const showMovieSelection = (cinemaName?: string, hallId?: number) => {
   `;
 }
 
-const showSeat = (selectedSeat?: string, count?: number) => {
-  if (count === 0) {
-    return `<strong>&nbsp${selectedSeat}</strong>`;
-  }
-  else{
-  return `<strong>,&nbsp;${selectedSeat}</strong>`
+const showNormalSeat = (selectedSeat?: Seat, count?: number) => {
+  if(selectedSeat?.price === 50000) {
+    if (count === 0) {
+    return `<strong>&nbsp${selectedSeat.uniqueId}</strong>`;
+    }
+    else if (count === 8) {
+      return `,...`;
+    }
+    else if (count > 8) {
+      return null;
+    }
+    else {
+      return `<strong>,&nbsp;${selectedSeat.uniqueId}</strong>`;
+    }
   }
 }
+
+const showCoupleSeat = (selectedSeat?: Seat, count?: number) => {
+  if(selectedSeat?.price === 65000) {
+    if (count === 0) {
+    return `<strong>&nbsp${selectedSeat.uniqueId}</strong>`;
+    }
+    else if (count === 8) {
+      return `,...`;
+    }
+    else if (count > 8) {
+      return null;
+    }
+    else {
+      return `<strong>,&nbsp;${selectedSeat.uniqueId}</strong>`;
+    }
+  }
+}
+
+const showVipSeat = (selectedSeat?: Seat, count?: number) => {
+  if(selectedSeat?.price === 90000) {
+    if (count === 0) {
+    return `<strong>&nbsp${selectedSeat.uniqueId}</strong>`;
+    }
+    else if (count === 8) {
+      return `,...`;
+    }
+    else if (count > 8) {
+      return null;
+    }
+    else {
+      return `<strong>,&nbsp;${selectedSeat.uniqueId}</strong>`;
+    }
+  }
+}
+
 
 const processedMovie = computed(() => {
   if (props.selectedMovie) {
@@ -209,26 +280,69 @@ const processedPromotion = computed(() => {
   return retrievedPromotion;
 });
 
-const seatPrice = computed(() => {
-  return processedSeat.value.reduce((acc, seat) => acc + seat.price, 0);
+const seatNormalPrice = computed(() => {
+  return processedSeat.value.reduce((acc, seat) =>
+  {
+    if(seat.price === 50000) {
+      return acc + seat.price;
+    } else {
+      return acc;
+    }
+  }, 0);
 });
 
-const getNumberOfSelectedSeat = () => {
+const seatCouplePrice = computed(() => {
+  return processedSeat.value.reduce((acc, seat) =>
+  {
+    if(seat.price === 65000) {
+      return acc + seat.price;
+    } else {
+      return acc;
+    }
+  }, 0);
+});
+
+const seatVipPrice = computed(() => {
+  return processedSeat.value.reduce((acc, seat) =>
+  {
+    if(seat.price === 90000) {
+      return acc + seat.price;
+    } else {
+      return acc;
+    }
+  }, 0);
+});
+
+const getNumberOfSelectedNormalSeat = () => {
   if(!processedSeat){
     return 0;
   }
-  return processedSeat.value.length;
+  return processedSeat.value.filter(seat=> seat.price === 50000).length;
+};
+
+const getNumberOfSelectedCoupleSeat = () => {
+  if(!processedSeat){
+    return 0;
+  }
+  return processedSeat.value.filter(seat=> seat.price === 65000).length;
+};
+
+const getNumberOfSelectedVipSeat = () => {
+  if(!processedSeat){
+    return 0;
+  }
+  return processedSeat.value.filter(seat=> seat.price === 90000).length;
 };
 
 const discountPrice = computed(() => {
-  const rawDiscount = seatPrice.value * (processedPromotion.value?.discount || 0) / 100;
+  const rawDiscount = (seatNormalPrice.value + seatCouplePrice.value + seatVipPrice.value) * (processedPromotion.value?.discount || 0) / 100;
   const roundedDiscount = parseFloat(rawDiscount.toFixed(2));
 
   return roundedDiscount;
 });
 
 const totalPrice = computed(() => {
-  const rawTotal = seatPrice.value - discountPrice.value;
+  const rawTotal = seatNormalPrice.value + seatCouplePrice.value + seatVipPrice.value - discountPrice.value;
   const roundedTotal = parseFloat(rawTotal.toFixed(2));
   const formattedNumber = roundedTotal.toLocaleString('en-US');
   return formattedNumber;
