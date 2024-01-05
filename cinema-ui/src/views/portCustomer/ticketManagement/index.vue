@@ -80,7 +80,7 @@ const bookingQueryParams = reactive<BookingQuery>({
   bookingId: '',
   cinemaId: '',
   cinemaName: '',
-  orderByColumn: 'createTime',
+  orderByColumn: 'id',
   isAsc: 'descending',
 });
 const bookingDetailQueryParams = reactive<BookingDetailQuery>({

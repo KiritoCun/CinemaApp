@@ -22,6 +22,7 @@ import vn.udn.dut.cinema.port.domain.bo.CinemaBo;
 import vn.udn.dut.cinema.port.domain.bo.MovieBo;
 import vn.udn.dut.cinema.port.domain.bo.PromotionBo;
 import vn.udn.dut.cinema.port.domain.bo.SeatBo;
+import vn.udn.dut.cinema.port.domain.bo.ShowtimeBo;
 import vn.udn.dut.cinema.port.domain.bo.SlideBo;
 import vn.udn.dut.cinema.port.domain.bo.VnpHistoryBo;
 import vn.udn.dut.cinema.port.domain.vo.CinemaVo;
@@ -107,10 +108,16 @@ public class HomepageSearchController extends BaseController {
 		return showtimeService.fetchShowtimeInfoList(movieId);
 	}
 	
+	@GetMapping("/showtimeInfoList")
+	public List<ShowtimeVo> getShowtimeList(ShowtimeBo bo) {
+		return showtimeService.queryList(bo);	}
+	
 	@GetMapping("/showtime/seatOrderList/{showtimeId}")
 	public List<SeatOrderVo> fetchSeatOrderList(@PathVariable Long showtimeId) {
 		return seatService.fetchSeatOrderList(showtimeId);
 	}
+	
+	
 	
 	/**
 	 * Handle payment successfully
