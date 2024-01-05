@@ -77,7 +77,7 @@ export const getVnpayUrl = (seatId: string | number | (string | number)[], promo
  */
 export const handleBookingTicket = (transactionId: string) => {
   return request({
-    url: '/booking/' + transactionId,
+    url: '/homepage/search/booking/' + transactionId,
     method: 'get'
   });
 };
