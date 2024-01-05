@@ -7,12 +7,16 @@ import Loader from '../Component/loader';
 import SeatTimer from '../Component/seatTimer';
 import axios from 'axios';
 import * as Linking from 'expo-linking';
+import URL from '../Component/API';
 import * as WebBrowser from 'expo-web-browser';
 
 export default function Payment({ navigation, route }) {
-  const URLPromotions = "https://3e5d-2a09-bac5-d41b-16d2-00-246-11.ngrok-free.app/dev-api/customer/homepage/search/promotions";
+  const URLPromotions = `${URL}/customer/homepage/search/promotions`;
+  const URLLink = `${URL}/customer/booking/vnpay/url`;
   const movie = useSelector((state) => state.movies.selectedMovie);
-  const address = route.params.address;
+  const token = useSelector((state) => state.loginInfo.token);
+  const hallId = route.params.hallId;
+  const listSeatId = route.params.listSeatId;
   const date = route.params.date;
   const time = route.params.time;
   const cinemaName = route.params.cinemaName;
@@ -21,11 +25,14 @@ export default function Payment({ navigation, route }) {
   const [isFocus, setIsFocus] = useState(false);
   const [titlePromotion, setPromotion] = useState('');
   const [discount, setDiscount] = useState(0);
+  // const [id, setId] = useState(0);
+  const [link, setLink] = useState('');
   const [listDiscount, setListDiscount] = useState([]);
   const [alertVisible, setAlertVisible] = useState(true);
   const [alertBack, setAlertBack] = useState(false);
   const [alertTimer, setAlertTimer] = useState(false);
   const [progress, setProgress] = useState(false);
+  // console.log(token);
 
   const confirmAlert = () => {
     setAlertVisible(false);
@@ -40,6 +47,16 @@ export default function Payment({ navigation, route }) {
     navigation.goBack();
     setProgress(false);
   };
+  const getLink = (seatId, id) => {
+    console.log(`${URLLink}/${seatId.join(',')}/${id}?Authorization=Customer-Bearer ${token}`);
+    axios.get(`${URLLink}/${seatId.join(',')}/${id}?Authorization=Customer-Bearer ${token}`)
+      .then((response) => {
+        const data = response.data;
+        // console.log(data.data);
+        setLink(data.data);
+      })
+      .catch((error) => { console.log(error); });
+  }
   useEffect(() => {
     axios.get(URLPromotions)
       .then((response) => {
@@ -48,6 +65,10 @@ export default function Payment({ navigation, route }) {
         setListDiscount(data);
       })
       .catch((error) => { console.log(error); });
+
+    // getLink(listSeatId, id);
+    // console.log(link);
+    // console.log(id);
   }, [])
 
   const formatDay = (text) => {
@@ -66,7 +87,7 @@ export default function Payment({ navigation, route }) {
     day = (day < 10) ? `0${day}` : day;
     return `${day}/${month}/${year}`;
   }
-
+  // console.log(id);
   const data = [
     {
       imageUrl: "https://ocwckgy6c1obj.vcdn.cloud/media/banner/cache/1/b58515f018eb873dafa430b6f9ae0c1e/2/0/2023_happy_wed_75k_000_240x201.png",
@@ -105,14 +126,17 @@ export default function Payment({ navigation, route }) {
   const vnpayRadioButton = (label) => (
     <TouchableOpacity
       style={{
+        width: '100%',
+        height: '25%',
         backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
       }}
       onPress={() => handleVnpayChange()}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image style={{width: 50, height: 50}} source={require('./Image/vnpay.png')}/>
-        <Text style={{fontWeight: '500'}}>{label}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', width: '35%', height: '100%', justifyContent: 'space-evenly' }}>
+        <Image style={{ width: 50, height: 50 }} source={require('./Image/vnpay.png')} />
+        <Text style={{ fontWeight: '500' }}>{label}</Text>
       </View>
       <View
         style={{
@@ -124,8 +148,9 @@ export default function Payment({ navigation, route }) {
           borderColor: vnpay ? 'green' : 'gray',
           backgroundColor: vnpay ? 'green' : 'transparent',
           justifyContent: 'center',
-          alignItems: 'center',}}>
-          
+          alignItems: 'center',
+        }}>
+
         {vnpay && (
           <View
             style={{
@@ -179,17 +204,20 @@ export default function Payment({ navigation, route }) {
       <Modal transparent visible={alertBack} animationType="slide">
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)', }}>
           <View style={{ backgroundColor: 'white', borderRadius: 2, alignItems: 'center', width: '88%', height: '27%', }}>
-            <View style={{ width: '100%', height: '23%', alignItems: 'center', justifyContent: 'flex-end' }}>
-              <View style={{ width: '15%', height: '60%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3 }}>
+            <View style={{ width: '100%', height: '28%', alignItems: 'center', justifyContent: 'flex-end' }}>
+              <View style={{
+                width: '15%', height: '70%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center',
+                borderRadius: 3,
+              }}>
                 <Image source={require('./Image/warning.png')} style={{ width: '100%', height: '100%', resizeMode: 'contain', }} />
               </View>
             </View>
-            <View style={{ width: '100%', height: '55%', alignItems: 'center' }}>
+            <View style={{ width: '100%', height: '50%', alignItems: 'center' }}>
               <View style={{ width: '85%', height: '50%', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontWeight: '600', textAlign: 'center', fontSize: 17 }}>Thông Tin</Text>
               </View>
               <View style={{ width: '84%', height: '60%', }}>
-                <Text style={{ textAlign: 'center', fontSize: 15 }}>Gỡ bỏ khuyến mãi?</Text>
+                <Text style={{ textAlign: 'center', fontSize: 15 }}>Các khuyến mãi đã áp dụng sẽ được gỡ bỏ, bạn có muốn tiếp tục?</Text>
               </View>
             </View>
             <View style={{ flexDirection: 'row', width: '100%', height: '22%', }}>
@@ -218,7 +246,8 @@ export default function Payment({ navigation, route }) {
         </TouchableOpacity>
         <Text style={{ fontSize: 19, fontWeight: '600', width: '60%' }}>Giao dịch</Text>
       </View>
-      <SeatTimer seatTimeoutInSeconds={600} navigation={navigation}/>
+      <SeatTimer seatTimeoutInSeconds={600} navigation={navigation} />
+
       <View style={{ width: '100%', height: '22%', borderTopWidth: 0.2, alignItems: 'center', justifyContent: 'center' }}>
         <View style={{
           width: '85%', height: '80%', borderRadius: 2, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', borderRadius: 33,
@@ -228,7 +257,7 @@ export default function Payment({ navigation, route }) {
           <View style={{ width: '40%', height: '95%', alignItems: 'center', justifyContent: 'center' }}>
             <Image source={{ uri: movie.posterUrl }} style={{ width: '62%', height: '90%', resizeMode: 'stretch', borderRadius: 3 }} />
           </View>
-          <View style={{ width: '60%', height: '95%', justifyContent: 'space-evenly', left: '-10%' }}>
+          <View style={{ width: '60%', height: '95%', justifyContent: 'space-evenly', left: '-14%' }}>
             <Text style={{ fontWeight: '600', fontSize: 16 }}>{movie.title}</Text>
             <View style={{ flexDirection: 'row', width: '50%', justifyContent: 'space-between', alignContent: 'center' }}>
               <Text>{movie.language}</Text>
@@ -243,15 +272,16 @@ export default function Payment({ navigation, route }) {
           </View>
         </View>
       </View>
-      <View style={{ width: '100%', height: '28%', alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ width: '100%', height: '28%', alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ width: '93%', height: '15%', }}>
           <Text style={{ fontWeight: '600', fontSize: 14 }}>Thông tin giao dịch</Text>
         </View>
-        <View style={{ width: '100%', height: '85%', alignItems: 'center', backgroundColor: 'white', shadowOffset: 1, shadowOpacity: 0.2,}}>
+        <View style={{ width: '100%', height: '85%', alignItems: 'center', backgroundColor: 'white', shadowOffset: 1, shadowOpacity: 0.2, }}>
           <View style={{ flexDirection: 'row', width: '93%', height: '20%', alignItems: 'center', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ fontWeight: '600' }}>2x </Text>
-              <Text>Nguoi Lon - Member - {selectedSeatIds.join(', ')}</Text>
+              <Text>Nguoi Lon - Member - </Text>
+              <Text style={{ fontWeight: '600' }}>{selectedSeatIds.join(', ')}</Text>
             </View>
             <Text style={{ fontWeight: '600', }}>{price.toLocaleString()}đ</Text>
           </View>
@@ -262,7 +292,7 @@ export default function Payment({ navigation, route }) {
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
-                data={data}
+                data={listDiscount}
                 // search
                 maxHeight={300}
                 labelField="title"
@@ -275,7 +305,9 @@ export default function Payment({ navigation, route }) {
                 onChange={item => {
                   setPromotion(item.title);
                   setDiscount(item.discount);
+                  // setId(item.id);
                   setIsFocus(false);
+                  getLink(listSeatId, item.id);
                 }}
               />
             </View>
@@ -290,20 +322,27 @@ export default function Payment({ navigation, route }) {
         <View style={{ width: '93%', height: '15%', justifyContent: 'center' }}>
           <Text style={{ fontWeight: '600', fontSize: 14 }}>Thông tin thanh toán</Text>
         </View>
-        <View style={{ width: '100%', height: '85%',}}>
-          {vnpayRadioButton('VNPAY', 'VNPAY')}
+        <View style={{ width: '100%', height: '85%', }}>
+          {vnpayRadioButton('VNPAY')}
         </View>
       </View>
-      <View style={{ width: '100%', flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{ width: '100%', flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ height: '100%', width: '60%', alignItems: 'center', flexDirection: 'row', marginLeft: '3%' }}>
           <Text style={{ fontWeight: '500', color: 'gray', fontSize: 17 }}>Tổng cộng: </Text>
           <Text style={{ fontWeight: '700', color: '#999900', fontSize: 17 }}>{total.toLocaleString()}đ</Text>
         </View>
-        <View style={{ height: '70%', width: '40%', alignItems: 'center', justifyContent: 'center',}}>
+        <View style={{ height: '70%', width: '40%', alignItems: 'center', justifyContent: 'center', }}>
           <TouchableOpacity style={{
-            width: '70%', height: '70%', alignItems: 'center', justifyContent: 'center', backgroundColor: '#999900',
-            borderRadius: 5
-          }} onPress={() => {Linking.openURL('http://sandbox.vnpayment.vn/tryitnow/Home/CreateOrder')}}>
+            width: '70%', height: '70%', alignItems: 'center', justifyContent: 'center', backgroundColor: vnpay ? '#999900' : '#e5e5e5',
+            borderRadius: 5, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1
+          }} onPress={() => {
+            if (vnpay) {
+              WebBrowser.openBrowserAsync(link);
+              navigation.navigate('MyTabs', { screen: 'Tài khoản' });
+            } else {
+              Alert.alert('Thông báo!', 'Hãy chọn phương thức thanh toán.');
+            }
+          }}>
             <Text style={{ color: 'white', fontSize: 15, fontWeight: '600' }}>Thanh toán</Text>
           </TouchableOpacity>
         </View>

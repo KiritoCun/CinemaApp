@@ -6,9 +6,10 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../Component/loader';
 import axios from 'axios';
+import URL from '../Component/API';
 
 export default function Movies({navigation, isLoggedIn}) {
-  const URL = "https://65f5-2001-ee0-4b4c-7840-e5a2-c4c5-4b19-28b6.ngrok-free.app/dev-api/customer/homepage/search/showtimeInfoList";
+  const URLS = `${URL}/customer/homepage/search/showtimeInfoList`;
   const [playing, setPlaying] = useState(false);
   const Movie = useSelector((state) => state.movies.selectedMovie);
   const [expanded, setExpanded] = useState(false);  
@@ -24,6 +25,7 @@ export default function Movies({navigation, isLoggedIn}) {
     if(viewRef.current){
       setViewHeight(viewRef.current.height);
     }
+    console.log(Movie);
   }, [expanded])
 
   const dispatch = useDispatch();
@@ -36,17 +38,12 @@ export default function Movies({navigation, isLoggedIn}) {
   }
   useEffect(() => {
     // console.log(Movie.id);
-    // axios.get(`${URL}/${Movie.id}`) 
+    axios.get(`${URLS}/${Movie.id}`) 
     // axios.get("https://6577fbb8197926adf62f331d.mockapi.io/api/showtime/showTimeInfoList") 
-    axios.get("https://658be023859b3491d3f4f2c6.mockapi.io/pbl6/api/showtimeInfoList") 
+    // axios.get("https://658be023859b3491d3f4f2c6.mockapi.io/pbl6/api/showtimeInfoList") 
     .then((response) => {
       const data = response.data; 
       listShowtime(data);
-      // console.log(data[1].showTimeList);
-      // console.log(response.request._response);
-      // console.log(response.request._response);
-      // console.log(showTimeInfoList); 
-      // console.log(data[1].showTimeList);
     }).catch((error) => {console.error(error);});
   }, [])
 
@@ -151,15 +148,15 @@ export default function Movies({navigation, isLoggedIn}) {
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Thể loại: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.genre}</Text>
+              <Text style={{fontSize: 15, color: 'gray', width: '75%', height: '60%'}} numberOfLines={1}>{Movie.genre}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Diễn viên: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.actor}</Text>
+              <Text style={{fontSize: 15, color: 'gray', width: '75%', height: '60%'}} numberOfLines={1}>{Movie.actor}</Text>
             </View>
             <View style={styles.viewtext}>
               <Text style={{fontSize: 15, color: 'gray'}}>Đạo diễn: </Text>
-              <Text style={{fontSize: 15, color: 'gray'}}>{Movie.director}</Text>
+              <Text style={{fontSize: 15, color: 'gray', width: '75%', height: '60%'}} numberOfLines={1}>{Movie.director}</Text>
             </View>
           </View>
         </View>
