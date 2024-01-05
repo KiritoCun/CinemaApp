@@ -10,8 +10,7 @@
                 <div
                   v-for="seatNumber in rowNumber.seatList"
                   :key="seatNumber.columnCode"
-                  class="seat"
-                  :class="{ selected: isSelected(rowNumber, seatNumber), sold : isSold(rowNumber, seatNumber), readonly: isSold(rowNumber, seatNumber)}"
+                  :class="{ normalSeat : getNormalColor(seatNumber), coupleSeat: getCoupleSeat(seatNumber) , vipSeat: getVipSeat(seatNumber) , selected: isSelected(rowNumber, seatNumber), sold : isSold(rowNumber, seatNumber), readonly: isSold(rowNumber, seatNumber)}"
                   @click="toggleSeat(rowNumber, seatNumber)"
                 >
                   {{ rowNumber.rowCode }}{{ seatNumber.columnCode }}
@@ -20,14 +19,30 @@
             </div>
             <div style="margin-bottom: 4px;display: flex;justify-content: center;">MÀN HÌNH</div>
             <el-divider style="margin-top: -4px ;padding: 2px; background-color: #ff5e19;"></el-divider>
-            <div class="note">
-              <div class="note-details">
-                <div class="seat-selected"></div>
-                <h6>Ghế đã bán</h6>
+            <div class="note d-flex justify-content-between">
+              <div class="d-flex justify-content-center w-50">
+                <div class="note-details">
+                  <div class="seat-selected"></div>
+                  <h6>Ghế đã bán</h6>
+                </div>
+                <div class="note-details">
+                  <div class="seat-selecting"></div>
+                  <h6>Ghế đang chọn</h6>
+                </div>
               </div>
-              <div class="note-details">
-                <div class="seat-selecting"></div>
-                <h6>Ghế đang chọn</h6>
+              <div class="d-flex me-5">
+                <div class="note-details">
+                  <div class="seat-vip"></div>
+                  <h6>Ghế Vip</h6>
+                </div>
+                <div class="note-details">
+                  <div class="seat-couple"></div>
+                  <h6>Ghế Couple</h6>
+                </div>
+                <div class="note-details">
+                  <div class="seat-normal"></div>
+                  <h6>Ghế Thường</h6>
+                </div>
               </div>
             </div>
           </div>
@@ -37,20 +52,6 @@
     <div class="card-container">
       <CardDetails :selectedSeat="seats"></CardDetails>
     </div>
-    <v-dialog v-model="dialogSeatLimitation" width="auto">
-      <v-card>
-        <img
-          style="height:40px;width: 40px"
-          class="align-self-center my-3"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_alert-yellow.svg/2048px-OOjs_UI_icon_alert-yellow.svg.png"
-        />
-        <p class="text-lg font-bold my-2">Thông báo</p>
-        <v-card-text> Số lượng ghế tối đa được đặt là 5 ghế </v-card-text>
-        <v-card-actions>
-          <v-btn block @click="dialogSeatLimitation = false" color="orange darken-3">Đóng</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <v-dialog v-model="props.dialogAgeLimitation" width="auto">
       <v-card style="padding:5px 15px">
         <img
@@ -108,8 +109,6 @@ interface SeatProp {
   status : string | number;
 }
 
-const dialogSeatLimitation = ref(false);
-
 const props = defineProps({
   dialogAgeLimitation: {
     type: Boolean,
@@ -130,6 +129,27 @@ const handleConfirm = () => {
 const hallMap = ref<HallMap[]>([]);
 
 const seats = ref<SeatProp[]>([]);
+
+const getNormalColor = (seatNumber: SeatProp): boolean => {
+  if (seatNumber.price === 50000) {
+    return true;
+  }
+  return false;
+};
+
+const getCoupleSeat = (seatNumber: SeatProp): boolean => {
+  if (seatNumber.price === 65000) {
+    return true;
+  }
+  return false;
+};
+
+const getVipSeat = (seatNumber: SeatProp): boolean => {
+  if (seatNumber.price === 90000) {
+    return true;
+  }
+  return false;
+};
 
 const getSeatOrderList = async () => {
   const showtimeSelected = getFromLocalStorage<ShowtimeVO>('selectedShowtime');
@@ -206,14 +226,12 @@ const seatData = computed(() => {
 const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
   const uniqueId = `${rowNumber.rowCode}${seatNumber.columnCode}`;
   const rowCode= `${rowNumber.rowCode}`;
-  const limitedClick = 5;
 
   // Update status directly on the object
   seatNumber.status = (seatNumber.status === 'N' || seatNumber.status === 'P')  ? 'Y' : 'N';
 
   // Update selection lists based on new status
     if (seatNumber.status === 'Y') {
-      if (selectedSeats.value.length < limitedClick) {
       selectedSeats.value.push([rowNumber.id, seatNumber.columnCode]);
       seats.value = [...(seats.value || []), {
         uniqueId: uniqueId,
@@ -224,15 +242,11 @@ const toggleSeat = (rowNumber: HallMap,seatNumber: SeatProp): void => {
         price: rowNumber.price
       }];
       saveToLocalStorage('selectedSeat', seats.value);
-      }
-      else {
-        dialogSeatLimitation.value = true;
-      }
     }
     else {
-    const index = selectedSeats.value.findIndex(
-      seat => seat[0] === rowNumber.id && seat[1] === seatNumber.columnCode
-      );
+      const index = selectedSeats.value.findIndex(
+        seat => seat[0] === rowNumber.id && seat[1] === seatNumber.columnCode
+        );
       if (index !== -1) {
         selectedSeats.value.splice(index, 1);
       }
@@ -265,14 +279,14 @@ onMounted(() => {
   grid-template-columns: repeat(14, 1fr); /* 10 ghế trên mỗi hàng */
 }
 
-.seat {
+.normalSeat {
   width: 10px;
   height: 10px;
   padding: 14px;
   border-radius: 4px;
   background-color: #fff;
   border: 2px solid #ccc;
-  color:#fff;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -281,12 +295,53 @@ onMounted(() => {
   box-shadow: 0 0 4px 0 sloid #000;
 }
 
-.seat.selected,
-.seat:hover {
+.coupleSeat {
+  width: 10px;
+  height: 10px;
+  padding: 14px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 2px solid #0000FF;
+  color : #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 4px 0 sloid #000;
+}
+
+.vipSeat {
+  width: 10px;
+  height: 10px;
+  padding: 14px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 2px solid #CCCC00;
+  color : #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 4px 0 sloid #000;
+}
+
+.selected,
+.normalSeat:hover {
   background-color: #87f079;
   color: #fff;
 }
-.seat.sold {
+.coupleSeat:hover {
+  background-color: #87f079;
+  color: #fff;
+}
+
+.vipSeat:hover {
+  background-color: #87f079;
+  color: #fff;
+}
+.sold {
   background-color: #ccc; /* color for sold seat */
   color: #fff;
   pointer-events: none; /* disables click events */
@@ -319,6 +374,37 @@ onMounted(() => {
   margin-right: 4px;
   background-color: #87f079;
   border: 1px solid #87f079;
+  cursor: default;
+}
+.seat-vip{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #fff;
+  border: 2px solid #CCCC00;
+  cursor: default;
+}
+
+.seat-couple{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #fff;
+  border: 2px solid #0000FF;
+  cursor: default;
+}
+.seat-normal{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #fff;
+  border: 2px solid #ccc;
   cursor: default;
 }
 .btn{
