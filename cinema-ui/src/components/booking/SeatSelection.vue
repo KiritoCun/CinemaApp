@@ -11,7 +11,6 @@
                   v-for="seatNumber in rowNumber.seatList"
                   :key="seatNumber.columnCode"
                   :class="{ normalSeat : getNormalColor(seatNumber), coupleSeat: getCoupleSeat(seatNumber) , vipSeat: getVipSeat(seatNumber) , selected: isSelected(rowNumber, seatNumber), sold : isSold(rowNumber, seatNumber), readonly: isSold(rowNumber, seatNumber)}"
-
                   @click="toggleSeat(rowNumber, seatNumber)"
                 >
                   {{ rowNumber.rowCode }}{{ seatNumber.columnCode }}
@@ -20,14 +19,30 @@
             </div>
             <div style="margin-bottom: 4px;display: flex;justify-content: center;">MÀN HÌNH</div>
             <el-divider style="margin-top: -4px ;padding: 2px; background-color: #ff5e19;"></el-divider>
-            <div class="note">
-              <div class="note-details">
-                <div class="seat-selected"></div>
-                <h6>Ghế đã bán</h6>
+            <div class="note d-flex justify-content-between">
+              <div class="d-flex justify-content-center w-50">
+                <div class="note-details">
+                  <div class="seat-selected"></div>
+                  <h6>Ghế đã bán</h6>
+                </div>
+                <div class="note-details">
+                  <div class="seat-selecting"></div>
+                  <h6>Ghế đang chọn</h6>
+                </div>
               </div>
-              <div class="note-details">
-                <div class="seat-selecting"></div>
-                <h6>Ghế đang chọn</h6>
+              <div class="d-flex me-5">
+                <div class="note-details">
+                  <div class="seat-vip"></div>
+                  <h6>Ghế Vip</h6>
+                </div>
+                <div class="note-details">
+                  <div class="seat-couple"></div>
+                  <h6>Ghế Couple</h6>
+                </div>
+                <div class="note-details">
+                  <div class="seat-normal"></div>
+                  <h6>Ghế Thường</h6>
+                </div>
               </div>
             </div>
           </div>
@@ -359,6 +374,37 @@ onMounted(() => {
   margin-right: 4px;
   background-color: #87f079;
   border: 1px solid #87f079;
+  cursor: default;
+}
+.seat-vip{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #fff;
+  border: 2px solid #CCCC00;
+  cursor: default;
+}
+
+.seat-couple{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #fff;
+  border: 2px solid #0000FF;
+  cursor: default;
+}
+.seat-normal{
+  width: 10px;
+  height: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 4px;
+  background-color: #fff;
+  border: 2px solid #ccc;
   cursor: default;
 }
 .btn{
