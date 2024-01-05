@@ -165,6 +165,14 @@ const redirect = ref(undefined);
 const loginRef = ref(ElForm);
 // tenant list
 const tenantList = ref<TenantVO[]>([]);
+  interface Movie {
+    id: number;
+    title: string;
+    rated: string;
+    genre: string;
+    posterUrl: string;
+}
+const selectedMovie = ref<Movie | null>();
 
 const handleLogin = () => {
   loginRef.value.validate(async (valid:boolean, fields: any) => {

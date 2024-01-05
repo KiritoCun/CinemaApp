@@ -37,6 +37,7 @@ service.interceptors.request.use(
     config.baseURL = config.baseURL + systemType;
     // Corresponding internationalization resource file suffix
     config.headers['Content-Language'] = getLanguage();
+    config.headers['ngrok-skip-browser-warning'] = 'true';
 
     const isToken = (config.headers || {}).isToken === false;
     // Do you need to prevent data duplication submission

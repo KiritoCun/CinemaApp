@@ -65,7 +65,19 @@ interface Tab {
 
 const activeName = ref(0);
 
+interface Movie {
+    id: number;
+    title: string;
+    rated: string;
+    genre: string;
+    posterUrl: string;
+}
+
 const props = defineProps({
+  selectedMovie: {
+    type: Object as PropType<Movie | null>,
+    default:null
+  },
   currentDate: {
     type: Date,
     required: true
@@ -80,7 +92,7 @@ const tabs= ref<Tab[]>([]);
 
 const createTabs = (date: Date) => {
   const newTabs : Tab[] = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = -4; i < 0; i++) {
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + i);
     const day = newDate.getDate().toString().padStart(2, '0');
