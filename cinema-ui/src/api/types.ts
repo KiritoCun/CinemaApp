@@ -30,11 +30,11 @@ export interface LoginData {
  */
 export interface RegisterData {
   tenantId: string;
-  nickname: string;
+  nickName: string;
   username: string;
   password: string;
   confirmPassword: string;
-  sdt: string;
+  phonenumber: string;
   email: string;
   gerden: string;
   code?: string;

@@ -2,7 +2,7 @@
   <LayoutCustomerHomepage>
     <template v-slot:content>
       <el-form ref="loginRef" :model="registerForm" :rules="registerRules" class="gradient-custom-3  bg-image login-form-customer">
-        <el-form-item class="item-input" label="Họ và tên" prop="nickname">
+        <el-form-item class="item-input" label="Họ và tên" prop="nickName">
           <el-input v-model="registerForm.nickName" type="text" size="small" auto-complete="off" placeholder="Nhập họ và tên"> </el-input>
         </el-form-item>
         <el-form-item class="item-input" prop="username" label="Tài Khoản">
@@ -78,16 +78,16 @@ const registerForm = ref<RegisterData>({
   username: '',
   password: '',
   confirmPassword: '',
-  sdt: '',
+  phonenumber: '',
   email: '',
-  nickname: '',
+  nickName: '',
   gerden: '',
   code: '',
   uuid: 'nb'
 });
 
 const registerRules: FormRules = {
-  nickname: [{ required: true, trigger: "blur", message: "Vui lòng nhập Họ và tên" }],
+  nickName: [{ required: true, trigger: "blur", message: "Vui lòng nhập Họ và tên" }],
   tenantId: [{ required: true, trigger: "blur", message: "Please enter your tenant number" }],
   username: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.usernameRqMsg') }],
   password: [{ required: true, trigger: 'blur', message: i18n.global.t('homepage.login.rules.passwordRqMsg') }],
