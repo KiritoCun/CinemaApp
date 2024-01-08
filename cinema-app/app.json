@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "Project",
     "name": "Project",
     "slug": "Project",
     "version": "1.0.0",
