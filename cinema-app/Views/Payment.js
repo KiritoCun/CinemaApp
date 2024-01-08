@@ -61,7 +61,7 @@ export default function Payment({ navigation, route }) {
     axios.get(URLPromotions)
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         setListDiscount(data);
       })
       .catch((error) => { console.log(error); });
@@ -173,7 +173,7 @@ export default function Payment({ navigation, route }) {
           <View style={{ backgroundColor: 'white', borderRadius: 2, alignItems: 'center', width: '88%', height: '27%', }}>
             <View style={{ width: '100%', height: '23%', alignItems: 'center', justifyContent: 'flex-end' }}>
               <View style={{ width: '12%', height: '50%', backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3 }}>
-                <Text style={{ color: 'white', fontSize: 14, fontWeight: '600' }}>{movie.rated}</Text>
+                <Text style={{ color: 'white', fontSize: 14, fontWeight: '600' }}>{(movie.rated.slice(0, 3) === "P -") ? 'P' : movie.rated.slice(0, 3)}</Text>
               </View>
             </View>
             <View style={{ width: '100%', height: '55%', alignItems: 'center' }}>
@@ -262,7 +262,7 @@ export default function Payment({ navigation, route }) {
             <View style={{ flexDirection: 'row', width: '50%', justifyContent: 'space-between', alignContent: 'center' }}>
               <Text>{movie.language}</Text>
               <View style={{ width: '25%', height: 20, backgroundColor: '#999900', alignItems: 'center', justifyContent: 'center', borderRadius: 3 }}>
-                <Text style={{ color: 'white', fontSize: 11, fontWeight: '600' }}>{movie.rated}</Text>
+                <Text style={{ color: 'white', fontSize: 11, fontWeight: '600' }}>{(movie.rated.slice(0, 3) === "P -") ? 'P' : movie.rated.slice(0, 3)}</Text>
               </View>
             </View>
             <Text>{cinemaName}</Text>
@@ -337,6 +337,7 @@ export default function Payment({ navigation, route }) {
             borderRadius: 5, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1
           }} onPress={() => {
             if (vnpay) {
+              // Linking.openURL(link);
               WebBrowser.openBrowserAsync(link);
               navigation.navigate('MyTabs', { screen: 'Tài khoản' });
             } else {

@@ -44,7 +44,7 @@ export default Home = function ({ navigation }) {
     setIsTextClicked(false);
   };
 
-  // const stepScroll = useRef(null);  //ref
+  const stepScroll = useRef(null);  //ref
 
   // lưu trữ store
   const dispatch = useDispatch();
@@ -95,7 +95,7 @@ export default Home = function ({ navigation }) {
     axios.get(URLPromotions)
       .then((response) => {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         setListDiscount(data);
       })
       .catch((error) => { console.log(error); });
@@ -164,18 +164,18 @@ export default Home = function ({ navigation }) {
     setImageList(data);
   }, [])
 
-  // useEffect(() => {
-  //   if(imageList.length > 0) {
-  //     let index = 0;
-  //     setInterval(() => {
-  //       stepScroll.current.scrollTo({x: index*(screenWidth), y: 0, animated: true});
-  //       index +=1;
-  //       if(index === imageList.length){
-  //         index = 0;
-  //       }
-  //     }, 5000);
-  //   }
-  // }, [imageList]);
+  useEffect(() => {
+    if (imageList.length > 0) {
+      let index = 0;
+      setInterval(() => {
+        stepScroll.current.scrollTo({ x: index * (screenWidth), y: 0, animated: true });
+        index += 1;
+        if (index === imageList.length) {
+          index = 0;
+        }
+      }, 5000);
+    }
+  }, [imageList]);
 
   const handleScroll = (e) => {
     if (!e) {
@@ -325,7 +325,7 @@ export default Home = function ({ navigation }) {
       <ScrollView style={{ flex: 1, }} showsVerticalScrollIndicator={false}>
         <View style={{ width: '100%', height: 270, }}>
           <ScrollView
-            // ref={stepScroll} // ref
+            ref={stepScroll} // ref
             horizontal
             pagingEnabled
             onScroll={handleScroll}

@@ -1,3 +1,3 @@
-const URL = "https://85f6-2402-800-629c-af1d-20c0-9df2-9541-fd0f.ngrok-free.app";
+const URL = "https://2c03-2401-d800-5141-8252-f0a3-ca96-afbf-2ff2.ngrok-free.app";
 
 export default URL;

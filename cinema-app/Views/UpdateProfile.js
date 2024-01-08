@@ -20,11 +20,6 @@ export default function UpdateProfile({ navigation }) {
     const [email, setEmail] = useState(customer.userName);
     const [gender, setGender] = useState(getNamebyGender(customer.sex));
 
-    // const name = 'aaaa';
-    // const phone = 'aaaassaaa';
-    // const avatar = '';
-    // const [email, setEmail] = useState('');
-    // const [gender, setGender] = useState(0);
     const [isButtonEnabled, setButtonEnabled] = useState(false);
     const handleEmailChange = (text) => {
         setEmail(text);
